@@ -1,0 +1,28 @@
+{
+    "name": "student-system",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "client-install": "cd client && npm install",
+        "start": "nodemon server.js",
+        "client": "cd client && npm start",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CaptainArnav/Student-System.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CaptainArnav/Student-System/issues"
+    },
+    "homepage": "https://github.com/CaptainArnav/Student-System#readme",
+    "dependencies": {
+        "concurrently": "^5.3.0",
+        "create-react-app": "^4.0.0",
+        "express": "^4.17.1",
+        "nodemon": "^2.0.6"
+    }
+}
