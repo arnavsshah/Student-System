@@ -1,4 +1,4 @@
-#Student-System
+#Student System
 
 #### Install dependencies for server
 `npm install`
