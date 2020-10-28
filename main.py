@@ -84,7 +84,7 @@ if __name__ == "__main__":
                 profile_dict = profile.to_dict()
                 # print(profile_dict)
 
-                with open('{}/{}_{}.json'.format(output_directory, index+offset, filename), 'w') as fp:
+                with open('{}/{}.json'.format(output_directory, index+offset, filename), 'w') as fp:
                     json.dump(profile_dict, fp, indent=4)
 
                 # if index == 2:
