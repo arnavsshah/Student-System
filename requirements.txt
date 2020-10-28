@@ -1,0 +1,7 @@
+beautifulsoup4==4.9.3
+bs4==0.0.1
+jsonschema==3.2.0
+pandas @ file:///tmp/build/80754af9/pandas_1602088135163/work
+scrape-linkedin @ git+git://github.com/austinoboyle/scrape-linkedin-selenium.git@81bdcc88577d0e4df48c77c22cb12784a0fd3c71
+selenium==3.141.0
+tqdm==4.51.0
