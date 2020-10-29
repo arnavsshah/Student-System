@@ -29,7 +29,7 @@ if __name__ == "__main__":
     email, password, li_at = get_credentials()
 
     csv_df = pd.read_csv(input_csv)
-    # print(csv_df.at[114, 'Link'])   # prints ==> 1st link in csv file
+    # print(csv_df.at[632, 'Link'])   # prints ==> 1st link in csv file
 
     # with ProfileScraper(cookie=li_at) as scraper:
     #     for index, row in csv_df.iterrows():
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     From particular index
     '''
     
-    offset = 581
+    offset = 632
     with ProfileScraper(cookie=li_at) as scraper:
         for index in range(len(csv_df)-offset):
             try:
@@ -84,7 +84,7 @@ if __name__ == "__main__":
                 profile_dict = profile.to_dict()
                 # print(profile_dict)
 
-                with open('{}/{}.json'.format(output_directory, index+offset, filename), 'w') as fp:
+                with open('{}/{}.json'.format(output_directory, filename), 'w') as fp:
                     json.dump(profile_dict, fp, indent=4)
 
                 # if index == 2:
