@@ -1,4 +1,4 @@
-#Student-System
+# Student-System
 
 
 #### Install dependencies for server
@@ -15,7 +15,7 @@
 #### Server runs on http://localhost:5000 and client on http://localhost:3000
 
 
-###Neo4j connection
+### Neo4j connection
 
 - Create a new database in the Neo4j desktop application. During creation, enter a **password**. The **user** is **neo4j**  by default.
 - **Start** the database.
