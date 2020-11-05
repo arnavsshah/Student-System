@@ -43,9 +43,7 @@ CREATE (s:Student) - [:COMPLETED {
   resource : ""
 }] -> (s:Subject)
 
-CREATE (s:Student) - [:HAS {
-  level : ""
-}] -> (s:Skill)
+CREATE (s:Student) - [:HAS] -> (s:Skill)
 
 CREATE (s:Student) - [:INTERESTED_IN] -> (t:Topic)
 
@@ -55,9 +53,7 @@ CREATE (s:Student) - [:PART_OF {
   position : ""
 }] -> (c:Club)
 
-CREATE (s:Student) - [:SPEAKS {
-  level : ""
-}] -> (l:Language)
+CREATE (s:Student) - [:SPEAKS] -> (l:Language)
 
 CREATE (s:Student) - [:WORKED_IN {
   startDate : "",
