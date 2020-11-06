@@ -14,5 +14,9 @@ if __name__ == "__main__":
         for char in chars_to_replace:
             filename = filename.replace(char, '')
 
-        if not os.path.isfile('{}/{}.json'.format(json_directory, filename)):
+        if os.path.isfile('{}/{}.json'.format(json_directory, filename)) or os.path.isfile('{}/000/{}.json'.format(json_directory, filename)):
+            # print("{:20s}.json does not exist".format(filename))
+            continue
+
+        else:
             print("{:20s}.json does not exist".format(filename))

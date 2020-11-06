@@ -29,7 +29,7 @@ if __name__ == "__main__":
     email, password, li_at = get_credentials()
 
     csv_df = pd.read_csv(input_csv)
-    # print(csv_df.at[632, 'Link'])   # prints ==> 1st link in csv file
+    print(csv_df.at[807, 'Link'])   # prints ==> 1st link in csv file
 
     # with ProfileScraper(cookie=li_at) as scraper:
     #     for index, row in csv_df.iterrows():
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     From particular index
     '''
     
-    offset = 632
+    offset = 807
     with ProfileScraper(cookie=li_at) as scraper:
         for index in range(len(csv_df)-offset):
             try:
