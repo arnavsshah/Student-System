@@ -1,46 +1,46 @@
 //student
 CREATE (s:Student 
-    { id : "",
-      name : "",
-      age : "",
-      email : "",
-      phone : "",
-      currentlyStudying : "",
-      department : ""
+    { id : ,
+      name : ,
+      age : ,
+      email : ,
+      phone : ,
+      currentlyStudying : ,
+      department : 
       }
     )
 
 CREATE (s:Student) - [:LIVES_IN] -> (l:Location)
 
 CREATE (s:Student) - [:STUDIED_IN {
-  startDate : "",
-  endDate : "",
-  score : ""
+  startDate : ,
+  endDate : ,
+  score : 
 }] -> (i:Institute)
 
 CREATE (s:Student) - [:ENROLLED_IN {
-  startDate : "",
-  endDate : "",
-  score : "",
-  instructor : ""
+  startDate : ,
+  endDate : ,
+  score : ,
+  instructor : 
 }] -> (s:Subject)
 
 CREATE (s:Student) - [:READ {
-  rated : ""
+  rated : 
 }] -> (b:Book)
 
 CREATE (s:Student) - [:COMPLETED {
-  startDate : "",
-  endDate : "",
-  instructor : "",
-  resource : ""
+  startDate : ,
+  endDate : ,
+  instructor : ,
+  resource : 
 }] -> (c:Course)
 
 CREATE (s:Student) - [:COMPLETED {
-  startDate : "",
-  endDate : "",
-  instructor : "",
-  resource : ""
+  startDate : ,
+  endDate : ,
+  instructor : ,
+  resource : 
 }] -> (s:Subject)
 
 CREATE (s:Student) - [:HAS] -> (s:Skill)
@@ -48,61 +48,61 @@ CREATE (s:Student) - [:HAS] -> (s:Skill)
 CREATE (s:Student) - [:INTERESTED_IN] -> (t:Topic)
 
 CREATE (s:Student) - [:PART_OF {
-  startDate : "",
-  endDate : "",
-  position : ""
+  startDate : ,
+  endDate : ,
+  position : 
 }] -> (c:Club)
 
 CREATE (s:Student) - [:SPEAKS] -> (l:Language)
 
 CREATE (s:Student) - [:WORKED_IN {
-  startDate : "",
-  endDate : "",
-  position : ""
+  startDate : ,
+  endDate : ,
+  position : 
 }] -> (c:Company)
 
 CREATE (s:Student) - [:PUBLISHED {
-  date : ""
+  date : 
 }] -> (r:ResearchPaper)
 
 CREATE (s:Student) - [:IS_ALLOTED {
-  startDate : "",
-  endDate : ""
+  startDate : ,
+  endDate : 
 }] -> (h:HostelRoom)
 
 CREATE (s:Student) - [:HAS_DONE {
-  startDate : "",
-  endDate : ""
+  startDate : ,
+  endDate : 
 }] -> (p:Project)
 
 CREATE (s:Student) - [:HAS_GIVEN {
-  date : "",
-  score : ""
+  date : ,
+  score : 
 }] -> (e:Exam)
 
 CREATE (s:Student) - [:HAS_ACHIVED {
-  date : ""
+  date : 
 }] -> (a:Achievement)
 //student end
 
 //teacher
 CREATE (t:Teacher 
-    { id : "",
-      name : "",
-      age : "",
-      email : "",
-      phone : "",
-      currentlyTeaching : "",
-      department : ""
+    { id : ,
+      name : ,
+      age : ,
+      email : ,
+      phone : ,
+      currentlyTeaching : ,
+      department : 
       }
     )
 
 CREATE (t:Teacher) - [:LIVES_IN] -> (l:Location)
 
 CREATE (t:Teacher) - [:STUDIED_IN {
-  startDate : "",
-  endDate : "",
-  score : ""
+  startDate : ,
+  endDate : ,
+  score : 
 }] -> (i:Institute)
 
 CREATE (t:Teacher) - [:TEACHES {
@@ -215,8 +215,8 @@ CREATE (c:Club
 
 //Subject
 CREATE (s:Subject 
-    { id : "",
-      name : "",
+    { id : ,
+      name : ,
       }
     )
 
@@ -225,8 +225,8 @@ CREATE (s:Subject) - [:RELATED_TO] -> (t:Topic)
 
 //Course
 CREATE (c:Course 
-    { id : "",
-      name : "",
+    { id : ,
+      name : ,
       }
     )
   
@@ -234,18 +234,18 @@ CREATE (s:Course) - [:RELATED_TO] -> (t:Topic)
 //Course end
 
 CREATE (l:Language 
-    { id : "",
-      name : "",
+    { id : ,
+      name : ,
       }
     )
 
 //Company
 CREATE (c:Company 
-    { id : "",
-      name : "",
-      field : "",
-      foundedIn : "",
-      website : ""
+    { id : ,
+      name : ,
+      field : ,
+      foundedIn : ,
+      website : 
       }
     )
 
@@ -254,9 +254,9 @@ CREATE (c:Company) - [:LOCATED_IN] -> (l:Location)
 
 //ResearchPaper
 CREATE (r:ResearchPaper 
-    { id : "",
-      title : "",
-      citations : ""
+    { id : ,
+      title : ,
+      citations : 
       }
     )
   
