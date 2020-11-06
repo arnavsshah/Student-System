@@ -1,0 +1,1172 @@
+{
+    "sem1":[
+        {
+            "name":"Applied Physics 1",
+            "credits":4
+        },
+        {
+            "name":"Applied Chemistry 1",
+            "credits":3
+        },
+        {
+            "name":"Applied Mathematics 1",
+            "credits":4
+        },
+        {
+            "name":"Business English",
+            "credits":2
+        },
+        {
+            "name":"Engineering Graphics",
+            "credits":3
+        },
+        {
+            "name":"Engineering Mechanics",
+            "credits":4
+        }
+    ],
+    "sem2":[
+        {
+            "name":"Applied Physics 2",
+            "credits":4
+        },
+        {
+            "name":"Applied Chemistry 2",
+            "credits":3
+        },
+        {
+            "name":"Applied Mathematics 2",
+            "credits":4
+        },
+        {
+            "name":"Basics of Electrical Engineering",
+            "credits":3
+        },
+        {
+            "name":"Computer Programming",
+            "credits":4
+        },
+        {
+            "name":"Elements of Mechanical Engineering",
+            "credits":2
+        },
+        {
+            "name":"Mechanical Workshop",
+            "credits":1
+        }
+    ],
+    "sem3":{
+        "Computer Engineering":[
+            {
+                "name":"Linear Algebra",
+                "credits":4
+            },
+            {
+                "name":"Discrete Mathematics",
+                "credits":4
+            },
+            {
+                "name":"Digital Logic Design",
+                "credits":4
+            },
+            {
+                "name":"Data Structures and Algorithms",
+                "credits":5.5
+            },
+            {
+                "name":"Computer Organization and Architecture",
+                "credits":3
+            },
+            {
+                "name":"Python Lab",
+                "credits":2.5
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":0
+            },
+            {
+                "name":"Essence of Indian Traditional Knowledge",
+                "credits":0
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Linear Algebra",
+                "credits":4
+            },
+            {
+                "name":"Discrete Mathematics",
+                "credits":4
+            },
+            {
+                "name":"Digital Logic Design",
+                "credits":4
+            },
+            {
+                "name":"Data Structures and Algorithms",
+                "credits":5.5
+            },
+            {
+                "name":"Computer Organization and Architecture",
+                "credits":3
+            },
+            {
+                "name":"Python Lab",
+                "credits":2.5
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":0
+            },
+            {
+                "name":"Development Engineering",
+                "credits":0
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Mathematics for Electrical Engineers-I",
+                "credits":4
+            },
+            {
+                "name":"Network Analysis and Circuit Theory",
+                "credits":4
+            },
+            {
+                "name":"Electronics Devices & Circuits-I",
+                "credits":4
+            },
+            {
+                "name":"Electrical Machines–I",
+                "credits":4
+            },
+            {
+                "name":"Numerical Methods",
+                "credits":4
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":3
+            },
+            {
+                "name":"Economics for Engineers",
+                "credits":0
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Mathematics for Mechanical Engineers-I",
+                "credits":4
+            },
+            {
+                "name":"Thermodynamics",
+                "credits":4
+            },
+            {
+                "name":"Strength of Materials",
+                "credits":4
+            },
+            {
+                "name":"Material Science",
+                "credits":4
+            },
+            {
+                "name":"Electrical Machines and Electronic Devices",
+                "credits":3
+            },
+            {
+                "name":"Machine Drawing Laboratory",
+                "credits":2
+            },
+            {
+                "name":"Economics, Finance and Costing",
+                "credits":0
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Mathematics for Production Engineers-I",
+                "credits":4
+            },
+            {
+                "name":"Mechanics of Solids",
+                "credits":4
+            },
+            {
+                "name":"Basic Thermodynamics & Heat Transfer",
+                "credits":4
+            },
+            {
+                "name":"Material Science",
+                "credits":4
+            },
+            {
+                "name":"Fluid Mechanics and Machinery",
+                "credits":4
+            },
+            {
+                "name":"Production and Machine Drawing",
+                "credits":3
+            },
+            {
+                "name":"Manufacturing  Engineering",
+                "credits":3
+            },
+            {
+                "name":"Workshop Practice-III",
+                "credits":2
+            },
+            {
+                "name":"Business Ethics",
+                "credits":2
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Mathematics for Civil Engineers",
+                "credits":4
+            },
+            {
+                "name":"Mechanics of Solids",
+                "credits":4
+            },
+            {
+                "name":"Construction Engineering and Infrastructure Projects",
+                "credits":4
+            },
+            {
+                "name":"Engineering Geology Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Fluid Mechanics",
+                "credits":4
+            },
+            {
+                "name":"Geomatics",
+                "credits":4
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":0
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Mathematics for Textiles",
+                "credits":4
+            },
+            {
+                "name":"Textile Fibres",
+                "credits":4
+            },
+            {
+                "name":"Fundamentals of Yarn Manufacturing Technology",
+                "credits":4
+            },
+            {
+                "name":"Spinning Preparatory Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Fundamentals of Fabric Manufacturing Technology",
+                "credits":3
+            },
+            {
+                "name":"Technology of Textile Pretreatment & Dyeing",
+                "credits":4
+            },
+            {
+                "name":"Weaving Preparatory Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Traditional Textiles of India",
+                "credits":0
+            }
+        ]  
+    },
+    "sem4":{
+        "Computer Engineering":[
+            {
+                "name":"Data Interpretation and Analysis",
+                "credits":4
+            },
+            {
+                "name":"Automata Theory",
+                "credits":4
+            },
+            {
+                "name":"Operating Systems",
+                "credits":4
+            },
+            {
+                "name":"Database Management Systems",
+                "credits":4
+            },
+            {
+                "name":"Design and Analysis of Algorithms",
+                "credits":3
+            },
+            {
+                "name":"Web Technologies Lab",
+                "credits":2
+            },
+            {
+                "name":"Development Engineering",
+                "credits":0
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Data Interpretation and Analysis",
+                "credits":4
+            },
+            {
+                "name":"Theory of Computations",
+                "credits":4
+            },
+            {
+                "name":"Operating Systems",
+                "credits":4
+            },
+            {
+                "name":"Database Management Systems",
+                "credits":4
+            },
+            {
+                "name":"Design and Analysis of Algorithms",
+                "credits":3
+            },
+            {
+                "name":"Introduction to Geospatial Technologies",
+                "credits":2
+            },
+            {
+                "name":"Open Source Computing",
+                "credits":0
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Mathematics for Electrical Engineers-II",
+                "credits":4
+            },
+            {
+                "name":"Introduction to Power Systems",
+                "credits":4
+            },
+            {
+                "name":"Electronics Devices & Circuits-II",
+                "credits":4
+            },
+            {
+                "name":"Electrical Machines–II",
+                "credits":4.5
+            },
+            {
+                "name":"Signals and Systems",
+                "credits":4
+            },
+            {
+                "name":"Network Synthesis",
+                "credits":4.5
+            },
+            {
+                "name":"Presentation and Communication Skills",
+                "credits":0
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Mathematics for Mechanical Engineers-II",
+                "credits":4
+            },
+            {
+                "name":"Kinematics of Machinery",
+                "credits":4
+            },
+            {
+                "name":"Fluid Mechanics",
+                "credits":4
+            },
+            {
+                "name":"Manufacturing Processes",
+                "credits":4
+            },
+            {
+                "name":"Mechanical Measurements",
+                "credits":4
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":0
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Mathematics for Production Engineers-II",
+                "credits":4
+            },
+            {
+                "name":"Metal Casting and Joining",
+                "credits":4
+            },
+            {
+                "name":"Theory of Machines",
+                "credits":4
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":3
+            },
+            {
+                "name":"Applied Thermodynamics",
+                "credits":4
+            },
+            {
+                "name":"Electrical and Electronics Engineering ",
+                "credits":4
+            },
+            {
+                "name":"Metrology and Quality Control",
+                "credits":4
+            },
+            {
+                "name":"Corporate Social Responsibility",
+                "credits":2
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Statistics and Numerical Methods",
+                "credits":4
+            },
+            {
+                "name":"Structural Analysis I",
+                "credits":3
+            },
+            {
+                "name":"Soil Mechanics",
+                "credits":4
+            },
+            {
+                "name":"Applied Hydraulics",
+                "credits":4
+            },
+            {
+                "name":"Construction Techniques",
+                "credits":4
+            },
+            {
+                "name":"Geospatial Technology Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Indian Constitution and laws for civil Engineers",
+                "credits":0
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Statistics for Textile Technology",
+                "credits":4
+            },
+            {
+                "name":"Yarn Manufacturing Technology",
+                "credits":4
+            },
+            {
+                "name":"Fabric Manufacturing Technology",
+                "credits":4
+            },
+            {
+                "name":"Testing of Fibre & Yarn",
+                "credits":4
+            },
+            {
+                "name":"Technology of Textile Printing & Finishing",
+                "credits":4
+            },
+            {
+                "name":"History of Textile and clothing around the globe",
+                "credits":0
+            },
+            {
+                "name":"Environmental Studies",
+                "credits":0
+            }
+        ] 
+    },
+    "sem5":{
+        "Computer Engineering":[
+            {
+                "name":"Software Engineering I",
+                "credits":4
+            },
+            {
+                "name":"Internet of Things",
+                "credits":4
+            },
+            {
+                "name":"Computer Network",
+                "credits":4
+            },
+            {
+                "name":"Artificial Intelligence",
+                "credits":4
+            },
+            {
+                "name":"Compiler Construction",
+                "credits":3
+            },
+            {
+                "name":"Open Source Computing",
+                "credits":2
+            },
+            {
+                "name":"Intellectual Property Rights",
+                "credits":0
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Software Engineering",
+                "credits":4
+            },
+            {
+                "name":"Spatial and Graph Databases",
+                "credits":4
+            },
+            {
+                "name":"Computer Network",
+                "credits":4
+            },
+            {
+                "name":"Artificial Intelligence",
+                "credits":4
+            },
+            {
+                "name":"Compiler Design",
+                "credits":3
+            },
+            {
+                "name":"Web Information Management",
+                "credits":2
+            },
+            {
+                "name":"Financial Technologies",
+                "credits":0
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Mathematics for Electrical Engineers-III",
+                "credits":4
+            },
+            {
+                "name":"Electromagnetic Fields and Waves",
+                "credits":4
+            },
+            {
+                "name":"Power System Protection",
+                "credits":4
+            },
+            {
+                "name":"Power Electronics",
+                "credits":4
+            },
+            {
+                "name":"Control System",
+                "credits":4
+            },
+            {
+                "name":"Analog and Digital Electronics",
+                "credits":4.5
+            },
+            {
+                "name":"Intellectual Property Rights",
+                "credits":3
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Dynamics of Machinery",
+                "credits":4
+            },
+            {
+                "name":"Fluid Machinery",
+                "credits":4
+            },
+            {
+                "name":"Manufacturing Science & Tooling",
+                "credits":4
+            },
+            {
+                "name":"Heat Transfer",
+                "credits":4
+            },
+            {
+                "name":"Industrial Engineering & Management",
+                "credits":3
+            },
+            {
+                "name":"Professional Communication Skills Laboratory",
+                "credits":2
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Probability and Statistics",
+                "credits":4
+            },
+            {
+                "name":"Elements of Project Management",
+                "credits":4
+            },
+            {
+                "name":"Machine Design",
+                "credits":4
+            },
+            {
+                "name":"Metal Forming Technology",
+                "credits":4
+            },
+            {
+                "name":"Machining Science and Technology",
+                "credits":4
+            },
+            {
+                "name":"Industrial Engineering",
+                "credits":4
+            },
+            {
+                "name":"Communication and Presentation Skills",
+                "credits":2
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Geotechnical Engineering",
+                "credits":3
+            },
+            {
+                "name":"Structural Analysis II",
+                "credits":3
+            },
+            {
+                "name":"Numerical  Methods in Civil Engineering",
+                "credits":3
+            },
+            {
+                "name":"Engineering Hydrology",
+                "credits":4
+            },
+            {
+                "name":"Concrete Technology",
+                "credits":4.5
+            },
+            {
+                "name":"Building Drawing and Services",
+                "credits":4
+            },
+            {
+                "name":"Communications and Presentations Skill Laboratory",
+                "credits":2
+            },
+            {
+                "name":"Computer Applications Laboratory",
+                "credits":1.5
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Textile calculations",
+                "credits":4
+            },
+            {
+                "name":"Electrical & Electronic Devices in Textiles",
+                "credits":3
+            },
+            {
+                "name":"Cloth Structure",
+                "credits":3
+            },
+            {
+                "name":"Advanced Yarn Manufacturing",
+                "credits":3
+            },
+            {
+                "name":"Advanced Fabric Manufacturing",
+                "credits":3
+            },
+            {
+                "name":"Textile Testing",
+                "credits":3
+            },
+            {
+                "name":"Advanced cloth structure Analysis",
+                "credits":0
+            },
+            {
+                "name":"Presentation and Communication Skills",
+                "credits":0
+            }
+        ]
+    },
+    "sem6":{
+        "Computer Engineering":[
+            {
+                "name":"Software Engineering II",
+                "credits":4
+            },
+            {
+                "name":"Machine Learning",
+                "credits":4
+            },
+            {
+                "name":"Parallel Computing",
+                "credits":4
+            },
+            {
+                "name":"Professional Communication Skills",
+                "credits":2
+            },
+            {
+                "name":"Profesional Elective",
+                "topics":["Spatial Data Analysis and Visualization", "Wireless Networks", "Digital Image Processing", "Information Storage Management"],
+                "credits":3
+            },
+            {
+                "name":"Open Elective",
+                "topics":["Network Security", "System Administration"],
+                "credits":3
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Wireless Networks",
+                "credits":4
+            },
+            {
+                "name":"Machine Learning",
+                "credits":4
+            },
+            {
+                "name":"Parallel Computing",
+                "credits":4
+            },
+            {
+                "name":"Professional Communication Skills",
+                "credits":2
+            },
+            {
+                "name":"Profesional Elective",
+                "topics":["Spatial Data Analysis and Visualization", "Object Oriented Analysis and Design", "Number Theory", "Digital Image Processing", "Digital Forensic Analysis"],
+                "credits":3
+            },
+            {
+                "name":"Open Elective",
+                "topics":["Network Security", "System Administration"],
+                "credits":3
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Advanced Control System",
+                "credits":4
+            },
+            {
+                "name":"Electrical and Electronics Measurement and Instrumentation",
+                "credits":4
+            },
+            {
+                "name":"Power System Analysis",
+                "credits":4
+            },
+            {
+                "name":"Microprocessor and Microcontroller",
+                "credits":4
+            },
+            {
+                "name":"Communication System",
+                "credits":4
+            },
+            {
+                "name":"Program Elective",
+                "topics":["Introduction to Renewable Energy", "OOPs in Power System", "Industrial Automation"],
+                "credits":4
+            },
+            {
+                "name":"Electricity Act 2003",
+                "credits":3
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Machine Design",
+                "credits":4
+            },
+            {
+                "name":"CAD/CAM",
+                "credits":4
+            },
+            {
+                "name":"Internal Combustion Engines",
+                "credits":4
+            },
+            {
+                "name":"Program Elective",
+                "topics":["Computational Fluid Dynamics", "Robotics", "MEMS and Microflows"],
+                "credits":4
+            },
+            {
+                "name":"Mechanical Vibrations",
+                "credits":3
+            },
+            {
+                "name":"Innovation and Entrepreneurship",
+                "credits":0
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Machine Tool Design",
+                "credits":4
+            },
+            {
+                "name":"Automobile Engineering",
+                "credits":4
+            },
+            {
+                "name":"CAD/CAM/CIM",
+                "credits":4
+            },
+            {
+                "name":"Tool Engineering",
+                "credits":4
+            },
+            {
+                "name":"Mechatronics and Automation",
+                "credits":4
+            },
+            {
+                "name":"Program Elective",
+                "topics":["Operation Management", "Product Life-Cycle Management", "Technology Management", "Dynamics of Machinery", "Artificial Intelligence and Expert Systems"],
+                "credits":4
+            },
+            {
+                "name":"Advanced Business Communications",
+                "credits":0
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Design of RCC & PSC Structures",
+                "credits":4.5
+            },
+            {
+                "name":"Environmental Engineering",
+                "credits":3
+            },
+            {
+                "name":"Water Resources Engineering",
+                "credits":2
+            },
+            {
+                "name":"Quantity Survey & Estimation",
+                "credits":4
+            },
+            {
+                "name":"Pavement Engineering",
+                "credits":3
+            },
+            {
+                "name":"Transportation Engineering Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Program Elective",
+                "topics":["Geographic Information System", "Advanced Hydrology", "Advanced Structural Analysis", "Advanced Foundation Engineering"],
+                "credits":4
+            },
+            {
+                "name":"Site Visit",
+                "credits":1.5
+            },
+            {
+                "name":"Disaster Management",
+                "credits":0
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Man-Made Fibre Production",
+                "credits":3
+            },
+            {
+                "name":"Technical Textiles",
+                "credits":3
+            },
+            {
+                "name":"Design of Textile structures",
+                "credits":3
+            },
+            {
+                "name":"Knitting Technology",
+                "credits":3
+            },
+            {
+                "name":"Apparel Manufacturing and Merchandising",
+                "credits":3
+            },
+            {
+                "name":"Program Elective",
+                "topics":["Post Spinning Operation of Man-Made Fibres", "Advance Garment Designing and Quality Control"],
+                "credits":4
+            },
+            {
+                "name":"Advanced Business Communication",
+                "credits":0
+            }
+        ]
+    },
+    "sem7":{
+        "Computer Engineering":[
+            {
+                "name":"Software Architecture",
+                "credits":4
+            },
+            {
+                "name":"Information Security",
+                "credits":4
+            },
+            {
+                "name":"Data Mining and Data Warehousing",
+                "credits":4
+            },
+            {
+                "name":"Cyber Laws",
+                "credits":0
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Service Oriented Architecture",
+                "credits":4
+            },
+            {
+                "name":"Information Storage and Management",
+                "credits":4
+            },
+            {
+                "name":"Data Mining Techniques",
+                "credits":4
+            },
+            {
+                "name":"Cyber Laws",
+                "credits":0
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Power Quality",
+                "credits":4
+            },
+            {
+                "name":"Digital Signal Processing",
+                "credits":4
+            },
+            {
+                "name":"Drives and Control",
+                "credits":5
+            },
+            {
+                "name":"Indian Electricity Grid Codes(IEGC)",
+                "credits":3
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Design of power transmission Elements",
+                "credits":4
+            },
+            {
+                "name":"Mechatronics",
+                "credits":4
+            },
+            {
+                "name":"Manufacturing Planning & Control",
+                "credits":3
+            },
+            {
+                "name":"Innovation and Entrepreneurship",
+                "credits":3
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Industrial Training and Project",
+                "credits":25
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Design of Steel Structures",
+                "credits":4
+            },
+            {
+                "name":"Transportation Engineering",
+                "credits":3
+            },
+            {
+                "name":"Water and Waste water Engineering",
+                "credits":2
+            },
+            {
+                "name":"Industry Internship",
+                "credits":2
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Non-Woven & Industrial Textiles",
+                "credits":3
+            },
+            {
+                "name":"Long Staple Spinning and Weaving",
+                "credits":3
+            },
+            {
+                "name":"Textile composite",
+                "credits":3
+            },
+            {
+                "name":"Entrepreneurship in Textiles",
+                "credits":0
+            }
+        ]
+    },
+    "sem8":{
+        "Computer Engineering":[
+            {
+                "name":"Big Data Analytics",
+                "credits":4
+            },
+            {
+                "name":"Cloud Computing",
+                "credits":4
+            },
+            {
+                "name":"Human Computer Interface",
+                "credits":4
+            }
+        ],
+        "Information Technology":[
+            {
+                "name":"Big Data Analytics",
+                "credits":4
+            },
+            {
+                "name":"Cloud Computing",
+                "credits":4
+            },
+            {
+                "name":"Human Computer Interaction",
+                "credits":4
+            }
+        ],
+        "Electrical Engineering":[
+            {
+                "name":"Electrical Machine Design",
+                "credits":4
+            },
+            {
+                "name":"Optimization Techniques",
+                "credits":4
+            },
+            {
+                "name":"High Voltage Engineering",
+                "credits":5
+            }
+        ],
+        "Mechanical Engineering":[
+            {
+                "name":"Industrial Engineering",
+                "credits":4
+            },
+            {
+                "name":"Design of Mechanical System",
+                "credits":3
+            },
+            {
+                "name":"Energy Engineering",
+                "credits":4
+            }
+        ],
+        "Production Engineering":[
+            {
+                "name":"Economics ,Finance, Accounting and Costing",
+                "credits":4
+            },
+            {
+                "name":"Supply Chain Management",
+                "credits":4
+            },
+            {
+                "name":"Operation Research",
+                "credits":4
+            },
+            {
+                "name":"Composite Material and Processing technology",
+                "credits":4
+            },
+            {
+                "name":"Statistical Analysis Lab",
+                "credits":4
+            },
+            {
+                "name":"Organizational behavior",
+                "credits":4
+            }
+        ],
+        "Civil Engineering":[
+            {
+                "name":"Construction Management",
+                "credits":4
+            },
+            {
+                "name":"Earthquake Engineering",
+                "credits":3
+            },
+            {
+                "name":"Construction Entrepreneurship",
+                "credits":3
+            },
+            {
+                "name":"Structural Design Laboratory",
+                "credits":1
+            },
+            {
+                "name":"Laws for Civil Engineers",
+                "credits":0
+            }
+        ],
+        "Textile Engineering":[
+            {
+                "name":"Textile Management",
+                "credits":3
+            },
+            {
+                "name":"Sustainable Textile Material",
+                "credits":3
+            },
+            {
+                "name":"Process Control in Textile Manufacturing",
+                "credits":3
+            }
+        ]
+    }
+       
+}

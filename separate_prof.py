@@ -4,7 +4,7 @@ import json
 
 json_directory = 'DATA'
 output_directory = 'DATA/Faculty'
-MATCH = ['prof', 'lecturer', 'director', 'head', 'teach']
+MATCH = ['prof', 'lecturer', 'director', 'head', 'teach', 'faculty']
 
 if __name__ == "__main__":
     
