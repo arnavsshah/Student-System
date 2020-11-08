@@ -1,14 +1,13 @@
 //student
-CREATE (s:Student 
-    { id : ,
-      name : ,
-      age : ,
-      email : ,
-      phone : ,
-      currentlyStudying : ,
-      department : 
-      }
-    )
+CREATE (s:Student { 
+  id : ,
+  name : ,
+  age : ,
+  email : ,
+  phone : ,
+  currentlyStudying : ,
+  department : 
+  })
 
 CREATE (s:Student) - [:LIVES_IN] -> (l:Location)
 
@@ -19,9 +18,6 @@ CREATE (s:Student) - [:STUDIED_IN {
 }] -> (i:Institute)
 
 CREATE (s:Student) - [:ENROLLED_IN {
-  startDate : ,
-  endDate : ,
-  score : ,
   instructor : 
 }] -> (s:Subject)
 
@@ -37,15 +33,12 @@ CREATE (s:Student) - [:COMPLETED {
 }] -> (c:Course)
 
 CREATE (s:Student) - [:COMPLETED {
-  startDate : ,
-  endDate : ,
-  instructor : ,
-  resource : 
+  instructor : 
 }] -> (s:Subject)
 
 CREATE (s:Student) - [:HAS] -> (s:Skill)
 
-CREATE (s:Student) - [:INTERESTED_IN] -> (t:Topic)
+CREATE (s:Student) - [:INTERESTED_IN] -> (i:Interest)
 
 CREATE (s:Student) - [:PART_OF {
   startDate : ,
@@ -201,6 +194,14 @@ CREATE (s:Skill
 CREATE (s:Skill) - [:RELATED_TO] -> (t:Topic)
 //Skill end
 
+//Interest
+CREATE (i:Interest 
+    { id : "",
+      name : "",
+      }
+    )
+
+
 CREATE (t:Topic 
     { id : "",
       name : "",
@@ -217,6 +218,8 @@ CREATE (c:Club
 CREATE (s:Subject 
     { id : ,
       name : ,
+      credits : ,
+      sem : ,
       }
     )
 
@@ -327,7 +330,196 @@ CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 
 
 
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (l:Location 
+{ latitude : $studentLocation_latitude,
+longitude : $studentLocation_longitude,
+city : $studentLocation_city,
+state : $studentLocation_state,
+country : $studentLocation_country,
+continent : $studentLocation_continent,
+address : $studentLocation_address,
+postalCode : $studentLocation_postalCode}) 
+MERGE (s) - [:LIVES_IN] -> (l);
 
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (i:Institute 
+{ name : $institute_name, 
+website : $institute_website, 
+phone : $institute_phone, 
+degree : $institute_degree } ) 
+MERGE (s) - [:STUDIED_IN {
+  startDate : $relStudiedIn_startDate,
+  endDate : $relStudiedIn_endDate,
+  score : $relStudiedIn_score
+}] -> (i);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (sub:Subject 
+{ name : $name,
+credits : $credits,
+sem : $sem})
+MERGE (s) - [:COMPLETED] -> (sub);
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (sub:Subject 
+{ name : $name,
+credits : $credits,
+sem : $sem})
+MERGE (s) - [:ENROLLED_IN] -> (sub);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (sk:Skill { name : $skill_name,})
+MERGE (s) - [:HAS] -> (sk);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (l:Language { name : $language_name,})
+MERGE (s) - [:SPEAKS] -> (l);
+
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (c:Course { name : $course_name,})
+MERGE (s) - [:COMPLETED] -> (c);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (i:Interest { name : $interest_name,})
+MERGE (s) - [:HAS] -> (i);
+
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (c:Club { name : club_name})
+MERGE (s) - [:PART_OF {
+startDate : $relPartOfClub_startDate,
+endDate : ,$relPartOfClub_endDate,
+position : $relPartOfClub_position
+}] -> (c);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (r:ResearchPaper {title : $researchPaper_title, description : $researchPaper_description})
+MERGE (s) - [:PUBLISHED] -> (r);
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (a:Achievement { title : $achievement_title, description : $achievement_description})
+MERGE (s) - [:HAS_ACHIVED] -> (r);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (p:Project { name : $project_name, description : $project_description})
+MERGE (s) - [:HAS_DONE] -> (p);
+
+
+MERGE (s:Student 
+{ name : $studentData_name,
+age : $studentData_age,
+email : $studentData_email,
+phone : $studentData_phone,
+currentlyStudying : $studentData_currentlyStudying,
+department : $studentData_department}) 
+MERGE (c:Company 
+{ name : $company_name,
+field : $company_field, 
+website : $company_website})
+MERGE (s) - [:WORKED_IN {
+  startDate : $workedInCompany_startDate ,
+  endDate : $workedInCompany_endDate,
+  position : $workedInCompany_position
+}] -> (c);
+
+
+MERGE (c:Company 
+{ name : $company_name,
+field : $company_field, 
+website : $company_website})
+MERGE (l:Location 
+{ latitude : $companyLocation_latitude,
+longitude : $companyLocation_longitude,
+city : $companyLocation_city,
+state : $companyLocation_state,
+country : $companyLocation_country,
+continent : $companyLocation_continent,
+address : $companyLocation_address,
+postalCode : $companyLocation_postalCode}) 
+CREATE (c) - [:LOCATED_IN] -> (l);
 
 
 

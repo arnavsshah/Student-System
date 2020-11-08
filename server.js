@@ -5,9 +5,7 @@ const { server_port } = require('./config/env_vars');
 const app = express();
 
 
-
-
-app.listen((server_port || 5000), () => {
+app.listen((server_port), () => {
     console.log(`server running on ${server_port}`);
 })
 

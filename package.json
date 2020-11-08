@@ -8,7 +8,9 @@
         "start": "node server.js",
         "server": "nodemon server.js",
         "client": "cd client && npm start",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "create_students": "cd database/create_database && node create_student_db.js",
+        "create_teachers": "cd database/create_database && node create_teacher_db.js"
     },
     "repository": {
         "type": "git",

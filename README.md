@@ -23,3 +23,15 @@
 - Add the **DATABASE_URL, DATABASE_USERNAME, DATBASE_PASSWORD** as environment variables. (Sample env file is provided).
 - Using these details, the **driver** object of the neo4j-driver module is initialised in config/db.js
 - Import the driver object into a file to query the database.
+
+
+### Creating database
+
+- Setup Neo4j connection 
+- DATA folder must contain 2 folders - Students & Faculty - each containing the necessary json files
+
+- for adding students to the database
+`npm run create_students`
+
+- for adding teachers to the database
+`npm run create_teachers`
