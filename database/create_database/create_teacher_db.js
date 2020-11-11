@@ -274,7 +274,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...interest,
             }
-            var teacherHasInterest = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department}) MERGE (i:Interest { name : $interest_name}) MERGE (t) - [:HAS] -> (i);', teacherHasInterestData);
+            var teacherHasInterest = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department}) MERGE (i:Interest { name : $interest_name}) MERGE (t) - [:INTERESTED_IN] -> (i);', teacherHasInterestData);
         });
 
         languages.map(async language => {
