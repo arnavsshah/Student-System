@@ -57,7 +57,7 @@ async function create_db(file_name) {
         studentData_phone: faker.phone.phoneNumber('9########'),
         studentData_currentlyStudying: obj.currently_studying,
         studentData_department: dept,
-        studentData_semester: Object.keys(obj.current_courses).length === 0 ? '' : Object.keys(obj.completed_college_courses).length + 1,
+        studentData_semester: Object.keys(obj.current_courses).length === 0 ? '' : (Object.keys(obj.completed_college_courses).length + 1).toString(),
         studentData_isAlumni: Object.keys(obj.current_courses).length === 0,
     };
 
