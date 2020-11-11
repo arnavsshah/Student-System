@@ -56,6 +56,7 @@ async function create_db(file_name) {
         studentData_phone: faker.phone.phoneNumber('9########'),
         studentData_currentlyStudying: obj.currently_studying,
         studentData_department: dept,
+        studentData_semester: obj.current_courses.keys().length === 0 ? '' : obj.completed_college_courses.keys().length + 1,
     };
 
     var teacherData = {
@@ -308,7 +309,7 @@ async function create_db(file_name) {
             ...studentData,
             ...studentLocation,
         }
-        var studentLivesInLocation = await txc.run('MERGE (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (l:Location { latitude : $studentLocation_latitude, longitude : $studentLocation_longitude, city : $studentLocation_city, state : $studentLocation_state, country : $studentLocation_country, continent : $studentLocation_continent, address : $studentLocation_address, postalCode : $studentLocation_postalCode}) MERGE (s) - [:LIVES_IN] -> (l);', studentLivesInLocationData);
+        var studentLivesInLocation = await txc.run('MERGE (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (l:Location { latitude : $studentLocation_latitude, longitude : $studentLocation_longitude, city : $studentLocation_city, state : $studentLocation_state, country : $studentLocation_country, continent : $studentLocation_continent, address : $studentLocation_address, postalCode : $studentLocation_postalCode}) MERGE (s) - [:LIVES_IN] -> (l);', studentLivesInLocationData);
 
         for (var j = 0; j < institutes.length; j++) {
             var studentStudiedInInstituteData = {
@@ -317,7 +318,7 @@ async function create_db(file_name) {
                 ...relStudiedIn[j]
             }
 
-            var studentStudiedInInstitute = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree } ) MERGE (s) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', studentStudiedInInstituteData);
+            var studentStudiedInInstitute = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree } ) MERGE (s) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', studentStudiedInInstituteData);
         };
 
         completedSubjects.map(async completedSubject => {
@@ -325,7 +326,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...completedSubject,
             }
-            var studentCompletedSubject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (sub:Subject { name : $name, credits : $credits, sem : $sem}) MERGE (s) - [:COMPLETED] -> (sub);', studentCompletedSubjectData);
+            var studentCompletedSubject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (sub:Subject { name : $name, credits : $credits, sem : $sem}) MERGE (s) - [:COMPLETED] -> (sub);', studentCompletedSubjectData);
         });
 
         enrolledSubjects.map(async enrolledSubject => {
@@ -333,7 +334,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...enrolledSubject,
             }
-            var studentEnrolledSubject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (sub:Subject { name : $name, credits : $credits, sem : $sem}) MERGE (s) - [:COMPLETED] -> (sub);', studentEnrolledSubjectData);
+            var studentEnrolledSubject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (sub:Subject { name : $name, credits : $credits, sem : $sem}) MERGE (s) - [:ENROLLED] -> (sub);', studentEnrolledSubjectData);
         });
 
         skills.map(async skill => {
@@ -341,7 +342,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...skill,
             }
-            var studentHasSkill = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (sk:Skill { name : $skill_name}) MERGE (s) - [:HAS] -> (sk);', studentHasSkillData);
+            var studentHasSkill = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (sk:Skill { name : $skill_name}) MERGE (s) - [:HAS] -> (sk);', studentHasSkillData);
         });
 
         courses.map(async course => {
@@ -349,7 +350,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...course,
             }
-            var studentCompletedCourse = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (c:Course { name : $course_name}) MERGE (s) - [:COMPLETED] -> (c);', studentCompletedCourseData);
+            var studentCompletedCourse = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (c:Course { name : $course_name}) MERGE (s) - [:COMPLETED] -> (c);', studentCompletedCourseData);
         });
 
         interests.map(async interest => {
@@ -357,7 +358,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...interest,
             }
-            var studentHasInterest = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (i:Interest { name : $interest_name}) MERGE (s) - [:HAS] -> (i);', studentHasInterestData);
+            var studentHasInterest = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (i:Interest { name : $interest_name}) MERGE (s) - [:INTERESTED_IN] -> (i);', studentHasInterestData);
         });
 
         languages.map(async language => {
@@ -365,7 +366,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...language,
             };
-            var studentSpeakslanguage = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (l:Language { name : $language_name}) MERGE (s) - [:SPEAKS] -> (l);', studentSpeakslanguageData);
+            var studentSpeakslanguage = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (l:Language { name : $language_name}) MERGE (s) - [:SPEAKS] -> (l);', studentSpeakslanguageData);
         });
 
         achievements.map(async achievement => {
@@ -373,7 +374,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...achievement,
             };
-            var studentHasAchievedAchievement = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (s) - [:HAS_ACHIVED] -> (r);', studentHasAchievedAchievementData)
+            var studentHasAchievedAchievement = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (s) - [:HAS_ACHIVED] -> (r);', studentHasAchievedAchievementData)
         });
 
         researchPapers.map(async researchPaper => {
@@ -381,7 +382,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...researchPaper,
             };
-            var studentPublishedResearchPaper = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (r:ResearchPaper {title : $researchPaper_title, description : $researchPaper_description}) MERGE (s) - [:PUBLISHED] -> (r);', studentPublishedResearchPaperData)
+            var studentPublishedResearchPaper = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (r:ResearchPaper {title : $researchPaper_title, description : $researchPaper_description}) MERGE (s) - [:PUBLISHED] -> (r);', studentPublishedResearchPaperData)
         });
 
         projects.map(async project => {
@@ -389,7 +390,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...project,
             };
-            var studentHasDoneProject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (p:Project { name : $project_name, description : $project_description}) MERGE (s) - [:HAS_DONE] -> (p);', studentHasDoneProjectData)
+            var studentHasDoneProject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (p:Project { name : $project_name, description : $project_description}) MERGE (s) - [:HAS_DONE] -> (p);', studentHasDoneProjectData)
         });
 
         for (var j = 0; j < companies.length; j++) {
@@ -398,7 +399,7 @@ async function create_db(file_name) {
                 ...companies[j],
                 ...relWorkedInCompany[j],
             };
-            var studentWorkedInCompany = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (s) - [:WORKED_IN { startDate : $workedInCompany_startDate , endDate : $workedInCompany_endDate, position : $workedInCompany_position }] -> (c);', studentWorkedInCompanyData);
+            var studentWorkedInCompany = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester}) MERGE (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (s) - [:WORKED_IN { startDate : $workedInCompany_startDate , endDate : $workedInCompany_endDate, position : $workedInCompany_position }] -> (c);', studentWorkedInCompanyData);
         }
 
         for (var j = 0; j < companies.length; j++) {
