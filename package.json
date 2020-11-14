@@ -8,7 +8,9 @@
         "start": "node server.js",
         "server": "nodemon server.js",
         "client": "cd client && npm start",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "create_students": "cd database/create_database && node create_student_db.js",
+        "create_teachers": "cd database/create_database && node create_teacher_db.js"
     },
     "repository": {
         "type": "git",
@@ -23,10 +25,17 @@
     "dependencies": {
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
+        "city-state-country": "^1.0.3",
         "concurrently": "^5.3.0",
         "create-react-app": "^4.0.0",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
+<<<<<<< HEAD
         "material-ui-popup-state": "^1.7.0",
+=======
+        "faker": "^5.1.0",
+        "neo4j-driver": "^4.1.2",
+>>>>>>> 9b402a946ddc0766931f487cc3fa5561adf4b928
         "nodemon": "^2.0.6",
         "react-router-dom": "^5.2.0"
     }

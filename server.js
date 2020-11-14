@@ -1,13 +1,12 @@
-const express = require('express')
+const express = require('express');
+const { server_port } = require('./config/env_vars');
 
-const port = process.env.PORT || 5000;
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send("Hello Ganya");
+
+app.listen((server_port), () => {
+    console.log(`server running on ${server_port}`);
 })
 
-app.listen(port, () => {
-    console.log(`server running on ${port}`);
-})
+app.use(require('./routes'));
