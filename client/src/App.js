@@ -6,6 +6,8 @@ import Home from './pages/home.js';
 import Login from '../src/components/Login'
 import SignUp from '../src/components/SignUp';
 import Checkout from '../src/components/forms/Checkout';
+import Profile from './pages/profile';
+import SchoolForm from '../src/components/forms/SchoolForm'
 
 class App extends React.Component{
   render(){
@@ -16,8 +18,8 @@ class App extends React.Component{
           <Route path='/' exact component={Home} />
           <Route path='/login' component={Login} />
           <Route path='/signup' component={SignUp} />
-          <Route path='/addData' component={Checkout} />
-
+          <Route path='/addData' component={SchoolForm} />
+          <Route path='/profile' exact component={Profile} />
       </Router>
       </div>
     );

@@ -38,7 +38,7 @@ export default function FadeMenu() {
             <a  onClick={() => history.push('/')}>Home</a>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-            <a  onClick={() => history.push('/')}>Profile</a>
+            <a  onClick={() => history.push('/profile')}>Profile</a>
         </MenuItem>
        
         <MenuItem onClick={handleClose}>
