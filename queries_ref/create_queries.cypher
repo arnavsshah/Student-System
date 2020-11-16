@@ -38,7 +38,7 @@ CREATE (s:Student) - [:COMPLETED {
 
 CREATE (s:Student) - [:HAS] -> (s:Skill)
 
-CREATE (s:Student) - [:INTERESTED_IN] -> (i:Interest)
+CREATE (s:Student) - [:HAS] -> (i:Interest)
 
 CREATE (s:Student) - [:PART_OF {
   startDate : ,
@@ -168,6 +168,21 @@ CREATE (l:Location
       postalCode : ""
       }
     )
+
+//Book
+CREATE (b:Book 
+    { id : "",
+      author : "",
+      publisher : "",
+      title : "",
+      cost : "",
+      stock : "",
+      rating : "",
+      }
+    )
+
+CREATE (b:Book) - [:ABOUT] -> (t:Topic)
+//Book end
 
 //Skill
 CREATE (s:Skill 
@@ -302,21 +317,22 @@ CREATE (e:Exam) - [:ABOUT] -> (t:Topic)
 //Achievement
 
 CREATE (a:Achievement 
-    { id : ,
-      title : ,
-      description : 
+    { id : "",
+      title : "",
+      description : ""
       }
     )
 
 CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 //Achievement end
 
-
 //Book
 
 CREATE (b:Book {
   name : ,
   year_of_publishing : ,
+  //true-false
+  issued : , 
 })
 
 //Author
@@ -331,14 +347,19 @@ CREATE (t:Topic {
   name : ,
 }) 
 
-CREATE (b:Book) -[:WRITTEN_BY]-> (a:Author)
-CREATE (b:Book) -[:ABOUT]-> (t:Topic)
+CREATE (b:Book) -[:WRITTEN_BY]-> (a:Author) WHERE b.name = {} AND a.name = {}
 
+CREATE (b:Book) -[:ABOUT]-> (t:Topic) WHERE b.name = {}  AND t.name = {}
 
+CREATE (b:Book) -[:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {}
+CREATE (s:Student) -[:READ]-> (b:Book) WHERE s.name = {} AND b.name = {}
 
+//delete for library
+CREATE (b:Book) -[i:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {} DELETE i
 
 
 //queries template
+
 
 MERGE (s:Student 
 { name : $studentData_name,
@@ -447,7 +468,7 @@ phone : $studentData_phone,
 currentlyStudying : $studentData_currentlyStudying,
 department : $studentData_department}) 
 MERGE (i:Interest { name : $interest_name,})
-MERGE (s) - [:HAS] -> (i);
+MERGE (s) - [:INTERESTED_IN] -> (i);
 
 
 

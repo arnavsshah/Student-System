@@ -294,7 +294,6 @@ async function create_db(file_name) {
         }
         if (job.date_range !== null) {
             let date = job.date_range.split(" \u2013 ");
-
             res.workedInCompany_startDate = date[0] === undefined ? '' : date[0];
             res.workedInCompany_endDate = date[1] === undefined ? '' : date[1];
         }
@@ -391,6 +390,15 @@ async function create_db(file_name) {
             };
             var studentHasDoneProject = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (p:Project { name : $project_name, description : $project_description}) MERGE (s) - [:HAS_DONE] -> (p);', studentHasDoneProjectData)
         });
+
+        for (var j = 0; j < clubs.length; j++) {
+            var studentPartOfClubData = {
+                ...studentData,
+                ...club[j],
+                ...relPartOfClub[j],
+            };
+            var studentPartOfClub = await txc.run('MERGE (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department}) MERGE (c:Club { name : club_name}) MERGE (s) - [:PART_OF { startDate : $relPartOfClub_startDate, endDate : ,$relPartOfClub_endDate, position : $relPartOfClub_position }] -> (c);', studentPartOfClubData);
+        }
 
         for (var j = 0; j < companies.length; j++) {
             var studentWorkedInCompanyData = {
