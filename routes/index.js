@@ -23,9 +23,9 @@ router.get('/', async(req, res) => {
     // on application exit:
     await driver.close();
 })
-
 //for future routes
 // router.use('/register', require("./register"));
+router.use("/users", require("./users"));
 
 
 module.exports = router;

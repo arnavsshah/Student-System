@@ -1,15 +1,14 @@
-import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
+import React, { useState, useEffect } from "react";
+import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Typography, Container} from "@material-ui/core";
 import VpnKeySharpIcon from "@material-ui/icons/VpnKeySharp";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import axios from "axios";
+const initialValues = {
+    email: '',
+    password: '',
+  }
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -32,6 +31,42 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
+    const history = useHistory();
+    const [values, setValues] = useState(initialValues);
+    const handleFormChange = (e)=> {
+        const key = e.target.name;
+        const value = e.target.value;
+        setValues(preValue => ({
+          ...preValue,
+          [key]: value,
+        }))
+        // console.log(values);
+    };
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // console.log(event.target);
+        console.log('handle submit')
+        // const data1 = JSON.stringify(values); 
+        // console.log(`Search Data : ${data1}`); 
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/users/login',
+            data: values,
+        })
+        .then((res) => {
+            if(res.data=="Successfully Authenticated"){
+                console.log('done');
+                history.replace('/profile');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    // alert('An essay was submitted: ' + this.state.value);
+
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -43,7 +78,7 @@ export default function Login() {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSubmit} method="post">
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -54,6 +89,8 @@ export default function Login() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value = {values.email}
+                                onChange={handleFormChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -66,6 +103,8 @@ export default function Login() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value = {values.password}
+                                onChange={handleFormChange}
                             />
                         </Grid>
                     </Grid>

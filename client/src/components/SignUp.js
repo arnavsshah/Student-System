@@ -1,15 +1,24 @@
-import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Link, Grid, FormControlLabel, TextField, CssBaseline, Button, Avatar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import axios from "axios";
+// import { useAlert } from 'react-alert';
+import Alert from '@material-ui/lab/Alert';
+
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
+
+const initialValues = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    college_id: '',
+    password: '',
+    password_check: '',
+}
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -22,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main
     },
     form: {
-        width: "100%", 
+        width: "100%",
         marginTop: theme.spacing(3)
     },
     submit: {
@@ -32,6 +41,49 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    // const alert = useAlert()
+    const history = useHistory();
+    const [values, setValues] = useState(initialValues);
+    const [open, setOpen] = React.useState(false);
+    const [openAlert, setOpenAlert] = useState(false);
+    var err = [];
+    const handleFormChange = (e) => {
+        const key = e.target.name;
+        const value = e.target.value;
+        setValues(preValue => ({
+            ...preValue,
+            [key]: value,
+        }))
+        // console.log(values);
+    };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // console.log(event.target.firstName.value);
+        // const data1 = JSON.stringify(values); 
+        // console.log(`Search Data : ${data1}`); 
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/users/register',
+            data: values
+        })
+            .then((res) => {
+                if (res.data.errors) {
+                    // res.data.errors.forEach(e => {
+                        console.log(res.data.errors);
+                }
+                else {
+                    // console.log(res.data);
+                    history.replace('/login');
+
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        // alert('An essay was submitted: ' + this.state.value);
+
+    }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -43,17 +95,38 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                {/* <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                    >
+                        {err && err[0]['msg']}
+                    </Alert>
+                </Collapse> */}
+
+                <form className={classes.form} noValidate onSubmit={handleSubmit} method="post">
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                autoComplete="fname"
-                                name="firstName"
+                                // autoComplete="fname"
+                                name="first_name"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="firstName"
+                                id="first_name"
                                 label="First Name"
+                                value={values.first_name}
+                                onChange={handleFormChange}
                                 autoFocus
                             />
                         </Grid>
@@ -62,10 +135,12 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="lastName"
+                                id="last_ame"
                                 label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
+                                name="last_name"
+                                value={values.last_name}
+                                onChange={handleFormChange}
+                            // autoComplete="lname"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -76,7 +151,21 @@ export default function SignUp() {
                                 id="email"
                                 label="Email Address"
                                 name="email"
+                                value={values.email}
+                                onChange={handleFormChange}
                                 autoComplete="email"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="college_id"
+                                label="College Id"
+                                name="college_id"
+                                value={values.college_id}
+                                onChange={handleFormChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -88,7 +177,23 @@ export default function SignUp() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={values.password}
                                 autoComplete="current-password"
+                                onChange={handleFormChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="password_check"
+                                label="Confirm Password"
+                                type="password"
+                                id="passwordCheck"
+                                value={values.password_check}
+                                onChange={handleFormChange}
+                            // autoComplete="current-password"
                             />
                         </Grid>
                     </Grid>
