@@ -38,10 +38,10 @@ def get_sem_value(end_date):
 
     return sem_value
 
-input_dir = 'DATA/Students'
-output_dir = 'DATA/New_Students'
+input_dir = 'DATA/New_Students'
+output_dir = 'DATA/AddBachelors'
 
-degree_acceptable = ['btech', 'b.tech', 'bach', 'b tech']
+degree_acceptable = ['btech', 'b.tech', 'bach', 'b tech', 'b. tech', 'undergraduate']
 
 with open('subjects.json', "r") as read_it:
     subjects = json.load(read_it)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         completed_college_courses = dict()
         current_courses = dict()
         for edu in data['experiences']['education']:
-            if 'veermata' not in edu['name'].lower():
+            if 'veermata' not in edu['name'].lower() or 'vjti' not in edu['name'].lower():
                 continue
 
             if not (edu['degree'] and edu['field_of_study'] and edu['date_range']):
