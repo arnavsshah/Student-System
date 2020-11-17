@@ -60,9 +60,9 @@ WITH COLLECT(ID(s)) + res AS res, s_filter
 OPTIONAL MATCH (s:Student)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS "" AND ID(s) IN s_filter
 WITH COLLECT(ID(s)) + res AS res, s_filter
 
-// ReasearchPaper --tags
+// ResearchPaper --tags
 
-OPTIONAL MATCH (s:Student)-[:PUBLISHED]->(r:ReasearchPaper) WHERE r.title CONTAINS "" AND ID(s) IN s_filter
+OPTIONAL MATCH (s:Student)-[:PUBLISHED]->(r:ResearchPaper) WHERE r.title CONTAINS "" AND ID(s) IN s_filter
 WITH COLLECT(ID(s)) + res AS res, s_filter
 
 // Clubs
