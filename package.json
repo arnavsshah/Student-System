@@ -25,18 +25,22 @@
     "dependencies": {
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
+        "bcryptjs": "^2.4.3",
         "city-state-country": "^1.0.3",
         "concurrently": "^5.3.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
         "create-react-app": "^4.0.0",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
-<<<<<<< HEAD
-        "material-ui-popup-state": "^1.7.0",
-=======
+        "express-session": "^1.17.1",
+        "express-validator": "^6.6.1",
         "faker": "^5.1.0",
+        "material-ui-popup-state": "^1.7.0",
         "neo4j-driver": "^4.1.2",
->>>>>>> 9b402a946ddc0766931f487cc3fa5561adf4b928
         "nodemon": "^2.0.6",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0",
         "react-router-dom": "^5.2.0"
     }
 }
