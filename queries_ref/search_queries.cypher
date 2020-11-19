@@ -94,8 +94,13 @@ RETURN res
 // Subjects --dropdown
 // Department --dropdown
 
-OPTIONAL MATCH (t:Teacher) WHERE s.department = "" AND ID(t) IN s_filter
+OPTIONAL MATCH (t:Teacher) WHERE t.department = "" AND ID(t) IN s_filter
 WITH COLLECT(ID(t)) AS t_filter 
+
+// Institute --tags
+
+OPTIONAL MATCH (t:Teacher)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS "" AND ID(t) IN t_filter
+WITH COLLECT(ID(t)) + res AS res, t_filter
 
 // Skills --tags
 
@@ -136,12 +141,12 @@ RETURN res
 
 // Alummni --filters --same as student queries
 
-// Department --dropdown
+//Department
 // Year --dropdown
-
-MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = "" AND ID(s) IN s_filter
+OPTIONAL MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = "" AND ID(s) IN s_filter
 WITH COLLECT(ID(s)) AS s_filter  
 
+// Institute --tags 
 // Skills --tags
 // Courses --tags
 // Projects --tags
@@ -158,50 +163,50 @@ WITH COLLECT(ID(s)) AS s_filter
 
 // Skills --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Courses --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Projects --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Achievements --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS_ACHIVED]->(a:Achievement)<-[:HAS_ACHIVED]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a:Achievement)<-[:HAS_ACHIVED]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Clubs
 
-OPTIONAL MATCH (s1:Student{name:""})-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Languages --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 //Interests
 
-OPTIONAL MATCH (s1:Student{name:""})-[:INTERESTED_IN]->(l:Interest)<-[:INTERESTED_IN]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(l:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 // Internships & Jobs --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) 
-RETURN ID(s2), COUNT(*) order by COUNT(*) desc 
+OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = {}
+RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
 
@@ -209,45 +214,45 @@ UNION
 
 //Skills
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill)
-WHERE NOT EXISTS((s1)-[:HAS]->(sk2))
-RETURN sk2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS]->(sk2))
+RETURN sk2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 //Courses --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course)
-WHERE NOT EXISTS((s1)-[:COMPLETED]->(c2))
-RETURN c2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:COMPLETED]->(c2))
+RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Projects --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project)
-WHERE NOT EXISTS((s1)-[:HAS_DONE]->(p2))
-RETURN p2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_DONE]->(p2))
+RETURN p2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Achievements --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:HAS_ACHIVED]->(a1:Achievement)<-[:HAS_ACHIVED]-(s2:Student)-[:HAS_ACHIVED]->(a2:Achievement)
-WHERE NOT EXISTS((s1)-[:HAS_ACHIVED]->(a2))
-RETURN a2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a1:Achievement)<-[:HAS_ACHIVED]-(s2:Student)-[:HAS_ACHIVED]->(a2:Achievement)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_ACHIVED]->(a2))
+RETURN a2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Clubs
 
-OPTIONAL MATCH (s1:Student{name:""})-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club)
-WHERE NOT EXISTS((s1)-[:PART_OF]->(c2))
-RETURN c2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:PART_OF]->(c2))
+RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Languages --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:SPEAKS]->(l1:Language)<-[:SPEAKS]-(s2:Student)-[:SPEAKS]->(l2:Language)
-WHERE NOT EXISTS((s1)-[:SPEAKS]->(l2))
-RETURN l2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l1:Language)<-[:SPEAKS]-(s2:Student)-[:SPEAKS]->(l2:Language)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:SPEAKS]->(l2))
+RETURN l2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Internships & Jobs --tags
 
-OPTIONAL MATCH (s1:Student{name:""})-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company)
-WHERE NOT EXISTS((s1)-[:WORKED_IN]->(c2))
-RETURN c2.name, COUNT(s2) AS c ORDER BY c DESC
+OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:WORKED_IN]->(c2))
+RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 
 

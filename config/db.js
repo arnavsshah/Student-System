@@ -8,7 +8,7 @@ const {
 
 const driver = neo4j.driver(database_url, neo4j.auth.basic(
     database_username, database_password
-))
+), { disableLosslessIntegers: true })
 
 
 module.exports = driver;

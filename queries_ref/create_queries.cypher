@@ -330,7 +330,6 @@ CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 
 CREATE (b:Book {
   name : ,
-  year_of_publishing : ,
   //true-false
   issued : , 
 })
