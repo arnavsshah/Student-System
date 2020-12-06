@@ -73,7 +73,7 @@ CREATE (s:Student) - [:HAS_GIVEN {
   score : 
 }] -> (e:Exam)
 
-CREATE (s:Student) - [:HAS_ACHIVED {
+CREATE (s:Student) - [:HAS_ACHIEVED {
   date : 
 }] -> (a:Achievement)
 //student end
@@ -124,7 +124,7 @@ CREATE (t:Teacher) - [:HAS_DONE {
   endDate : ""
 }] -> (p:Project)
 
-CREATE (t:Teacher) - [:HAS_ACHIVED {
+CREATE (t:Teacher) - [:HAS_ACHIEVED {
   date : ""
 }] -> (a:Achievement)
 //teacher end
@@ -326,36 +326,6 @@ CREATE (a:Achievement
 CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 //Achievement end
 
-//Book
-
-CREATE (b:Book {
-  name : ,
-  //true-false
-  issued : , 
-})
-
-//Author
-
-CREATE (a:Author {
-  name : ,
-})
-
-//Topic
-
-CREATE (t:Topic {
-  name : ,
-}) 
-
-CREATE (b:Book) -[:WRITTEN_BY]-> (a:Author) WHERE b.name = {} AND a.name = {}
-
-CREATE (b:Book) -[:ABOUT]-> (t:Topic) WHERE b.name = {}  AND t.name = {}
-
-CREATE (b:Book) -[:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {}
-CREATE (s:Student) -[:READ]-> (b:Book) WHERE s.name = {} AND b.name = {}
-
-//delete for library
-CREATE (b:Book) -[i:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {} DELETE i
-
 
 //queries template
 
@@ -397,6 +367,17 @@ MERGE (s) - [:STUDIED_IN {
   score : $relStudiedIn_score
 }] -> (i);
 
+MATCH (i:Institute { 
+  name : $institute_name, 
+  website : $institute_website, 
+  phone : $institute_phone, 
+  degree : $institute_degree }) 
+  MERGE (l:Location 
+  { latitude : $instituteLocation_latitude, 
+  longitude : $instituteLocation_longitude, 
+  address : $instituteLocation_address}) 
+MERGE (i) - [:LOCATED_IN] -> (l);
+
 
 MERGE (s:Student 
 { name : $studentData_name,
@@ -432,7 +413,7 @@ email : $studentData_email,
 phone : $studentData_phone,
 currentlyStudying : $studentData_currentlyStudying,
 department : $studentData_department}) 
-MERGE (sk:Skill { name : $skill_name,})
+MERGE (sk:Skill { name : $skill_name})
 MERGE (s) - [:HAS] -> (sk);
 
 
@@ -504,7 +485,7 @@ phone : $studentData_phone,
 currentlyStudying : $studentData_currentlyStudying,
 department : $studentData_department}) 
 MERGE (a:Achievement { title : $achievement_title, description : $achievement_description})
-MERGE (s) - [:HAS_ACHIVED] -> (r);
+MERGE (s) - [:HAS_ACHIEVED] -> (r);
 
 
 MERGE (s:Student 
