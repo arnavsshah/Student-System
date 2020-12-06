@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Typography, Link, Grid, FormControlLabel, TextField, CssBaseline, Button, Avatar, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-// import { useAlert } from 'react-alert';
-import Alert from '@material-ui/lab/Alert';
 
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CloseIcon from '@material-ui/icons/Close';
+// import IconButton from '@material-ui/core/IconButton';
+// import Collapse from '@material-ui/core/Collapse';
+// import CloseIcon from '@material-ui/icons/Close';
 
 const initialValues = {
     first_name: '',
@@ -41,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
-    // const alert = useAlert()
+    const alert = useAlert();
     const history = useHistory();
     const [values, setValues] = useState(initialValues);
     const [open, setOpen] = React.useState(false);
-    const [openAlert, setOpenAlert] = useState(false);
-    var err = [];
+    // const [openAlert, setOpenAlert] = useState(false);
+    // var err = [];
     const handleFormChange = (e) => {
         const key = e.target.name;
         const value = e.target.value;
@@ -68,11 +67,22 @@ export default function SignUp() {
         })
             .then((res) => {
                 if (res.data.errors) {
+                    const e = res.data.errors;
                     // res.data.errors.forEach(e => {
-                        console.log(res.data.errors);
+                    //     alert.show(e)
+                    // })
+                    
+                    // console.log(e)
+                    // console.log(Object.keys(e).length);
+                    for(let i = 0; i<Object.keys(e).length; i++){
+                        // console.log(e[i]['msg']);
+                        alert.error(e[i]['msg']);
+                    }
+                        
                 }
                 else {
                     // console.log(res.data);
+                    alert.success('Success')
                     history.replace('/login');
 
                 }
@@ -88,6 +98,7 @@ export default function SignUp() {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
+            
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
