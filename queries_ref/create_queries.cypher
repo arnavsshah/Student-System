@@ -38,7 +38,7 @@ CREATE (s:Student) - [:COMPLETED {
 
 CREATE (s:Student) - [:HAS] -> (s:Skill)
 
-CREATE (s:Student) - [:INTERESTED_IN] -> (i:Interest)
+CREATE (s:Student) - [:HAS] -> (i:Interest)
 
 CREATE (s:Student) - [:PART_OF {
   startDate : ,
@@ -326,8 +326,38 @@ CREATE (a:Achievement
 CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 //Achievement end
 
+//Book
+
+CREATE (b:Book {
+  name : ,
+  //true-false
+  issued : , 
+})
+
+//Author
+
+CREATE (a:Author {
+  name : ,
+})
+
+//Topic
+
+CREATE (t:Topic {
+  name : ,
+}) 
+
+CREATE (b:Book) -[:WRITTEN_BY]-> (a:Author) WHERE b.name = {} AND a.name = {}
+
+CREATE (b:Book) -[:ABOUT]-> (t:Topic) WHERE b.name = {}  AND t.name = {}
+
+CREATE (b:Book) -[:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {}
+CREATE (s:Student) -[:READ]-> (b:Book) WHERE s.name = {} AND b.name = {}
+
+//delete for library
+CREATE (b:Book) -[i:ISSUED_BY]-> (s:Student) WHERE b.name = {} AND s.name = {} DELETE i
 
 
+//queries template
 
 
 MERGE (s:Student 
@@ -437,7 +467,7 @@ phone : $studentData_phone,
 currentlyStudying : $studentData_currentlyStudying,
 department : $studentData_department}) 
 MERGE (i:Interest { name : $interest_name,})
-MERGE (s) - [:HAS] -> (i);
+MERGE (s) - [:INTERESTED_IN] -> (i);
 
 
 
