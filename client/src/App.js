@@ -5,7 +5,6 @@ import MyNavbar from './components/MyNavbar';
 import Home from './pages/home.js';
 import Login from '../src/components/Login'
 import SignUp from './pages/signup';
-import Checkout from '../src/components/forms/Checkout';
 import Profile from './pages/profile';
 import SchoolForm from '../src/components/forms/SchoolForm'
 import Library from './pages/library';

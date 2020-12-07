@@ -146,7 +146,7 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="last_ame"
+                                id="last_name"
                                 label="Last Name"
                                 name="last_name"
                                 value={values.last_name}

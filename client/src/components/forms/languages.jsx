@@ -4,7 +4,8 @@ import {Grid,Button,Typography, TextField} from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-  skill: '',
+  language: '',
+  
 }
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -18,42 +19,40 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const data = []
-export default function Skill() {
+export default function Language() {
   const [values, setValues] = useState(initialValues);
-  // const classes = useStyles();
+  const classes = useStyles();
   const history = useHistory();
   const handleFormChange = (e)=> {
-    // const key = e.target.name;
+    const key = e.target.name;
     const value = e.target.value;
     setValues(preValue => ({
       ...preValue,
-      skill: value,
+      [key]: value,
     }))
-    // console.log(values)
   }
   const addData = (e) => {
-    // console.log("push")
     data.push(values);
-    // console.log(data)
     setValues(preValue => ({
       ...preValue,
-      skill: ''
+      language: ''
     }))
   }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.skill!==''){
+    if(values.language!==''){
       data.push(values);
     }
     console.log(data)
     axios({
         method: 'post',
-        url: 'http://localhost:5000/profile/skills',
+        url: 'http://localhost:5000/profile/languages',
         data: data,
     })
-    .then( ()=> {
+    .then(() => {
       // console.log('done');
       history.replace('/profile');
     })
@@ -61,20 +60,21 @@ export default function Skill() {
         console.error(err);
     });
   }
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Add Your Skills
+        Add Your languages
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             required
-            id="skill"
-            name="skill"
-            label="Skill"
+            id="language"
+            name="language"
+            label="Language"
             fullWidth
-            value = {values.skill}
+            value = {values.language}
             onChange={handleFormChange}
           />
         </Grid>
@@ -82,11 +82,10 @@ export default function Skill() {
           <Button
             type="button"
             variant="contained"
-            name="skill"
             onClick={addData}
             // disabled={submitting || pristine}
           >
-            Add Skill
+            Add Language
           </Button>
         </Grid>
         <Grid item style={{ marginTop: 16 }}>

@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { makeStyles, Fab, Modal,ListItemText, MenuItem, Menu, IconButton } from "@material-ui/core/";
-import NavigationIcon from "@material-ui/icons/Navigation";
-import AchievementForm from "../forms/Achievement";
+import { makeStyles, Fab, Modal, ListItemText, MenuItem, Menu, IconButton } from "@material-ui/core/";
+import AchievementForm from "../forms/achievements";
 import SchoolForm from "../forms/SchoolForm";
 import JuniorCollegeForm from "../forms/JuniorCollegeForm";
 import PopUp from "../PopUp";
 import SkillForm from "../forms/skills"
+import InterestForm from "../forms/interests"
+import CouresForm from "../forms/courses"
+import LanguageForm from "../forms/languages"
+import ClubForm from "../forms/clubs"
+import ProjectForm from "../forms/projects"
+import ResearchPaperForm from "../forms/researchPapers"
+import CompanyForm from "../forms/companies"
 
 
 const StyledMenu = withStyles({
@@ -54,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)
   },
-  
+
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -80,7 +86,8 @@ export default function CustomizedMenus() {
 
   // const [openPopup, setOpenPopup] = useState(false);
   const [open, setOpen] = React.useState(false);
-  
+  const [openPopup, setOpenPopup] = React.useState(false);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -92,16 +99,50 @@ export default function CustomizedMenus() {
     setOpen(true);
   };
 
-  const [state, setState] = useState({school: false, jrCollege: false, achievement:false, skills:false});
-  const handlePopup = (e) =>{
+  let [state, setState] = useState({
+    school: false,
+    jrCollege: false,
+    achievements: false,
+    skills: false,
+    interests: false,
+    courses: false,
+    languages: false,
+    researchPapers: false,
+    clubs: false,
+    projects: false,
+    companies: false
+    
+  });
+  const handlePopup = (e) => {
     const name = e.target.offsetParent.id;
     // console.log(name);
+    if (name) {
+      setState(prevState => ({
+        ...prevState,
+        [name]: !prevState.name
+      }));
+    }
+
+  }
+
+  const handleClosePopUp = (e) => {
     setState(prevState => ({
       ...prevState,
-      [name]: !prevState.name
-  }));
+      // [name]: !prevState.name
+      school: false,
+      jrCollege: false,
+      achievements: false,
+      skills: false,
+      interests: false,
+      courses: false,
+      languages: false,
+      researchPapers: false,
+      clubs: false,
+      projects: false,
+      companies: false
+    }));
   }
-  
+
 
 
   const [expanded, setExpanded] = React.useState(false);
@@ -136,35 +177,84 @@ export default function CustomizedMenus() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick = { handlePopup} id = 'school'>
-          <ListItemText primary="School Information"/>
-          <PopUp openPopup = {state.school}>
-            <SchoolForm/>
+        <StyledMenuItem onClick={handlePopup} id='school'>
+          <ListItemText primary="School Information" />
+          <PopUp openPopup={state.school} handleClosePopUp={handleClosePopUp}>
+            <SchoolForm />
           </PopUp>
         </StyledMenuItem>
 
-        <StyledMenuItem onClick ={ handlePopup} id ='jrCollege'>
+        <StyledMenuItem onClick={handlePopup} id='jrCollege'>
           <ListItemText primary="Junior College Information" />
-          <PopUp openPopup = {state.jrCollege}>
-            <JuniorCollegeForm/>
+          <PopUp openPopup={state.jrCollege} handleClosePopUp={handleClosePopUp}>
+            <JuniorCollegeForm />
           </PopUp>
         </StyledMenuItem>
 
-        <StyledMenuItem onClick ={ handlePopup} id ='achievement'>
+        <StyledMenuItem onClick={handlePopup} id='achievements'>
           <ListItemText primary="Achievements" />
-          <PopUp openPopup = {state.achievement}>
-            <AchievementForm/>
+          <PopUp openPopup={state.achievements} handleClosePopUp={handleClosePopUp}>
+            <AchievementForm />
           </PopUp>
         </StyledMenuItem>
 
-        <StyledMenuItem onClick ={ handlePopup} id ='skills'>
+        <StyledMenuItem onClick={handlePopup} id='skills'>
           <ListItemText primary="Skills" />
-          <PopUp openPopup = {state.skills}>
-            <SkillForm/>
+          <PopUp openPopup={state.skills} handleClosePopUp={handleClosePopUp}>
+            <SkillForm />
           </PopUp>
         </StyledMenuItem>
-        
-        
+
+        <StyledMenuItem onClick={handlePopup} id='interests'>
+          <ListItemText primary="Interests" />
+          <PopUp openPopup={state.interests} handleClosePopUp={handleClosePopUp}>
+            <InterestForm />
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='courses'>
+          <ListItemText primary="Courses" />
+          <PopUp openPopup={state.courses} handleClosePopUp={handleClosePopUp}>
+            <CouresForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='languages'>
+          <ListItemText primary="Languages" />
+          <PopUp openPopup={state.languages} handleClosePopUp={handleClosePopUp}>
+            <LanguageForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='projects'>
+          <ListItemText primary="Projects" />
+          <PopUp openPopup={state.projects} handleClosePopUp={handleClosePopUp}>
+            <ProjectForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='clubs'>
+          <ListItemText primary="Clubs" />
+          <PopUp openPopup={state.clubs} handleClosePopUp={handleClosePopUp}>
+            <ClubForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='researchPapers'>
+          <ListItemText primary="ResearchPaper" />
+          <PopUp openPopup={state.researchPapers} handleClosePopUp={handleClosePopUp}>
+            <ResearchPaperForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+        <StyledMenuItem onClick={handlePopup} id='companies'>
+          <ListItemText primary="Companies" />
+          <PopUp openPopup={state.companies} handleClosePopUp={handleClosePopUp}>
+            <CompanyForm/>
+          </PopUp>
+        </StyledMenuItem>
+
+
       </StyledMenu>
     </div>
   );

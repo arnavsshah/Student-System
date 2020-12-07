@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {Typography,Button, Grid, TextField, FormControlLabel, Checkbox, makeStyles} from "@material-ui/core";
-
+import { Typography, Button, Grid, TextField, FormControlLabel, Checkbox, makeStyles } from "@material-ui/core";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 const initialValues = {
-  jrCollegeName: '',
-  hscMarks: '',
-  CETScore: '',
-  JEEMainsScore: '',
-  collegeAddress: '',
+  name: '',
+  score: '',
+  address: '',
   city: '',
   state: '',
-  zip: '',
-  country: ''
+  postalCode: '',
+  country: '',
+  degree: '',
+  startDate: '',
+  endDate: '',
 }
 
 const useStyles = makeStyles(theme => {
@@ -23,112 +25,170 @@ export default function JuniorCollegeForm() {
 
   const [values, setValues] = useState(initialValues);
   const classes = useStyles;
-  const handleFormChange = (e)=> {
+  const history = useHistory();
+  const handleFormChange = (e) => {
     const key = e.target.name;
     const value = e.target.value;
     setValues(preValue => ({
       ...preValue,
       [key]: value,
     }))
-    console.log(values);
+    // console.log(values);
   };
+
+  const reset = (e) => {
+    setValues(preValue => ({
+      ...preValue,
+      name: '',
+      score: '',
+      address: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: '',
+      degree: '',
+      startDate: '',
+      endDate: '',
+
+    }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(event.target);
+    // console.log('handle submit')
+    // console.log(data)
+    // const data1 = JSON.stringify(values); 
+    // console.log(`Search Data : ${data1}`); 
+    axios({
+        method: 'post',
+        url: 'http://localhost:5000/profile/institutes',
+        data: values,
+    })
+    .then(() => {
+      // console.log('done');
+      history.replace('/profile');
+    })
+    .catch(err => {
+        console.error(err);
+    });
+}
   return (
     <>
       <Typography variant="h6" gutterBottom>
         Junior College Details
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             required
-            id="jrCollegeCName"
-            name="jrCollegeName"
+            id="name"
+            name="name"
             label="Junior College name"
             fullWidth
-            value = {values.jrCollegeName}
+            value={values.name}
             onChange={handleFormChange}
-            // autoComplete="shipping address-line1"
+          // autoComplete="shipping address-line1"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="degree"
+            name="degree"
+            label="Degree"
+            fullWidth
+            value={values.degree}
+            onChange={handleFormChange}
           />
         </Grid>
         <Grid item xs={12}>
+
+          <TextField
+            id="startDate"
+            label="Start Date"
+            name="startDate"
+            type="date"
+            value={values.startDate}
+            onChange={handleFormChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="endDate"
+            label="End Date"
+            name="endDate"
+            type="date"
+            value={values.endDate}
+            onChange={handleFormChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+
+
+        <Grid item xs={12}>
           <TextField
             required
-            id="hscMarks"
-            name="hscMarks"
+            id="score"
+            name="score"
             type="number"
             label="HSC Percentage"
             fullWidth
-            value = {values.hscMarks}
+            value={values.score}
             onChange={handleFormChange}
-            // autoComplete="shipping address-line1"
+          // autoComplete="shipping address-line1"
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="CETScore"
-            name="CETScore"
-            label="CET Score"
-            type="number"
-            fullWidth
-            value = {values.CETScore}
-            onChange={handleFormChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="JEEMainsScore"
-            name="JEEMainsScore"
-            label="JEE Mains Score"
-            type="number"
-            fullWidth
-            value = {values.JEEMainsScore}
-            onChange={handleFormChange}
-          />
-        </Grid>
-
+        
         <Grid item xs={12}>
           <TextField
             required
-            id="collegeAddress"
-            name="collegeAddress"
+            id="address"
+            name="address"
             label="Address"
             fullWidth
-            value = {values.collegeAddress}
+            value={values.address}
             onChange={handleFormChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="collegeCity"
+            id="city"
             name="city"
             label="City"
             fullWidth
-            value = {values.city}
+            value={values.city}
             onChange={handleFormChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="collegeState"
+            id="state"
             name="state"
             label="State/Province/Region"
             fullWidth
-            value = {values.state}
+            value={values.state}
             onChange={handleFormChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="zip"
-            name="zip"
+            id="postalCode"
+            name="postalCode"
             label="Zip / Postal code"
             fullWidth
-            value = {values.zip}
+            value={values.postalCode}
             onChange={handleFormChange}
           />
         </Grid>
@@ -139,7 +199,7 @@ export default function JuniorCollegeForm() {
             name="country"
             label="Country"
             fullWidth
-            value = {values.country}
+            value={values.country}
             onChange={handleFormChange}
           />
         </Grid>
@@ -148,8 +208,8 @@ export default function JuniorCollegeForm() {
           <Button
             type="button"
             variant="contained"
-            // onClick={reset}
-            // disabled={submitting || pristine}
+          onClick={reset}
+          // disabled={submitting || pristine}
           >
             Reset
           </Button>
@@ -159,7 +219,8 @@ export default function JuniorCollegeForm() {
             variant="contained"
             color="primary"
             type="submit"
-            // disabled={submitting}
+            onClick={handleSubmit}
+          // disabled={submitting}
           >
             Submit
           </Button>
