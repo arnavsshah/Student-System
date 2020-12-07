@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {Grid,Button,Typography, TextField} from "@material-ui/core";
+import { makeStyles, Typography, TextField, Grid, Button } from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+
 const initialValues = {
-  skill: '',
+  projectName: '',
+  description: ''
 }
+
 const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: theme.spacing(1, 0)
@@ -14,90 +16,101 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700
   },
   title: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(1)
   }
 }));
 const data = []
-export default function Skill(props) {
+export default function Project(props) {
   const [values, setValues] = useState(initialValues);
-  // const classes = useStyles();
+  const classes = useStyles();
   const history = useHistory();
-  const handleFormChange = (e)=> {
-    // const key = e.target.name;
+  const handleFormChange = (e) => {
+    const key = e.target.name;
     const value = e.target.value;
+    
     setValues(preValue => ({
       ...preValue,
-      skill: value,
+      [key]: value,
     }))
-    // console.log(values)
-  }
-  const addData = (e) => {
-    // console.log("push")
+    // console.log(values);
+  };
+  const  addData = (e) => {
     data.push(values);
-    // console.log(data)
     setValues(preValue => ({
       ...preValue,
-      skill: ''
+      projectName: '',
+      description: ''
     }))
   }
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.skill!==''){
+    if(values.projectName!==''){
       data.push(values);
     }
     console.log(data)
     axios({
         method: 'post',
-        url: 'http://localhost:5000/profile/skills',
+        url: 'http://localhost:5000/profile/projects',
         withCredentials: true,
         data: data,
     })
-    .then( ()=> {
-      // console.log('done');
-      // history.replace('/profile');
+    .then(() => {
+      // console.log('done', res.user);
+      // window.location.reload();
       props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);
     });
   }
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Add Your Skills
+        Add Your Project
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             required
-            id="skill"
-            name="skill"
-            label="Skill"
+            id="projectName"
+            name="projectName"
+            label="Project name"
             fullWidth
-            value = {values.skill}
+            value={values.projectName}
             onChange={handleFormChange}
           />
         </Grid>
-        <Grid item style={{ marginTop: 16 }}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="description"
+            name="description"
+            label="Description"
+            fullWidth
+            value={values.description}
+            onChange={handleFormChange}
+          />
+        </Grid>
+        <Grid item >
           <Button
             type="button"
             variant="contained"
-            name="skill"
             onClick={addData}
-            // disabled={submitting || pristine}
+          // disabled={submitting || pristine}
           >
-            Add Skill
+            Add Project
           </Button>
         </Grid>
-        <Grid item style={{ marginTop: 16 }}>
+        <Grid item>
           <Button
             variant="contained"
             color="primary"
             type="submit"
             onClick={handleSubmit}
-            // disabled={submitting}
+          // disabled={submitting}
           >
             Submit
           </Button>

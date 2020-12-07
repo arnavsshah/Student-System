@@ -91,17 +91,19 @@ router.post("/register", validationChecks, async (req, res) => {
 //login route
 router.post('/login', (req, res, next) => {
 
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err, user, next) => {
         if (err) throw err;
         if (!user) res.send("No User Exists");
         else {
-        //   req.logIn(user, (err) => {
-        //     if (err) throw err;
-        //     res.send("Successfully Authenticated");
-        //     console.log(req.user);
-        //   });
-        console.log(req.body);
-        res.send("Successfully Authenticated");
+          req.logIn(user, (err) => {
+            if (err) throw err;
+            console.log("user", req.user);
+            res.send("Successfully Authenticated");
+            
+          });
+        // console.log(req);
+        // console.log('h', user);
+        // res.send("Successfully Authenticated");
         }
       })(req, res, next);
 });

@@ -53,11 +53,12 @@ export default function Login() {
         axios({
             method: 'post',
             url: 'http://localhost:5000/users/login',
+            withCredentials: true,
             data: values,
         })
         .then((res) => {
             if(res.data=="Successfully Authenticated"){
-                console.log('done');
+                console.log(res);
                 history.replace('/profile');
             }
         })
