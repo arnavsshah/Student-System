@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => {
   }
 
 });
-export default function JuniorCollegeForm() {
+export default function JuniorCollegeForm(props) {
 
   const [values, setValues] = useState(initialValues);
   const classes = useStyles;
@@ -63,11 +63,13 @@ export default function JuniorCollegeForm() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/institutes',
+        withCredentials: true,
         data: values,
     })
     .then(() => {
       // console.log('done');
-      history.replace('/profile');
+      // history.replace('/profile');
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);

@@ -17,7 +17,7 @@ router.get('/', async(req, res) => {
     var clubs = await neo4jApi.getClubs();
     var institutes = await neo4jApi.getInstitutes();
     var companies = await neo4jApi.getCompanies();
-
+    console.log('checking', req.user);
     res.send('hello');
 })
 
@@ -42,9 +42,11 @@ router.post('/courses', async(req, res) => {
 });
 
 router.post('/projects', async(req, res) => {
-    neo4jApi.addProjects(req.body.projects);
+    console.log("project", req.user);
+    await neo4jApi.addProjects(req);
     // res.redirect(`/profile/${}`);
-    res.send('hello')
+    // res.send('hello')
+    res.json(req.user)
 });
 
 router.post('/achievements', async(req, res) => {

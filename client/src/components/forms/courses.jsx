@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const data = []
-export default function Course() {
+export default function Course(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
   const history = useHistory();
@@ -51,11 +51,13 @@ export default function Course() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/courses',
+        withCredentials: true,
         data: data,
     })
     .then(() => {
       // console.log('done');
-      history.replace('/profile');
+      // history.replace('/profile');
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);

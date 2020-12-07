@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => {
   }
 
 });
-export default function SchoolForm() {
+export default function SchoolForm(props) {
   const [values, setValues] = useState(initialValues);
   const history = useHistory();
   const handleFormChange = (e) => {
@@ -59,11 +59,13 @@ export default function SchoolForm() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/institutes',
+        withCredentials: true,
         data: values,
     })
     .then(() => {
       // console.log('done');
-      history.replace('/profile');
+      // history.replace('/profile');
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);

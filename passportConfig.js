@@ -9,13 +9,14 @@ module.exports = function (passport) {
         }, (email, password, done) => {
             const session = driver.session();
             session.run(
-                `Match(s:Student{email: $email}) return s`, { email: email }
+                `Match(s:Student{email: $email}) return s, ID(s)`, { email: email }
             ).then( (users, err) => {
                 // console.log('hello from password');
                 session.close();
                 // users.records.forEach(record=>console.log(record._fields[0].properties.email))
                 user = users.records[0]._fields[0].properties;
-                console.log(user);
+                user.id = users.records[0]._fields[1];
+                // console.log("hello: ", user);
                 if (err) throw err;
                 if (!user) return done(null, false);
                 bcrypt.compare(password, user.password, (err, result) => {
@@ -39,12 +40,13 @@ module.exports = function (passport) {
   passport.deserializeUser((email, cb) => {
     const session = driver.session();
     session.run(
-        `Match(s:Student{email: $email}) return s`, { email: email }
+        `Match(s:Student{email: $email}) return s, ID(s)`, { email: email }
     ).then( (users, err) => {
         session.close();
         user = users.records[0]._fields[0].properties;
+        user.id = users.records[0]._fields[1];
         const userInformation = {
-        email: user.email,
+        id: user.id,
       };
       cb(err, userInformation);
     }).catch( e=> console.log(e)

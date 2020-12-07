@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const data = []
-export default function Skill() {
+export default function Club(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
   const history = useHistory();
@@ -56,11 +56,13 @@ export default function Skill() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/clubs',
+        withCredentials: true,
         data: data,
     })
     .then(() => {
       // console.log('done');
-      history.replace('/profile');
+      // history.replace('/profile');
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);

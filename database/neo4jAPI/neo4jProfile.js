@@ -4,8 +4,13 @@ const driver = require('../../config/db');
 
 //GET queries
 
+//problem to solve
+// change data to req
+//change data.map to req.body.map
+//add ${} into ""
+//send req from router function 
 async function getInstitutes() {
-    var query = `MATCH (s:Student) -[st:STUDIED_IN]-> (i) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) -[st:STUDIED_IN]-> (i) WHERE ID(s) = ${req.user.id} `;
     query += `WITH s, st, i MATCH (i) -[:LOCATED_IN]-> (l) RETURN s, st, i, l`
     var institutes = await queryNeo4j(query);
     var res = [];
@@ -20,7 +25,7 @@ async function getInstitutes() {
 }
 
 async function getSkills() {
-    var query = `MATCH (s:Student) -[:HAS]-> (sk) WHERE ID(s) = 3129 RETURN sk;`;
+    var query = `MATCH (s:Student) -[:HAS]-> (sk) WHERE ID(s) = ${req.user.id} RETURN sk;`;
     var skills = await queryNeo4j(query);
     var res = [];
     skills.records.map(record => {
@@ -30,7 +35,7 @@ async function getSkills() {
 }
 
 async function getCourses() {
-    var query = `MATCH (s:Student) -[:COMPLETED]-> (c) WHERE ID(s) = 3129 RETURN c`;
+    var query = `MATCH (s:Student) -[:COMPLETED]-> (c) WHERE ID(s) = ${req.user.id} RETURN c`;
     var courses = await queryNeo4j(query);
     var res = [];
     courses.records.map(record => {
@@ -40,7 +45,7 @@ async function getCourses() {
 }
 
 async function getProjects() {
-    var query = `MATCH (s:Student)-[:HAS_DONE]-> (p) WHERE ID(s) = 3129 RETURN p`;
+    var query = `MATCH (s:Student)-[:HAS_DONE]-> (p) WHERE ID(s) = ${req.user.id} RETURN p`;
     var projects = await queryNeo4j(query);
     var res = [];
     projects.records.map(record => {
@@ -50,7 +55,7 @@ async function getProjects() {
 }
 
 async function getAchievements() {
-    var query = `MATCH (s:Student) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = 3129 RETURN a`;
+    var query = `MATCH (s:Student) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = ${req.user.id} RETURN a`;
     var achievements = await queryNeo4j(query);
     var res = achievements.records.map(record => {
         return {
@@ -61,7 +66,7 @@ async function getAchievements() {
 }
 
 async function getResearchPapers() {
-    var query = `MATCH (s:Student)-[:PUBLISHED]-> (r) WHERE ID(s) = 3129 RETURN r`;
+    var query = `MATCH (s:Student)-[:PUBLISHED]-> (r) WHERE ID(s) = ${req.user.id} RETURN r`;
     var researchPapers = await queryNeo4j(query);
     var res = researchPapers.records.map(record => {
         return {
@@ -72,7 +77,7 @@ async function getResearchPapers() {
 }
 
 async function getInterests() {
-    var query = `MATCH (s:Student) -[:INTERESTED_IN]-> (i) WHERE ID(s) = 3129 RETURN i`;
+    var query = `MATCH (s:Student) -[:INTERESTED_IN]-> (i) WHERE ID(s) = ${req.user.id} RETURN i`;
     var interests = await queryNeo4j(query);
     var res = [];
     interests.records.map(record => {
@@ -82,7 +87,7 @@ async function getInterests() {
 }
 
 async function getClubs() {
-    var query = `MATCH (s:Student) -[p:PART_OF]-> (c) WHERE ID(s) = 3129 RETURN c, p`;
+    var query = `MATCH (s:Student) -[p:PART_OF]-> (c) WHERE ID(s) = ${req.user.id} RETURN c, p`;
     var clubs = await queryNeo4j(query);
     var res = [];
     res = clubs.records.map(record => {
@@ -95,7 +100,7 @@ async function getClubs() {
 }
 
 async function getLanguages() {
-    var query = `MATCH (s:Student) -[:SPEAKS]-> (l) WHERE ID(s) = 3129 RETURN l`;
+    var query = `MATCH (s:Student) -[:SPEAKS]-> (l) WHERE ID(s) = ${req.user.id} RETURN l`;
     var languages = await queryNeo4j(query);
     var res = [];
     languages.records.map(record => {
@@ -105,7 +110,7 @@ async function getLanguages() {
 }
 
 async function getCompanies() {
-    var query = `MATCH (s:Student) -[w:WORKED_IN]-> (c) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) -[w:WORKED_IN]-> (c) WHERE ID(s) = ${req.user.id} `;
     query += `WITH s, w, c MATCH (c) -[:LOCATED_IN]-> (l) RETURN s, c, w, l`
     var companies = await queryNeo4j(query);
     var res = [];
@@ -122,7 +127,7 @@ async function getCompanies() {
 //POST queries
 
 async function addInstitutes(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(institute => {
         query += `MERGE (i:Institute { name : ${institute.name}, degree : ${institute.degree} } ) MERGE (s) - [:STUDIED_IN { startDate : ${institute.startDate}, endDate : ${institute.endDate}, score : ${institute.score} }] -> (i) `
         query += `MERGE (l:Location { latitude : ${institute.latitude}, longitude : ${institute.longitude}, city : ${institute.city}, state : ${institute.state}, country : ${institute.country}, address : ${institute.address}, postalCode : ${institute.postalCode}}) MERGE (i) - [:LOCATED_IN] -> (l); `
@@ -131,7 +136,7 @@ async function addInstitutes(data) {
 }
 
 async function addSkills(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(skill => {
         query += `MERGE (sk:Skill { name : ${skill}}) MERGE (s) - [:HAS] -> (sk); `
     })
@@ -139,23 +144,25 @@ async function addSkills(data) {
 }
 
 async function addCourses(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(course => {
         query += `MERGE (c:Course { name : ${course}}) MERGE (s) - [:COMPLETED] -> (c); `
     })
     var res = await queryNeo4j(query);
 }
 
-async function addProjects(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
-    data.map(project => {
-        query += `MERGE (p:Project { name : ${project.name}, description : ${project.description}}) MERGE (s) - [:HAS_DONE] -> (p); `
+async function addProjects(req) {
+    console.log('inside addproject', req.user);
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
+
+    req.body.map(project => {
+        query += `MERGE (p:Project { name : "${project.projectName}", description : "${project.description}"}) MERGE (s) - [:HAS_DONE] -> (p); `
     })
     var res = await queryNeo4j(query);
 }
 
 async function addAchievements(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(achievement => {
         query += `MERGE (a:Achievement { title : ${achievement.title}, description : ${achievement.description}}) MERGE (s) - [:HAS_ACHIEVED] -> (a); `
     })
@@ -163,7 +170,7 @@ async function addAchievements(data) {
 }
 
 async function addResearchPapers(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(researchPaper => {
         query += `MERGE (r:ResearchPaper { title : ${researchPaper.title}, description : ${researchPaper.description}}) MERGE (s) - [:PUBLISHED] -> (r); `
     })
@@ -171,7 +178,7 @@ async function addResearchPapers(data) {
 }
 
 async function addInterests(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(interest => {
         query += `MERGE (i:Interest { name : ${interest}}) MERGE (s) - [:INTERESTED_IN] -> (i); `
     })
@@ -179,7 +186,7 @@ async function addInterests(data) {
 }
 
 async function addClubs(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(club => {
         query += `MERGE (c:Club { name : ${club.name}}) MERGE (s) - [:PART_OF {startDate : ${club.startDate}, endDate : ${club.endDate}, position : ${club.position}}] -> (c); `
     })
@@ -187,7 +194,7 @@ async function addClubs(data) {
 }
 
 async function addLanguages(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(language => {
         query += `MERGE (l:Language { name : ${language}}) MERGE (s) - [:SPEAKS] -> (l); `
     })
@@ -195,7 +202,7 @@ async function addLanguages(data) {
 }
 
 async function addCompanies(data) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 3129 `;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     data.map(company => {
         query += `MERGE (c:Company { name : ${company.name}, field : ${company.field}, website : ${company.website}}) MERGE (s) - [:WORKED_IN { startDate : ${company.startDate} , endDate : ${company.endDate}, position : ${company.position} }] -> (c) `;
         query += `MERGE (l:Location { latitude : ${company.latitude}, longitude : ${company.longitude}, city : ${company.city}, state : ${company.state}, country : ${company.country}, address : ${company.address}, postalCode : ${company.postalCode}}) CREATE (c) - [:LOCATED_IN] -> (l); `

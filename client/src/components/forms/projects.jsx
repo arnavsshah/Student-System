@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const data = []
-export default function Project() {
+export default function Project(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
   const history = useHistory();
@@ -53,11 +53,13 @@ export default function Project() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/projects',
+        withCredentials: true,
         data: data,
     })
     .then(() => {
-      // console.log('done');
-      history.replace('/profile');
+      // console.log('done', res.user);
+      // window.location.reload();
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);

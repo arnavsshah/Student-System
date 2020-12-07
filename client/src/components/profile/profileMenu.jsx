@@ -180,77 +180,77 @@ export default function CustomizedMenus() {
         <StyledMenuItem onClick={handlePopup} id='school'>
           <ListItemText primary="School Information" />
           <PopUp openPopup={state.school} handleClosePopUp={handleClosePopUp}>
-            <SchoolForm />
+            <SchoolForm handleClosePopUp={handleClosePopUp} />
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='jrCollege'>
           <ListItemText primary="Junior College Information" />
           <PopUp openPopup={state.jrCollege} handleClosePopUp={handleClosePopUp}>
-            <JuniorCollegeForm />
+            <JuniorCollegeForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='achievements'>
           <ListItemText primary="Achievements" />
           <PopUp openPopup={state.achievements} handleClosePopUp={handleClosePopUp}>
-            <AchievementForm />
+            <AchievementForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='skills'>
           <ListItemText primary="Skills" />
           <PopUp openPopup={state.skills} handleClosePopUp={handleClosePopUp}>
-            <SkillForm />
+            <SkillForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='interests'>
           <ListItemText primary="Interests" />
           <PopUp openPopup={state.interests} handleClosePopUp={handleClosePopUp}>
-            <InterestForm />
+            <InterestForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='courses'>
           <ListItemText primary="Courses" />
           <PopUp openPopup={state.courses} handleClosePopUp={handleClosePopUp}>
-            <CouresForm/>
+            <CouresForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='languages'>
           <ListItemText primary="Languages" />
           <PopUp openPopup={state.languages} handleClosePopUp={handleClosePopUp}>
-            <LanguageForm/>
+            <LanguageForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='projects'>
           <ListItemText primary="Projects" />
           <PopUp openPopup={state.projects} handleClosePopUp={handleClosePopUp}>
-            <ProjectForm/>
+            <ProjectForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='clubs'>
           <ListItemText primary="Clubs" />
           <PopUp openPopup={state.clubs} handleClosePopUp={handleClosePopUp}>
-            <ClubForm/>
+            <ClubForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='researchPapers'>
           <ListItemText primary="ResearchPaper" />
           <PopUp openPopup={state.researchPapers} handleClosePopUp={handleClosePopUp}>
-            <ResearchPaperForm/>
+            <ResearchPaperForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 
         <StyledMenuItem onClick={handlePopup} id='companies'>
           <ListItemText primary="Companies" />
           <PopUp openPopup={state.companies} handleClosePopUp={handleClosePopUp}>
-            <CompanyForm/>
+            <CompanyForm handleClosePopUp={handleClosePopUp}/>
           </PopUp>
         </StyledMenuItem>
 

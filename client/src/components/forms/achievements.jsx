@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const data = []
-export default function Achievement() {
+export default function Achievement(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
   const history = useHistory();
@@ -53,11 +53,13 @@ export default function Achievement() {
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/achievements',
+        withCredentials: true,
         data: data,
     })
     .then(() => {
       // console.log('done');
-      history.replace('/profile');
+      // history.replace('/profile');
+      props.handleClosePopUp();
     })
     .catch(err => {
         console.error(err);
