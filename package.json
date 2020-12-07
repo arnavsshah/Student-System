@@ -11,7 +11,8 @@
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "create_library": "cd database/create_database && node create_library_db.js",
         "create_students": "cd database/create_database && node create_student_db.js",
-        "create_teachers": "cd database/create_database && node create_teacher_db.js"
+        "create_teachers": "cd database/create_database && node create_teacher_db.js",
+        "create_hostel": "cd database/create_database && node create_hostel_db.js"
     },
     "repository": {
         "type": "git",
