@@ -289,24 +289,24 @@ async function create_db(file_name) {
 
 
     //library
-    // var books_names = [];
-    // obj.books_read.map(book => {
-    //     books_names.push(book.title);
-    // })
+    var books_names = [];
+    obj.books_read.map(book => {
+        books_names.push(book.title);
+    })
 
-    // var author_names_set = new Set();
-    // obj.books_read.map(book => {
-    //     author_names_set.add(book.title);
-    // })
-    // var author_names = [...author_names_set];
+    var author_names_set = new Set();
+    obj.books_read.map(book => {
+        author_names_set.add(book.title);
+    })
+    var author_names = [...author_names_set];
 
-    // var category_names_set = new Set();
-    // obj.books_read.map(book => {
-    //     book.cateogry.map(cateogry => {
-    //         category_names_set.add(cateogry);
-    //     });
-    // })
-    // var category_names = [...category_names_set];
+    var category_names_set = new Set();
+    obj.books_read.map(book => {
+        book.category.map(cateogry_name => {
+            category_names_set.add(cateogry_name);
+        });
+    })
+    var category_names = [...category_names_set];
 
 
 
@@ -434,29 +434,29 @@ async function create_db(file_name) {
             var companyLocatedInLocation = await txc.run('MATCH (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (l:Location { latitude : $companyLocation_latitude, longitude : $companyLocation_longitude, address : $companyLocation_address}) MERGE (c) - [:LOCATED_IN] -> (l);', companyLocatedInLocationData)
         }
 
-        // books_names.map(async name => {
-        //     var booksReadData = {
-        //         ...studentData,
-        //         name: name,
-        //     }
-        //     var booksRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (b:Book {name : $name}) MERGE (s) -[:READ]-> (b);', booksReadData);
-        // })
+        books_names.map(async name => {
+            var booksReadData = {
+                ...studentData,
+                name: name,
+            }
+            var booksRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (b:Book {name : $name}) MERGE (s) -[:READ]-> (b);', booksReadData);
+        })
 
-        // author_names.map(async name => {
-        //     var authorReadData = {
-        //         ...studentData,
-        //         name: name,
-        //     }
-        //     var authorRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (a:Author {name : $name}) MERGE (s) -[:AUTHOR_READ]-> (a);', authorReadData);
-        // })
+        author_names.map(async name => {
+            var authorReadData = {
+                ...studentData,
+                name: name,
+            }
+            var authorRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (a:Author {name : $name}) MERGE (s) -[:AUTHOR_READ]-> (a);', authorReadData);
+        })
 
-        // category_names.map(async name => {
-        //     var categoryReadData = {
-        //         ...studentData,
-        //         name: name,
-        //     }
-        //     var categoryRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (c:Category {name : $name}) MERGE (s) -[:INTERESTED_IN_CATEGORY]-> (c);', category_names);
-        // })
+        category_names.map(async name => {
+            var categoryReadData = {
+                ...studentData,
+                name: name,
+            }
+            var categoryRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (c:Category {name : $name}) MERGE (s) -[:INTERESTED_IN_CATEGORY]-> (c);', categoryReadData);
+        })
     });
     session.close();
 }
