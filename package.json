@@ -9,6 +9,7 @@
         "server": "nodemon server.js",
         "client": "cd client && npm start",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "create_library": "cd database/create_database && node create_library_db.js",
         "create_students": "cd database/create_database && node create_student_db.js",
         "create_teachers": "cd database/create_database && node create_teacher_db.js"
     },
@@ -41,6 +42,7 @@
         "line-reader": "^0.4.0",
         "lineReader": "^0.1.2",
         "material-ui-popup-state": "^1.7.0",
+        "n-readlines": "^1.0.1",
         "neo4j-driver": "^4.1.2",
         "nodemon": "^2.0.6",
         "passport": "^0.4.1",

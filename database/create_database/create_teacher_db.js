@@ -63,7 +63,6 @@ async function create_db(file_name) {
     };
 
     var teacherLocation = {
-        // id : "",
         teacherLocation_latitude: obj.latitude,
         teacherLocation_longitude: obj.longitude,
         teacherLocation_address: obj.fake_address,
@@ -77,10 +76,7 @@ async function create_db(file_name) {
     //institutes
     var institutes = obj.experiences.education.map(institute => {
         return {
-            // id:,
             institute_name: institute.name,
-            institute_website: '',
-            institute_phone: faker.phone.phoneNumber('9########'),
             institute_degree: institute.degree === null ? '' : institute.degree,
         }
     });
@@ -89,7 +85,6 @@ async function create_db(file_name) {
     var instituteLocations = obj.experiences.education.map(institute => {
 
         let instituteLocation = {
-            // id : "",
             instituteLocation_latitude: institute.latitude,
             instituteLocation_longitude: institute.longitude,
             instituteLocation_address: institute.fake_address,
@@ -105,7 +100,6 @@ async function create_db(file_name) {
     //subjects_taught
     var subjects_taught = obj.subjects_teaching.map(subject => {
         return {
-            // id:,
             subject_name: subject,
         }
     });
@@ -113,7 +107,6 @@ async function create_db(file_name) {
     //skills
     var skills = obj.skills.map(skill => {
         return {
-            // id:,
             skill_name: skill.name
         }
     })
@@ -121,7 +114,6 @@ async function create_db(file_name) {
     //courses
     var courses = obj.accomplishments.courses.map(course => {
         return {
-            // id:,
             course_name: course,
         }
     });
@@ -129,7 +121,6 @@ async function create_db(file_name) {
     //interests
     var interests = obj.interests.map(interest => {
         return {
-            // id:,
             interest_name: interest,
         }
     });
@@ -137,7 +128,6 @@ async function create_db(file_name) {
     //projects
     var projects = obj.accomplishments.projects.map(project => {
         return {
-            // id:,
             project_name: project,
             project_description: ''
         }
@@ -146,7 +136,6 @@ async function create_db(file_name) {
     //languages
     var languages = obj.accomplishments.languages.map(language => {
         return {
-            // id:,
             language_name: language,
         }
     });
@@ -154,7 +143,6 @@ async function create_db(file_name) {
     //Achievements
     var achievements = obj.accomplishments.honors.map(honor => {
         return {
-            // id:,
             achievement_title: honor,
             achievement_description: '',
         }
@@ -164,17 +152,14 @@ async function create_db(file_name) {
     //ResearchPapers
     var researchPapers = obj.accomplishments.publications.map(publication => {
         return {
-            // id:,
             researchPaper_title: publication,
             researchPaper_description: '',
-            //citations:,
         }
     });
 
     //Companies
     var companies = obj.experiences.jobs.map(job => {
         return {
-            // id : "",
             company_name: job.company.split("\n")[0],
             company_field: job.description === null ? '' : job.description,
             company_website: job.li_company_url === null ? '' : job.li_company_url,
@@ -185,7 +170,6 @@ async function create_db(file_name) {
     var companyLocations = obj.experiences.jobs.map(job => {
 
         let companyLocation = {
-            // id : "",
             companyLocation_latitude: job.latitude,
             companyLocation_longitude: job.longitude,
             companyLocation_address: job.fake_address,
@@ -248,7 +232,7 @@ async function create_db(file_name) {
                 ...relStudiedIn[j]
             }
 
-            var teacherStudiedInInstitute = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree } ) MERGE (t) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', teacherStudiedInInstituteData);
+            var teacherStudiedInInstitute = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (i:Institute { name : $institute_name, degree : $institute_degree } ) MERGE (t) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', teacherStudiedInInstituteData);
         };
 
         for (var j = 0; j < institutes.length; j++) {
@@ -256,7 +240,7 @@ async function create_db(file_name) {
                 ...institutes[j],
                 ...instituteLocations[j],
             };
-            var instituteLocatedInLocation = await txc.run('MATCH (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree }) MERGE (l:Location { latitude : $instituteLocation_latitude, longitude : $instituteLocation_longitude, address : $instituteLocation_address}) MERGE (i) - [:LOCATED_IN] -> (l);', instituteLocatedInLocationData)
+            var instituteLocatedInLocation = await txc.run('MATCH (i:Institute { name : $institute_name, degree : $institute_degree }) MERGE (l:Location { latitude : $instituteLocation_latitude, longitude : $instituteLocation_longitude, address : $instituteLocation_address}) MERGE (i) - [:LOCATED_IN] -> (l);', instituteLocatedInLocationData)
         }
 
         subjects_taught.map(async subject => {
@@ -304,7 +288,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...achievement,
             };
-            var teacherHasAchievedAchievement = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (t) - [:HAS_ACHIVED] -> (r);', teacherHasAchievedAchievementData)
+            var teacherHasAchievedAchievement = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (t) - [:HAS_ACHIEVED] -> (r);', teacherHasAchievedAchievementData)
         });
 
         researchPapers.map(async researchPaper => {

@@ -27,6 +27,7 @@ router.get('/', async(req, res) => {
     // router.use('/register', require("./register"));
 router.use("/users", require("./users"));
 router.use("/search", require("./search"));
-
+router.use("/profile", require("./profile"));
+router.use("/library", require("./library"));
 
 module.exports = router;

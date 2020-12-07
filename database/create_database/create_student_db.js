@@ -67,7 +67,6 @@ async function create_db(file_name) {
     hashed_password = await bcrypt.hash(password, 10);
 
     var studentData = {
-        //  id : ,
         studentData_name: obj.personal_info.name,
         studentData_age: age,
         studentData_email: obj.personal_info.name.split(" ")[0].toLowerCase() + '_' + obj.personal_info.name.split(" ")[1].toLowerCase() + domainName[Math.floor(Math.random() * domainName.length)],
@@ -80,27 +79,20 @@ async function create_db(file_name) {
         studentData_isAlumni: Object.keys(obj.current_courses).length === 0,
     };
 
-    // var address = obj.fake_address.split(', ');
     var studentLocation = {
-        // id : "",
         studentLocation_latitude: obj.latitude,
         studentLocation_longitude: obj.longitude,
         studentLocation_address: obj.fake_address,
-        // studentLocation_district: address[1],
-        // studentLocation_city: address[0],
-        // studentLocation_postalCode: !NaN(address[3]) ? address[3] : '',
-        // studentLocation_state: address[2],
-        // studentLocation_country: address[address.length]
+        // studentLocation_city: ,
+        // studentLocation_postalCode: ,
+        // studentLocation_state: ,
+        // studentLocation_country: 
     };
-
 
     //institutes
     var institutes = obj.experiences.education.map(institute => {
         return {
-            // id:,
             institute_name: institute.name,
-            institute_website: '',
-            institute_phone: faker.phone.phoneNumber('9########'),
             institute_degree: institute.degree === null ? '' : institute.degree,
         }
     });
@@ -109,15 +101,14 @@ async function create_db(file_name) {
     var instituteLocations = obj.experiences.education.map(institute => {
 
         let instituteLocation = {
-            // id : "",
             instituteLocation_latitude: institute.latitude,
             instituteLocation_longitude: institute.longitude,
             instituteLocation_address: institute.fake_address,
-            // instituteLocation_district: '',
-            // instituteLocation_postalCode: '',
-            // instituteLocation_city: '',
-            // instituteLocation_state: '',
-            // instituteLocation_country: ''
+            // instituteLocation_district:,
+            // instituteLocation_postalCode:,
+            // instituteLocation_city:,
+            // instituteLocation_state:,
+            // instituteLocation_country:
         };
         return instituteLocation;
     });
@@ -149,7 +140,6 @@ async function create_db(file_name) {
     //skills
     var skills = obj.skills.map(skill => {
         return {
-            // id:,
             skill_name: skill.name
         }
     })
@@ -157,7 +147,6 @@ async function create_db(file_name) {
     //courses
     var courses = obj.accomplishments.courses.map(course => {
         return {
-            // id:,
             course_name: course,
         }
     });
@@ -165,7 +154,6 @@ async function create_db(file_name) {
     //interests
     var interests = obj.interests.map(interest => {
         return {
-            // id:,
             interest_name: interest,
         }
     });
@@ -173,13 +161,11 @@ async function create_db(file_name) {
     //clubs -in volunteering and organization
     var clubs1 = obj.experiences.volunteering.map(volunteer => {
         return {
-            // id:,
             club_name: volunteer.company,
         }
     });
     var clubs2 = obj.accomplishments.organizations.map(organization => {
         return {
-            // id:,
             club_name: organization,
         }
     });
@@ -188,7 +174,6 @@ async function create_db(file_name) {
     //projects
     var projects = obj.accomplishments.projects.map(project => {
         return {
-            // id:,
             project_name: project,
             project_description: ''
         }
@@ -197,7 +182,6 @@ async function create_db(file_name) {
     //languages
     var languages = obj.accomplishments.languages.map(language => {
         return {
-            // id:,
             language_name: language,
         }
     });
@@ -205,27 +189,22 @@ async function create_db(file_name) {
     //Achievements
     var achievements = obj.accomplishments.honors.map(honor => {
         return {
-            // id:,
             achievement_title: honor,
             achievement_description: '',
         }
     });
 
-
     //ResearchPapers
     var researchPapers = obj.accomplishments.publications.map(publication => {
         return {
-            // id:,
             researchPaper_title: publication,
             researchPaper_description: '',
-            //citations:,
         }
     });
 
     //Companies
     var companies = obj.experiences.jobs.map(job => {
         return {
-            // id : "",
             company_name: job.company.split("\n")[0],
             company_field: job.description === null ? '' : job.description,
             company_website: job.li_company_url === null ? '' : job.li_company_url,
@@ -236,15 +215,14 @@ async function create_db(file_name) {
     var companyLocations = obj.experiences.jobs.map(job => {
 
         let companyLocation = {
-            // id : "",
             companyLocation_latitude: job.latitude,
             companyLocation_longitude: job.longitude,
             companyLocation_address: job.fake_address,
-            // companyLocation_district: '',
-            // companyLocation_postalCode: '',
-            // companyLocation_city: '',
-            // companyLocation_state: '',
-            // companyLocation_country: ''
+            // companyLocation_district:,
+            // companyLocation_postalCode:,
+            // companyLocation_city:,
+            // companyLocation_state:,
+            // companyLocation_country:
         };
         return companyLocation;
     });
@@ -310,6 +288,28 @@ async function create_db(file_name) {
     });
 
 
+    //library
+    var books_names = [];
+    obj.books_read.map(book => {
+        books_names.push(book.title);
+    })
+
+    var author_names_set = new Set();
+    obj.books_read.map(book => {
+        author_names_set.add(book.title);
+    })
+    var author_names = [...author_names_set];
+
+    var category_names_set = new Set();
+    obj.books_read.map(book => {
+        book.category.map(cateogry_name => {
+            category_names_set.add(cateogry_name);
+        });
+    })
+    var category_names = [...category_names_set];
+
+
+
     var writeTxResultPromise = await session.writeTransaction(async txc => {
 
         var studentLivesInLocationData = {
@@ -325,7 +325,7 @@ async function create_db(file_name) {
                 ...relStudiedIn[j]
             }
 
-            var studentStudiedInInstitute = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) MERGE (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree } ) MERGE (s) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', studentStudiedInInstituteData);
+            var studentStudiedInInstitute = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) MERGE (i:Institute { name : $institute_name, degree : $institute_degree } ) MERGE (s) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', studentStudiedInInstituteData);
         };
 
         for (var j = 0; j < institutes.length; j++) {
@@ -333,7 +333,7 @@ async function create_db(file_name) {
                 ...institutes[j],
                 ...instituteLocations[j],
             };
-            var instituteLocatedInLocation = await txc.run('MATCH (i:Institute { name : $institute_name, website : $institute_website, phone : $institute_phone, degree : $institute_degree }) MERGE (l:Location { latitude : $instituteLocation_latitude, longitude : $instituteLocation_longitude, address : $instituteLocation_address}) MERGE (i) - [:LOCATED_IN] -> (l);', instituteLocatedInLocationData)
+            var instituteLocatedInLocation = await txc.run('MATCH (i:Institute { name : $institute_name, degree : $institute_degree }) MERGE (l:Location { latitude : $instituteLocation_latitude, longitude : $instituteLocation_longitude, address : $instituteLocation_address}) MERGE (i) - [:LOCATED_IN] -> (l);', instituteLocatedInLocationData)
         }
 
         completedSubjects.map(async completedSubject => {
@@ -389,7 +389,7 @@ async function create_db(file_name) {
                 ...studentData,
                 ...achievement,
             };
-            var studentHasAchievedAchievement = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (s) - [:HAS_ACHIVED] -> (r);', studentHasAchievedAchievementData)
+            var studentHasAchievedAchievement = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (s) - [:HAS_ACHIEVED] -> (r);', studentHasAchievedAchievementData)
         });
 
         researchPapers.map(async researchPaper => {
@@ -433,6 +433,30 @@ async function create_db(file_name) {
             };
             var companyLocatedInLocation = await txc.run('MATCH (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (l:Location { latitude : $companyLocation_latitude, longitude : $companyLocation_longitude, address : $companyLocation_address}) MERGE (c) - [:LOCATED_IN] -> (l);', companyLocatedInLocationData)
         }
+
+        books_names.map(async name => {
+            var booksReadData = {
+                ...studentData,
+                name: name,
+            }
+            var booksRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (b:Book {name : $name}) MERGE (s) -[:READ]-> (b);', booksReadData);
+        })
+
+        author_names.map(async name => {
+            var authorReadData = {
+                ...studentData,
+                name: name,
+            }
+            var authorRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (a:Author {name : $name}) MERGE (s) -[:AUTHOR_READ]-> (a);', authorReadData);
+        })
+
+        category_names.map(async name => {
+            var categoryReadData = {
+                ...studentData,
+                name: name,
+            }
+            var categoryRead = await txc.run('MATCH (s:Student { name : $studentData_name, age : $studentData_age, email : $studentData_email, password : $studentData_password, phone : $studentData_phone, currentlyStudying : $studentData_currentlyStudying, department : $studentData_department, semester : $studentData_semester, isAlumni : $studentData_isAlumni, class : $studentData_class}) WITH s MATCH (c:Category {name : $name}) MERGE (s) -[:INTERESTED_IN_CATEGORY]-> (c);', categoryReadData);
+        })
     });
     session.close();
 }

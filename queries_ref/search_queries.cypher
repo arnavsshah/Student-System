@@ -57,7 +57,7 @@ WITH COLLECT(ID(s)) + res AS res, s_filter
 
 // Achievements --tags
 
-OPTIONAL MATCH (s:Student)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS "" AND ID(s) IN s_filter
+OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS "" AND ID(s) IN s_filter
 WITH COLLECT(ID(s)) + res AS res, s_filter
 
 // ResearchPaper --tags
@@ -119,7 +119,7 @@ WITH COLLECT(ID(t)) + res AS res, t_filter
 
 // Achievements --tags
 
-OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS "" AND ID(t) IN t_filter
+OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS "" AND ID(t) IN t_filter
 WITH COLLECT(ID(t)) + res AS res, t_filter
 
 // ResearchPaper --tags
@@ -181,7 +181,7 @@ UNION
 
 // Achievements --tags
 
-OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a:Achievement)<-[:HAS_ACHIVED]-(s2:Student) WHERE ID(s1) = {}
+OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = {}
 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC 
 UNION 
 
@@ -232,8 +232,8 @@ RETURN p2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Achievements --tags
 
-OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a1:Achievement)<-[:HAS_ACHIVED]-(s2:Student)-[:HAS_ACHIVED]->(a2:Achievement)
-WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_ACHIVED]->(a2))
+OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement)
+WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2))
 RETURN a2.name, COUNT(s2) AS count ORDER BY count DESC;
 
 // Clubs

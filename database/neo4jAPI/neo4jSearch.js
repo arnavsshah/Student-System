@@ -13,16 +13,16 @@ async function studentSearch(data) {
     if (data.myClass === 'true' || (data.department && data.semester)) {
         isQuery = true;
         student_filter = true;
-        query += `OPTIONAL MATCH (s:Student) WHERE s.class = '${}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
+        query += `OPTIONAL MATCH (s:Student) WHERE s.class = '3129' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     } else {
         if (data.department) {
             isQuery = true;
             student_filter = true;
-            query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
+            query += `OPTIONAL MATCH (s:Student) WHERE s.department = '3129' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
         } else if (data.semester) {
             isQuery = true;
             student_filter = true;
-            query += `OPTIONAL MATCH (s:Student) WHERE s.semester = '${}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter  `
+            query += `OPTIONAL MATCH (s:Student) WHERE s.semester = '3129' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter  `
         }
     }
 
@@ -46,7 +46,7 @@ async function studentSearch(data) {
         });
 
         data.achievements.forEach(achievement => {
-            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS '${achievement}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS '${achievement}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.researchPapers.forEach(researchPaper => {
@@ -95,7 +95,7 @@ async function studentSearch(data) {
 
         data.achievements.forEach(achievement => {
             isQuery = true;
-            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} WITH COLLECT(ID(s)) + res AS res `
+            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} WITH COLLECT(ID(s)) + res AS res `
         });
 
         data.researchPapers.forEach(researchPaper => {
@@ -161,7 +161,7 @@ async function teacherSearch(data) {
         });
 
         data.achievements.forEach(achievement => {
-            query += `OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} AND ID(t) IN t_filter WITH COLLECT(ID(t)) + res AS res, t_filter `
+            query += `OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} AND ID(t) IN t_filter WITH COLLECT(ID(t)) + res AS res, t_filter `
         });
 
         data.researchPapers.forEach(researchPaper => {
@@ -207,7 +207,7 @@ async function teacherSearch(data) {
 
         data.achievements.forEach(achievement => {
             isQuery = true;
-            query += `OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} WITH COLLECT(ID(t)) + res AS res `
+            query += `OPTIONAL MATCH (t:Teacher)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} WITH COLLECT(ID(t)) + res AS res `
         });
 
         data.researchPapers.forEach(researchPaper => {
@@ -274,7 +274,7 @@ async function alumniSearch(data) {
 
     data.achievements.forEach(achievement => {
         isQuery = true;
-        query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+        query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS ${achievement} AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
     });
 
     data.researchPapers.forEach(researchPaper => {
@@ -313,49 +313,49 @@ async function similarStudentSuggestion(data) {
 
     if (data.isSkill) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `
     }
 
     if (data.isCourse) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isProject) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isClub) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isAchievement) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a:Achievement)<-[:HAS_ACHIVED]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isLanguage) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isInterest) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(l:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(l:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isCompany) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = 3129 RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
@@ -404,22 +404,22 @@ async function studentAttributeSuggestion(data) {
     var session = driver.session();
     var res = {};
     var readTxResultPromise = await session.readTransaction(async txc => {
-        var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2.name, COUNT(s2) AS count ORDER BY count DESC;`;
+        var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2.name, COUNT(s2) AS count ORDER BY count DESC;`;
         var skillSuggestion = await txc.run(queryForSkill);
 
-        var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
         var courseSuggestion = await txc.run(queryForCourse);
 
-        var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2.name, COUNT(s2) AS count ORDER BY count DESC;`
         var projectSuggestion = await txc.run(queryForProject);
 
-        var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIVED]->(a1:Achievement)<-[:HAS_ACHIVED]-(s2:Student)-[:HAS_ACHIVED]->(a2:Achievement) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:HAS_ACHIVED]->(a2)) RETURN a2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2.name, COUNT(s2) AS count ORDER BY count DESC;`
         var achievementSuggestion = await txc.run(queryForAchievement);
 
-        var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
         var clubSuggestion = await txc.run(queryForClub);
 
-        var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = 3129 NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
         var companySuggestion = await txc.run(queryForCompany);
 
         res = {
