@@ -270,18 +270,7 @@ CREATE (r:ResearchPaper) - [:WITH] -> (t:Teacher)
 CREATE (r:ResearchPaper) - [:ABOUT] -> (t:Topic)
 //ResearchPaper end
 
-//HostelRoom
-CREATE (h:HostelRoom 
-    { id : "",
-      block : "",
-      roomNo : "",
-      capacity : "",
-      occupancy : ""
-      }
-    )
 
-CREATE (h:HostelRoom) - [:LOCATED_IN] -> (l:Location)
-//HostelRoom end 
 
 CREATE (n:Notice 
     { id : "",
@@ -325,6 +314,25 @@ CREATE (a:Achievement
 
 CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 //Achievement end
+
+
+//Hostel
+CREATE (h:Hostel) {
+  name : ""
+}
+
+CREATE (b:Block) {
+  number : 
+}
+
+CREATE (f:Floor) {
+  number : 
+}
+
+CREATE (r:Room) {
+  number : ,
+  capacity : 
+}
 
 
 //queries template

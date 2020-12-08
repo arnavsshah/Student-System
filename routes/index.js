@@ -29,5 +29,6 @@ router.use("/users", require("./users"));
 router.use("/search", require("./search"));
 router.use("/profile", require("./profile"));
 router.use("/library", require("./library"));
+router.use("/hostel", require("./hostel"));
 
 module.exports = router;

@@ -39,4 +39,7 @@
 - for adding teachers to the database
 `npm run create_teachers`
 
+- for adding hostel data to the database
+`npm run create_hostel`
+
 -run the commands in given order(it may take a few minutes)
