@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import MyMenu from "../components/profile/profileMenu";
 import ProfileMap from "../components/mapbox/profileMap"
 import { Container, Divider,Link } from "@material-ui/core";
-import Axios from "axios";
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: "1rem",
@@ -25,10 +25,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const classes = useStyles();
+  const [flag, setFlag] = useState(false);
   const [p, setP] = useState(
     {
       name: 'Arnav Shah',
-      content: `Lorem Ipsum is simply dummy text of the printing and typesettingindustry. 
+      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
       Lorem Ipsum has been the industry's standard dummy text
       ever since the 1500s, when an unknown printer took a galley of type
       and scrambled it to make a type specimen book. It has survived not
@@ -38,16 +39,16 @@ export default function Profile() {
       and more recently with desktop publishing software like Aldus
       PageMaker including versions of Lorem Ipsum.`,
       projects: [
-        { name: 'AA', description: 'aaa' },
-        { name: 'BB', description: 'bbb' }
+        // { name: 'AA', description: 'aaa' },
+        // { name: 'BB', description: 'bbb' }
       ],
       achievements: [
-        { title: 'YY', description: 'yyy' },
-        { title: 'ZZ', description: 'zzz' },
+        // { title: 'YY', description: 'yyy' },
+        // { title: 'ZZ', description: 'zzz' },
       ],
       skills: [
-        { name: 'q' },
-        { name: 'qq' },
+        // { name: 'q' },
+        // { name: 'qq' },
       ],
       institutes: [
   
@@ -68,17 +69,22 @@ export default function Profile() {
   
       ],
       companies: [
-        { name: "Google", field: "Technical", website: 'https://www.google.com', startDate: '22/01/2020', endDate: '', position: "SE", address: 'US' }
+        // { name: "Google", field: "Technical", website: 'https://www.google.com', startDate: '22/01/2020', endDate: '', position: "SE", address: 'US' }
       ],
     }
   )
-  // useEffect(()=>
-  //   Axios.get("http://localhost:5000/profile")
-  //   .then((res)=>{
-  //     setP(res.data);
-  //     console.log(p);
-  //   })
-  // )
+  useEffect(()=>
+  axios({
+    method: 'get',
+    url: 'http://localhost:5000/profile/',
+    withCredentials: true,
+    })
+    .then((res)=>{
+      setP(res.data);
+  
+      console.log(res.data);
+    }),[flag]
+  )
   // const handleClick = (event) => {
 
   //   setAnchorEl(event.currentTarget);
@@ -99,7 +105,7 @@ export default function Profile() {
           // className={classes.large}
           />
           <Grid item xs={9}></Grid>
-          <MyMenu />
+          <MyMenu setFlag = {setFlag} flag = {flag}/>
         </CardActions>
 
         <CardContent>

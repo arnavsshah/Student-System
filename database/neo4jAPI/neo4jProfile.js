@@ -18,7 +18,7 @@ async function map() {
     return res;
 }
 
-async function getInstitutes() {
+async function getInstitutes(req) {
     var query = `MATCH (s:Student) -[st:STUDIED_IN]-> (i) WHERE ID(s) = ${req.user.id} RETURN st, i`;
     var institutes = await queryNeo4j(query);
     var res = institutes.records.map(record => {
@@ -30,7 +30,8 @@ async function getInstitutes() {
     return res;
 }
 
-async function getSkills() {
+async function getSkills(req) {
+    console.log("inside", req.user)
     var query = `MATCH (s:Student) -[:HAS]-> (sk) WHERE ID(s) = ${req.user.id} RETURN sk;`;
     var skills = await queryNeo4j(query);
     var res = skills.records.map(record => {
@@ -39,7 +40,7 @@ async function getSkills() {
     return res;
 }
 
-async function getCourses() {
+async function getCourses(req) {
     var query = `MATCH (s:Student) -[:COMPLETED]-> (c) WHERE ID(s) = ${req.user.id} RETURN c`;
     var courses = await queryNeo4j(query);
     var res = courses.records.map(record => {
@@ -48,7 +49,7 @@ async function getCourses() {
     return res;
 }
 
-async function getProjects() {
+async function getProjects(req) {
     var query = `MATCH (s:Student)-[:HAS_DONE]-> (p) WHERE ID(s) = ${req.user.id} RETURN p`;
     var projects = await queryNeo4j(query);
     var res = projects.records.map(record => {
@@ -57,7 +58,7 @@ async function getProjects() {
     return res;
 }
 
-async function getAchievements() {
+async function getAchievements(req) {
     var query = `MATCH (s:Student) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = ${req.user.id} RETURN a`;
     var achievements = await queryNeo4j(query);
     var res = achievements.records.map(record => {
@@ -129,9 +130,10 @@ async function addInstitutes(req) {
 }
 
 async function addSkills(req) {
+    console.log('inside skill', req.body)
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(skill => {
-        query += `MERGE (sk:Skill { name : "${skill}"}) MERGE (s) - [:HAS] -> (sk); `
+        query += `MERGE (sk:Skill { name : "${skill.name}"}) MERGE (s) - [:HAS] -> (sk); `
     })
     var res = await queryNeo4j(query);
 }
@@ -139,7 +141,7 @@ async function addSkills(req) {
 async function addCourses(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(course => {
-        query += `MERGE (c:Course { name : "${course}"}) MERGE (s) - [:COMPLETED] -> (c); `
+        query += `MERGE (c:Course { name : "${course.name}"}) MERGE (s) - [:COMPLETED] -> (c); `
     })
     var res = await queryNeo4j(query);
 }
@@ -172,7 +174,7 @@ async function addResearchPapers(req) {
 async function addInterests(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(interest => {
-        query += `MERGE (i:Interest { name : "${interest}"}) MERGE (s) - [:INTERESTED_IN] -> (i); `
+        query += `MERGE (i:Interest { name : "${interest.name}"}) MERGE (s) - [:INTERESTED_IN] -> (i); `
     })
     var res = await queryNeo4j(query);
 }
@@ -188,7 +190,7 @@ async function addClubs(req) {
 async function addLanguages(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(language => {
-        query += `MERGE (l:Language { name : "${language}"}) MERGE (s) - [:SPEAKS] -> (l); `
+        query += `MERGE (l:Language { name : "${language.name}"}) MERGE (s) - [:SPEAKS] -> (l); `
     })
     var res = await queryNeo4j(query);
 }

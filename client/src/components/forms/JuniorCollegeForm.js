@@ -69,7 +69,23 @@ export default function JuniorCollegeForm(props) {
     .then(() => {
       // console.log('done');
       // history.replace('/profile');
+      setValues(preValue => ({
+        ...preValue,
+        name: '',
+        score: '',
+        address: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: '',
+        degree: '',
+        startDate: '',
+        endDate: '',
+  
+      }))
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
     })
     .catch(err => {
         console.error(err);

@@ -75,7 +75,25 @@ export default function Company(props) {
         .then(() => {
           // console.log('done');
         //   history.replace('/profile');
+
+        setValues(preValue => ({
+            ...preValue,
+            name: '',
+            field: '',
+            website: '',
+            startDate: '',
+            endDate: '',
+            position: '',
+            companyAddress: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            country: ''
+        }))
+        data = [];
+        props.setFlag(!props.flag);
         props.handleClosePopUp();
+        props.setAnchorEl(null);
         })
         .catch(err => {
             console.error(err);

@@ -55,7 +55,14 @@ export default function Interest(props) {
     .then(() => {
       // console.log('done');
       // history.replace('/profile');
+      setValues(preValue => ({
+        ...preValue,
+        name: ''
+      }))
+      data = [];
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
     })
     .catch(err => {
         console.error(err);

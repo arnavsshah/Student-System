@@ -59,7 +59,15 @@ export default function Project(props) {
     .then(() => {
       // console.log('done', res.user);
       // window.location.reload();
+      setValues(preValue => ({
+        ...preValue,
+        name: '',
+        description: ''
+      }))
+      data = [];
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
     })
     .catch(err => {
         console.error(err);

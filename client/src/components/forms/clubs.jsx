@@ -62,7 +62,17 @@ export default function Club(props) {
     .then(() => {
       // console.log('done');
       // history.replace('/profile');
+      setValues(preValue => ({
+        ...preValue,
+        name: '',
+        startDate: '',
+        endDate: '',
+        position: ''
+    }))
+      data = [];
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
     })
     .catch(err => {
         console.error(err);
