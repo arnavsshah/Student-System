@@ -231,10 +231,11 @@ async function create_db(file_name) {
 
     //institute studied in
     var relStudiedIn = obj.experiences.education.map(studiedIn => {
+        let score = (Math.random() * (10 - 7) + 7).toFixed(2);
         let res = {
             relStudiedIn_startDate: '',
             relStudiedIn_endDate: '',
-            relStudiedIn_score: studiedIn.grades === null ? '' : studiedIn.grades,
+            relStudiedIn_score: studiedIn.grades === null ? '' : score,
         }
         if (studiedIn.date_range !== null) {
             let date = studiedIn.date_range.split(" \u2013 ");

@@ -45,7 +45,6 @@ async function create_db(file_name) {
         if (obj.experiences.education[0].date_range !== null) {
             age = 2020 - parseInt(obj.experiences.education[0].date_range.split(" \u2013 ")[0]) + 22;
         }
-        dept = obj.experiences.education[0].field_of_study === null ? '' : obj.experiences.education[0].field_of_study;
     }
 
     hashed_password = await bcrypt.hash(password, 10);
@@ -58,7 +57,6 @@ async function create_db(file_name) {
         teacherData_password: hashed_password,
         teacherData_phone: faker.phone.phoneNumber('9########'),
         teacherData_currentlyTeaching: true,
-        teacherData_department: dept,
         teacherData_field_of_teaching: obj.field_of_teaching,
     };
 
@@ -186,10 +184,11 @@ async function create_db(file_name) {
 
     //institute studied in
     var relStudiedIn = obj.experiences.education.map(studiedIn => {
+        let score = (Math.random() * (10 - 7) + 7).toFixed(2);
         let res = {
             relStudiedIn_startDate: '',
             relStudiedIn_endDate: '',
-            relStudiedIn_score: studiedIn.grades === null ? '' : studiedIn.grades,
+            relStudiedIn_score: studiedIn.grades === null ? '' : score,
         }
         if (studiedIn.date_range !== null) {
             let date = studiedIn.date_range.split(" \u2013 ");
@@ -223,7 +222,7 @@ async function create_db(file_name) {
             ...teacherData,
             ...teacherLocation,
         }
-        var teacherLivesInLocation = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (l:Location { latitude : $teacherLocation_latitude, longitude : $teacherLocation_longitude, address : $teacherLocation_address}) MERGE (t) - [:LIVES_IN] -> (l);', teacherLivesInLocationData);
+        var teacherLivesInLocation = await txc.run('MERGE (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (l:Location { latitude : $teacherLocation_latitude, longitude : $teacherLocation_longitude, address : $teacherLocation_address}) MERGE (t) - [:LIVES_IN] -> (l);', teacherLivesInLocationData);
 
         for (var j = 0; j < institutes.length; j++) {
             var teacherStudiedInInstituteData = {
@@ -232,7 +231,7 @@ async function create_db(file_name) {
                 ...relStudiedIn[j]
             }
 
-            var teacherStudiedInInstitute = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (i:Institute { name : $institute_name, degree : $institute_degree } ) MERGE (t) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', teacherStudiedInInstituteData);
+            var teacherStudiedInInstitute = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (i:Institute { name : $institute_name, degree : $institute_degree } ) MERGE (t) - [:STUDIED_IN { startDate : $relStudiedIn_startDate, endDate : $relStudiedIn_endDate, score : $relStudiedIn_score }] -> (i);', teacherStudiedInInstituteData);
         };
 
         for (var j = 0; j < institutes.length; j++) {
@@ -248,7 +247,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...subject,
             }
-            var teacherTeachesSubject = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (s:Subject { name : $subject_name}) MERGE (t) - [:TEACHES] -> (s);', teacherTeachesSubjectData);
+            var teacherTeachesSubject = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (s:Subject { name : $subject_name}) MERGE (t) - [:TEACHES] -> (s);', teacherTeachesSubjectData);
         });
 
         skills.map(async skill => {
@@ -256,7 +255,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...skill,
             }
-            var teacherHasSkill = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (sk:Skill { name : $skill_name}) MERGE (t) - [:HAS] -> (sk);', teacherHasSkillData);
+            var teacherHasSkill = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (sk:Skill { name : $skill_name}) MERGE (t) - [:HAS] -> (sk);', teacherHasSkillData);
         });
 
         courses.map(async course => {
@@ -264,7 +263,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...course,
             }
-            var teacherCompletedCourse = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (c:Course { name : $course_name}) MERGE (t) - [:COMPLETED] -> (c);', teacherCompletedCourseData);
+            var teacherCompletedCourse = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (c:Course { name : $course_name}) MERGE (t) - [:COMPLETED] -> (c);', teacherCompletedCourseData);
         });
 
         interests.map(async interest => {
@@ -272,7 +271,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...interest,
             }
-            var teacherHasInterest = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (i:Interest { name : $interest_name}) MERGE (t) - [:INTERESTED_IN] -> (i);', teacherHasInterestData);
+            var teacherHasInterest = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (i:Interest { name : $interest_name}) MERGE (t) - [:INTERESTED_IN] -> (i);', teacherHasInterestData);
         });
 
         languages.map(async language => {
@@ -280,7 +279,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...language,
             };
-            var teacherSpeakslanguage = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (l:Language { name : $language_name}) MERGE (t) - [:SPEAKS] -> (l);', teacherSpeakslanguageData);
+            var teacherSpeakslanguage = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (l:Language { name : $language_name}) MERGE (t) - [:SPEAKS] -> (l);', teacherSpeakslanguageData);
         });
 
         achievements.map(async achievement => {
@@ -288,7 +287,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...achievement,
             };
-            var teacherHasAchievedAchievement = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (t) - [:HAS_ACHIEVED] -> (r);', teacherHasAchievedAchievementData)
+            var teacherHasAchievedAchievement = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (a:Achievement { title : $achievement_title, description : $achievement_description}) MERGE (t) - [:HAS_ACHIEVED] -> (r);', teacherHasAchievedAchievementData)
         });
 
         researchPapers.map(async researchPaper => {
@@ -296,7 +295,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...researchPaper,
             };
-            var teacherPublishedResearchPaper = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (r:ResearchPaper {title : $researchPaper_title, description : $researchPaper_description}) MERGE (t) - [:PUBLISHED] -> (r);', teacherPublishedResearchPaperData)
+            var teacherPublishedResearchPaper = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (r:ResearchPaper {title : $researchPaper_title, description : $researchPaper_description}) MERGE (t) - [:PUBLISHED] -> (r);', teacherPublishedResearchPaperData)
         });
 
         projects.map(async project => {
@@ -304,7 +303,7 @@ async function create_db(file_name) {
                 ...teacherData,
                 ...project,
             };
-            var teacherHasDoneProject = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (p:Project { name : $project_name, description : $project_description}) MERGE (t) - [:HAS_DONE] -> (p);', teacherHasDoneProjectData)
+            var teacherHasDoneProject = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (p:Project { name : $project_name, description : $project_description}) MERGE (t) - [:HAS_DONE] -> (p);', teacherHasDoneProjectData)
         });
 
         for (var j = 0; j < companies.length; j++) {
@@ -313,7 +312,7 @@ async function create_db(file_name) {
                 ...companies[j],
                 ...relWorkedInCompany[j],
             };
-            var teacherWorkedInCompany = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_department, field_of_teaching : $teacherData_field_of_teaching}) MERGE (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (t) - [:WORKED_IN { startDate : $workedInCompany_startDate , endDate : $workedInCompany_endDate, position : $workedInCompany_position }] -> (c);', teacherWorkedInCompanyData);
+            var teacherWorkedInCompany = await txc.run('MATCH (t:Teacher { name : $teacherData_name, age : $teacherData_age, email : $teacherData_email, password : $teacherData_password, phone : $teacherData_phone, currentlyTeaching : $teacherData_currentlyTeaching, department : $teacherData_field_of_teaching}) MERGE (c:Company { name : $company_name, field : $company_field, website : $company_website}) MERGE (t) - [:WORKED_IN { startDate : $workedInCompany_startDate , endDate : $workedInCompany_endDate, position : $workedInCompany_position }] -> (c);', teacherWorkedInCompanyData);
         }
 
         for (var j = 0; j < companies.length; j++) {
