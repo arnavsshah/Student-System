@@ -6,18 +6,31 @@ var neo4jApi = require('../database/neo4jAPI/neo4jProfile');
 
 router.get('/', async(req, res) => {
 
-    var skills = await neo4jApi.getSkills();
-    var courses = await neo4jApi.getCourses();
-    var languages = await neo4jApi.getLanguages();
-    var interests = await neo4jApi.getInterests();
-    var projects = await neo4jApi.getProjects();
-    var projects = await neo4jApi.getProjects();
-    var researchPapers = await neo4jApi.getResearchPapers();
-    var achievements = await neo4jApi.getAchievements();
-    var clubs = await neo4jApi.getClubs();
-    var institutes = await neo4jApi.getInstitutes();
-    var companies = await neo4jApi.getCompanies();
+    var skills = await neo4jApi.getSkills(req);
+    var courses = await neo4jApi.getCourses(req);
+    var languages = await neo4jApi.getLanguages(req);
+    var interests = await neo4jApi.getInterests(req);
+    var projects = await neo4jApi.getProjects(req);
+    var researchPapers = await neo4jApi.getResearchPapers(req);
+    var achievements = await neo4jApi.getAchievements(req);
+    var clubs = await neo4jApi.getClubs(req);
+    var institutes = await neo4jApi.getInstitutes(req);
+    var companies = await neo4jApi.getCompanies(req);
+
+    var data = {
+        skills: skills,
+        courses: courses,
+        languages: languages,
+        interests: interests,
+        projects: projects,
+        researchPapers: researchPapers,
+        achievements: achievements,
+        clubs: clubs,
+        institutes: institutes,
+        companies: companies,
+    }
     console.log('checking', req.user);
+    console.log(data);
     res.send('hello');
 })
 
@@ -68,19 +81,19 @@ router.post('/interests', async(req, res) => {
 });
 
 router.post('/clubs', async(req, res) => {
-    neo4jApi.addClubs(req.body.clubs);
+    neo4jApi.addClubs(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/languages', async(req, res) => {
-    neo4jApi.addLanguages(req.body.languages);
+    neo4jApi.addLanguages(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/comapanies', async(req, res) => {
-    neo4jApi.addCompanies(req.body.company);
+    neo4jApi.addCompanies(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
