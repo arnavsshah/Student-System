@@ -18,8 +18,8 @@ async function map() {
     return res;
 }
 
-async function getInstitutes() {
-    var query = `MATCH (s:Student) -[st:STUDIED_IN]-> (i) WHERE ID(s) = ${req.params.id} RETURN st, i`;
+async function getInstitutes(req) {
+    var query = `MATCH (s:Student) -[st:STUDIED_IN]-> (i) WHERE ID(s) = ${req.user.id} RETURN st, i`;
     var institutes = await queryNeo4j(query);
     var res = institutes.records.map(record => {
         return {
@@ -30,8 +30,9 @@ async function getInstitutes() {
     return res;
 }
 
-async function getSkills() {
-    var query = `MATCH (s:Student) -[:HAS]-> (sk) WHERE ID(s) = ${req.params.id} RETURN sk;`;
+async function getSkills(req) {
+    console.log("inside", req.user)
+    var query = `MATCH (s:Student) -[:HAS]-> (sk) WHERE ID(s) = ${req.user.id} RETURN sk;`;
     var skills = await queryNeo4j(query);
     var res = skills.records.map(record => {
         return record._fields[0].properties
@@ -39,8 +40,8 @@ async function getSkills() {
     return res;
 }
 
-async function getCourses() {
-    var query = `MATCH (s:Student) -[:COMPLETED]-> (c) WHERE ID(s) = ${req.params.id} RETURN c`;
+async function getCourses(req) {
+    var query = `MATCH (s:Student) -[:COMPLETED]-> (c) WHERE ID(s) = ${req.user.id} RETURN c`;
     var courses = await queryNeo4j(query);
     var res = courses.records.map(record => {
         return record._fields[0].properties
@@ -48,8 +49,8 @@ async function getCourses() {
     return res;
 }
 
-async function getProjects() {
-    var query = `MATCH (s:Student)-[:HAS_DONE]-> (p) WHERE ID(s) = ${req.params.id} RETURN p`;
+async function getProjects(req) {
+    var query = `MATCH (s:Student)-[:HAS_DONE]-> (p) WHERE ID(s) = ${req.user.id} RETURN p`;
     var projects = await queryNeo4j(query);
     var res = projects.records.map(record => {
         return record._fields[0].properties
@@ -57,8 +58,8 @@ async function getProjects() {
     return res;
 }
 
-async function getAchievements() {
-    var query = `MATCH (s:Student) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = ${req.params.id} RETURN a`;
+async function getAchievements(req) {
+    var query = `MATCH (s:Student) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = ${req.user.id} RETURN a`;
     var achievements = await queryNeo4j(query);
     var res = achievements.records.map(record => {
         return record._fields[0].properties
@@ -138,7 +139,7 @@ async function addSkills(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(skill => {
         i++;
-        query += `MERGE (sk:Skill { name : "${skill}"}) MERGE (s) - [:HAS] -> (sk) `
+        query += `MERGE (sk:Skill { name : "${skill.name}"}) MERGE (s) - [:HAS] -> (sk) `
         if (i !== req.body.length) {
             query += `WITH s `
         }
@@ -151,7 +152,7 @@ async function addCourses(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(course => {
         i++;
-        query += `MERGE (c:Course { name : "${course}"}) MERGE (s) - [:COMPLETED] -> (c) `
+        query += `MERGE (c:Course { name : "${course.name}"}) MERGE (s) - [:COMPLETED] -> (c) `
         if (i !== req.body.length) {
             query += `WITH s `
         }
@@ -204,7 +205,7 @@ async function addInterests(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(interest => {
         i++;
-        query += `MERGE (i:Interest { name : "${interest}"}) MERGE (s) - [:INTERESTED_IN] -> (i) `
+        query += `MERGE (i:Interest { name : "${interest.name}"}) MERGE (s) - [:INTERESTED_IN] -> (i) `
         if (i !== req.body.length) {
             query += `WITH s `
         }
@@ -230,7 +231,7 @@ async function addLanguages(req) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} `;
     req.body.map(language => {
         i++;
-        query += `MERGE (l:Language { name : "${language}"}) MERGE (s) - [:SPEAKS] -> (l) `
+        query += `MERGE (l:Language { name : "${language.name}"}) MERGE (s) - [:SPEAKS] -> (l) `
         if (i !== req.body.length) {
             query += `WITH s `
         }

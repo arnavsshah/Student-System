@@ -31,25 +31,25 @@ router.get('/:id', async(req, res) => {
     }
     console.log('checking', req.user);
     console.log(data);
-    res.send('hello');
+    res.send(data);
 })
 
 
 
 router.post('/institutes', async(req, res) => {
-    neo4jApi.addInstitutes(req.body.institutes);
+    neo4jApi.addInstitutes(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/skills', async(req, res) => {
-    neo4jApi.addSkills(req.body.skills);
+    neo4jApi.addSkills(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/courses', async(req, res) => {
-    neo4jApi.addCourses(req.body.courses);
+    neo4jApi.addCourses(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
@@ -63,19 +63,19 @@ router.post('/projects', async(req, res) => {
 });
 
 router.post('/achievements', async(req, res) => {
-    neo4jApi.addAchievements(req.body.achievements);
+    neo4jApi.addAchievements(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/researchPapers', async(req, res) => {
-    neo4jApi.addResearchPapers(req.body.researchPapers);
+    neo4jApi.addResearchPapers(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });
 
 router.post('/interests', async(req, res) => {
-    neo4jApi.addInterests(req.body.interests);
+    neo4jApi.addInterests(req);
     // res.redirect(`/profile/${}`);
     res.send('hello')
 });

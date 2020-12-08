@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2)
   }
 }));
-const data = []
+let data = []
 export default function Skill(props) {
   const [values, setValues] = useState(initialValues);
   // const classes = useStyles();
@@ -54,10 +54,19 @@ export default function Skill(props) {
         withCredentials: true,
         data: data,
     })
-    .then( ()=> {
-      // console.log('done');
+    .then( (res)=> {
+      // console.log(res);
       // history.replace('/profile');
+      // console.log("flag", props.flag)
+      setValues(preValue => ({
+        ...preValue,
+        name: ''
+      }))
+      data = [];
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
+      
     })
     .catch(err => {
         console.error(err);

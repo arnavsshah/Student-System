@@ -59,7 +59,15 @@ export default function Achievement(props) {
     .then(() => {
       // console.log('done');
       // history.replace('/profile');
+      setValues(preValue => ({
+        ...preValue,
+        title: '',
+        description: ''
+      }))
+      data = [];
+      props.setFlag(!props.flag);
       props.handleClosePopUp();
+      props.setAnchorEl(null);
     })
     .catch(err => {
         console.error(err);
