@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2)
   }
 }));
-const data = []
+let data = []
 export default function Club(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2)
   }
 }));
-const data = []
+let data = []
 export default function Interest(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
@@ -45,14 +45,14 @@ export default function Interest(props) {
     if(values.name!==''){
       data.push(values);
     }
-    console.log(data)
+    // console.log(data)
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/interests',
         withCredentials: true,
         data: data,
     })
-    .then(() => {
+    .then((res) => {
       // console.log('done');
       // history.replace('/profile');
       setValues(preValue => ({
@@ -63,6 +63,7 @@ export default function Interest(props) {
       props.setFlag(!props.flag);
       props.handleClosePopUp();
       props.setAnchorEl(null);
+      console.log('done')
     })
     .catch(err => {
         console.error(err);

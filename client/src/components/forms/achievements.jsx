@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1)
   }
 }));
-const data = []
+let data = []
 export default function Achievement(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();

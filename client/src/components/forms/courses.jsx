@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const data = []
+let data = []
 export default function Course(props) {
   const [values, setValues] = useState(initialValues);
   const classes = useStyles();
