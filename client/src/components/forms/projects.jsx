@@ -4,7 +4,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const initialValues = {
-  projectName: '',
+  name: '',
   description: ''
 }
 
@@ -38,7 +38,7 @@ export default function Project(props) {
     data.push(values);
     setValues(preValue => ({
       ...preValue,
-      projectName: '',
+      name: '',
       description: ''
     }))
   }
@@ -46,7 +46,7 @@ export default function Project(props) {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.projectName!==''){
+    if(values.name!==''){
       data.push(values);
     }
     console.log(data)
@@ -75,11 +75,11 @@ export default function Project(props) {
         <Grid item xs={12}>
           <TextField
             required
-            id="projectName"
-            name="projectName"
+            id="name"
+            name="name"
             label="Project name"
             fullWidth
-            value={values.projectName}
+            value={values.name}
             onChange={handleFormChange}
           />
         </Grid>

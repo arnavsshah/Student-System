@@ -4,7 +4,7 @@ import {Grid,Button,Typography, TextField} from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-  clubName: '',
+  name: '',
   startDate: '',
   endDate: '',
   position: ''
@@ -38,7 +38,7 @@ export default function Club(props) {
     data.push(values);
     setValues(preValue => ({
         ...preValue,
-        clubName: '',
+        name: '',
         startDate: '',
         endDate: '',
         position: ''
@@ -49,7 +49,7 @@ export default function Club(props) {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.clubName!==''){
+    if(values.name!==''){
       data.push(values);
     }
     console.log(data)
@@ -78,11 +78,11 @@ export default function Club(props) {
         <Grid item xs={12}>
           <TextField
             required
-            id="clubName"
-            name="clubName"
+            id="name"
+            name="name"
             label="Club Name"
             fullWidth
-            value = {values.clubName}
+            value = {values.name}
             onChange={handleFormChange}
           />
         </Grid>
