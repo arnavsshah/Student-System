@@ -4,7 +4,7 @@ import {Grid,Button,Typography, TextField} from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-  skill: '',
+  name: '',
 }
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -27,7 +27,7 @@ export default function Skill(props) {
     const value = e.target.value;
     setValues(preValue => ({
       ...preValue,
-      skill: value,
+      name: value,
     }))
     // console.log(values)
   }
@@ -37,14 +37,14 @@ export default function Skill(props) {
     // console.log(data)
     setValues(preValue => ({
       ...preValue,
-      skill: ''
+      name: ''
     }))
   }
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.skill!==''){
+    if(values.name!==''){
       data.push(values);
     }
     console.log(data)
@@ -72,11 +72,11 @@ export default function Skill(props) {
         <Grid item xs={12}>
           <TextField
             required
-            id="skill"
-            name="skill"
+            id="name"
+            name="name"
             label="Skill"
             fullWidth
-            value = {values.skill}
+            value = {values.name}
             onChange={handleFormChange}
           />
         </Grid>
@@ -84,7 +84,7 @@ export default function Skill(props) {
           <Button
             type="button"
             variant="contained"
-            name="skill"
+            name="name"
             onClick={addData}
             // disabled={submitting || pristine}
           >

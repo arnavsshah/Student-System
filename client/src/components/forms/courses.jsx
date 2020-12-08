@@ -4,7 +4,7 @@ import {Grid,Button,Typography, TextField} from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-  course: '',
+  name: '',
   
 }
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ export default function Course(props) {
     data.push(values);
     setValues(preValue => ({
       ...preValue,
-      course: ''
+      name: ''
     }))
   }
 
@@ -44,7 +44,7 @@ export default function Course(props) {
     event.preventDefault();
     // console.log(event.target);
     // console.log('handle submit')
-    if(values.course!==''){
+    if(values.name!==''){
       data.push(values);
     }
     console.log(data)
@@ -73,11 +73,11 @@ export default function Course(props) {
         <Grid item xs={12}>
           <TextField
             required
-            id="course"
-            name="course"
+            id="name"
+            name="name"
             label="Course"
             fullWidth
-            value = {values.course}
+            value = {values.name}
             onChange={handleFormChange}
           />
         </Grid>

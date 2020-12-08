@@ -4,13 +4,13 @@ import { Grid, Button, Typography, TextField } from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-    companyName: '',
+    name: '',
     field: '',
     website: '',
     startDate: '',
     endDate: '',
     position: '',
-    companyAddress: '',
+    address: '',
     city: '',
     state: '',
     postalCode: '',
@@ -45,7 +45,7 @@ export default function Company(props) {
         data.push(values);
         setValues(preValue => ({
             ...preValue,
-            companyName: '',
+            name: '',
             field: '',
             website: '',
             startDate: '',
@@ -62,7 +62,7 @@ export default function Company(props) {
         event.preventDefault();
         // console.log(event.target);
         // console.log('handle submit')
-        if(values.companyName!==''){
+        if(values.name!==''){
           data.push(values);
         }
         console.log(data)
@@ -91,11 +91,11 @@ export default function Company(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="companyName"
-                        name="companyName"
+                        id="name"
+                        name="name"
                         label="Company Name"
                         fullWidth
-                        value={values.companyName}
+                        value={values.name}
                         onChange={handleFormChange}
                     />
                 </Grid>
