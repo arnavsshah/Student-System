@@ -12,7 +12,10 @@
     "react": "^17.0.1",
     "react-alert": "^7.0.2",
     "react-alert-template-basic": "^1.0.0",
+    "react-cookie": "^4.0.3",
+    "react-cookies": "^0.1.1",
     "react-dom": "^17.0.1",
+    "react-map-gl": "^5.2.10",
     "react-scripts": "4.0.0",
     "react-swipeable-views": "^0.13.9",
     "web-vitals": "^0.2.4"

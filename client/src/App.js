@@ -14,7 +14,7 @@ class App extends React.Component{
     return (
       <div className="app">
         <Router>
-          <MyNavbar />
+          <MyNavbar/>
           <Route path='/' exact component={Home} />
           <Route path='/login' component={Login} />
           <Route path='/signup' component={SignUp} />

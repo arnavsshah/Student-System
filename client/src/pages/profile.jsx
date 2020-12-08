@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Card from "@material-ui/core/Card";
@@ -9,7 +9,9 @@ import { Button, Grid, Paper } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import MyMenu from "../components/profile/profileMenu";
+import ProfileMap from "../components/mapbox/profileMap"
 import { Container, Divider,Link } from "@material-ui/core";
+import Axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: "1rem",
@@ -23,53 +25,60 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
   const classes = useStyles();
-
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  const p = {
-    name: 'Arnav Shah',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesettingindustry. 
-    Lorem Ipsum has been the industry's standard dummy text
-    ever since the 1500s, when an unknown printer took a galley of type
-    and scrambled it to make a type specimen book. It has survived not
-    only five centuries, but also the leap into electronic typesetting,
-    remaining essentially unchanged. It was popularised in the 1960s
-    with the release of Letraset sheets containing Lorem Ipsum passages,
-    and more recently with desktop publishing software like Aldus
-    PageMaker including versions of Lorem Ipsum.`,
-    projects: [
-      { name: 'AA', description: 'aaa' },
-      { name: 'BB', description: 'bbb' }
-    ],
-    achievements: [
-      { title: 'YY', description: 'yyy' },
-      { title: 'ZZ', description: 'zzz' },
-    ],
-    skills: [
-      { name: 'q' },
-      { name: 'qq' },
-    ],
-    institutes: [
-
-    ],
-    interests: [
-
-    ],
-    courses: [
-
-    ],
-    languages: [
-
-    ],
-    clubs: [
-
-    ],
-    researchPapers: [
-
-    ],
-    companies: [
-      { name: "Google", field: "Technical", website: 'https://www.google.com', startDate: '22/01/2020', endDate: '', position: "SE", address: 'US' }
-    ],
-  }
+  const [p, setP] = useState(
+    {
+      name: 'Arnav Shah',
+      content: `Lorem Ipsum is simply dummy text of the printing and typesettingindustry. 
+      Lorem Ipsum has been the industry's standard dummy text
+      ever since the 1500s, when an unknown printer took a galley of type
+      and scrambled it to make a type specimen book. It has survived not
+      only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularised in the 1960s
+      with the release of Letraset sheets containing Lorem Ipsum passages,
+      and more recently with desktop publishing software like Aldus
+      PageMaker including versions of Lorem Ipsum.`,
+      projects: [
+        { name: 'AA', description: 'aaa' },
+        { name: 'BB', description: 'bbb' }
+      ],
+      achievements: [
+        { title: 'YY', description: 'yyy' },
+        { title: 'ZZ', description: 'zzz' },
+      ],
+      skills: [
+        { name: 'q' },
+        { name: 'qq' },
+      ],
+      institutes: [
+  
+      ],
+      interests: [
+  
+      ],
+      courses: [
+  
+      ],
+      languages: [
+  
+      ],
+      clubs: [
+  
+      ],
+      researchPapers: [
+  
+      ],
+      companies: [
+        { name: "Google", field: "Technical", website: 'https://www.google.com', startDate: '22/01/2020', endDate: '', position: "SE", address: 'US' }
+      ],
+    }
+  )
+  // useEffect(()=>
+  //   Axios.get("http://localhost:5000/profile")
+  //   .then((res)=>{
+  //     setP(res.data);
+  //     console.log(p);
+  //   })
+  // )
   // const handleClick = (event) => {
 
   //   setAnchorEl(event.currentTarget);
@@ -81,7 +90,9 @@ export default function Profile() {
   return (
     <Container component="main" maxWidth="md">
       <CssBaseline />
+      {/* <ProfileMap/> */}
       <Card className={classes.root} >
+        <ProfileMap width='90vw' height = '50vh'/>
         <CardActions>
           <Avatar
             lt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large}

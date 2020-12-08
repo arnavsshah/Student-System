@@ -9,6 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from 'react-router-dom';
 import SchoolIcon from '@material-ui/icons/School';
 import MyMenu from './MyMenu';
+import { useCookies } from "react-cookie";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1
@@ -23,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar(props) {
     const classes = useStyles();
-
+    const [cookies, setCookie] = useCookies();
+    console.log("cookies", cookies.user)
+    console.log("navbar", props)
     const isLoggedIn = props.isLoggedIn;
     let loginButton, signupButton;
     if (!isLoggedIn) {
