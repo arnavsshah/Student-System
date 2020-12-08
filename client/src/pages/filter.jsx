@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
@@ -8,7 +9,8 @@ import {
   CssBaseline,
   Typography,
   Divider,
-  IconButton
+  IconButton,
+  Grid
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -20,12 +22,14 @@ import StudentSuggestion from "../components/filter/StudentSuggestion";
 import AttributeSuggestion from "../components/filter/AttributeSuggestion";
 import SpatialSearch from "../components/filter/spatialSearch"
 import ProfileMap from "../components/mapbox/profileMap"
+import ProfileCard from "../components/profile/profileCard"
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex"
   },
+  
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -91,7 +95,17 @@ export default function PersistentDrawerRight() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const mainScreen = <ProfileMap width='90vw' height = '70vh'/>
+  // const mainScreen = <ProfileMap width='90vw' height = '70vh'/>
+  const mainScreen = <Grid container spacing={1}>
+    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO' />
+    <ProfileCard name = 'Saharsh Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
+    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
+    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
+    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
+    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
+  </Grid>
+  
+  
 //   const mainScreen = <Typography paragraph>
 //   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 //   eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
@@ -139,6 +153,7 @@ export default function PersistentDrawerRight() {
         <div className={classes.drawerHeader} />
         {/* <ProfileMap width='90vw' height = '70vh'/> */}
         {mainScreen}
+        
       </main> 
       <Drawer
         className={classes.drawer}
