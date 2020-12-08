@@ -4,7 +4,7 @@ const router = express.Router();
 var neo4jApi = require('../database/neo4jAPI/neo4jProfile');
 
 
-router.get('/', async(req, res) => {
+router.get('/:id', async(req, res) => {
 
     var skills = await neo4jApi.getSkills(req);
     var courses = await neo4jApi.getCourses(req);
