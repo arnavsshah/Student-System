@@ -22,7 +22,7 @@ function HeroSection() {
           buttonStyle='btn--outline'
           buttonSize='btn--large'
         >
-          WATCH TRAILER
+          SIGN UP
         </Button>
       </div>
     </div>

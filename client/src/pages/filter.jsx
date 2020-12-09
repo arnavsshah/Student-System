@@ -102,8 +102,8 @@ export default function PersistentDrawerRight() {
 
   let mainScreen;
   if(screenCounter===0){
-    mainScreen = <div><h1>Add query to see result</h1></div>
-    // mainScreen = <SearchMap/> 
+    // mainScreen = <div><h1>Add query to see result</h1></div>
+    mainScreen = <SearchMap/> 
   }
   else if(screenCounter===1){
     mainScreen = <ProfileMap width='90vw' height = '70vh' mapData = {mapData}/>

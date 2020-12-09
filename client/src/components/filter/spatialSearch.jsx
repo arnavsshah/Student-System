@@ -66,9 +66,10 @@ export default function SpatialList(props) {
             nearbyStudying: 1,
             startYear: 2020,
           }))
-          console.log('f');
-            props.setMapData(res.data)
-          console.log("ressss", res.data)
+        //   console.log('f');
+            props.setMapData(res.data);
+            props.setScreenCounter(1);
+        //   console.log("ressss", res.data)
           
         })
         .catch(err => {

@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "mapbox-gl": "^2.0.0",
+    "material-ui-image": "^3.3.0",
     "react": "^17.0.1",
     "react-alert": "^7.0.2",
     "react-alert-template-basic": "^1.0.0",

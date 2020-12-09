@@ -19,7 +19,7 @@ async function studentSearch(data, id) {
 
     var student_filter = false;
 
-    if (data.myClass === true || (data.department && data.semester)) {
+    if (data.myClass === true) {
         isQuery = true;
         student_filter = true;
         query += `OPTIONAL MATCH (s:Student) WHERE s.class = '${student.class}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
@@ -28,7 +28,8 @@ async function studentSearch(data, id) {
             isQuery = true;
             student_filter = true;
             query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${student.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
-        } else if (data.semester) {
+        }
+        if (data.semester) {
             isQuery = true;
             student_filter = true;
             query += `OPTIONAL MATCH (s:Student) WHERE s.semester = ${student.semester} AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter  `

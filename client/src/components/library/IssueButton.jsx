@@ -5,12 +5,14 @@ import { red, green } from "@material-ui/core/colors";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
-      margin: theme.spacing(4),
-      padding: theme.spacing(1)
+      // margin: theme.spacing(1),
+      // padding: theme.spacing(1),
+      width: "100%"
     }
   },
   issue: {
-    backgroundColor: green[500]
+    backgroundColor: green[500],
+    
   },
   notAvailable: {
     backgroundColor: red[500]
@@ -24,7 +26,7 @@ export default function IssueButtons(props) {
       <div className={classes.root}>
         <Button
           className={classes.issue}
-          variant="contained"
+          // variant="contained"
           href="#contained-buttons"
         >
           Issue

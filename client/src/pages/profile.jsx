@@ -102,7 +102,7 @@ export default function Profile() {
 
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {p.name}
+            {"Abhishek Nair"}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {p.content}

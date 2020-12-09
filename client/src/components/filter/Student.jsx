@@ -78,7 +78,7 @@ export default function StudentList(props) {
           ...preValue,
           myClass: false,
           department: "",
-          semester: 1,
+          semester: 0,
           skills: [],
           skillsValue: "",
           institutes: [],
@@ -256,7 +256,7 @@ export default function StudentList(props) {
                 label="Semester"
                 type="number"
                 value={state.semester}
-                InputProps={{ inputProps: { min: 1, max: 8 } }}
+                InputProps={{ inputProps: { min: 0, max: 8 } }}
                 onChange={handleChangeSemester}
               />
             </ListItem>
