@@ -40,7 +40,7 @@ export default function StudentList(props) {
   const [state, setState] = React.useState({
     myClass: false,
     department: "",
-    semester: 1,
+    semester: 0,
     skills: [],
     skillsValue: "",
     institutes: [],
@@ -101,7 +101,7 @@ export default function StudentList(props) {
           companiesValue: ""
         }))
         props.setQueryData(res.data);
-        props.setScreenCounter(1);
+        props.setScreenCounter(2);
         // console.log('f');
         // props.setMapData(res.data)
         // console.log("ressss", res.data)

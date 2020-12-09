@@ -12,10 +12,13 @@ import {
     Button
 } from "@material-ui/core";
 export default function DisplayProfile(props) {
-
+    // console.log("inside display profile", props.queryData)
     return(
         props.queryData.map((profile)=>{
-            <ProfileCard data = {profile}/>
+            // console.log("profile", profile[0]);
+            return(
+                <ProfileCard data = {profile[0]}/>
+            );
         }) 
     );
 

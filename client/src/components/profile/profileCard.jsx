@@ -56,6 +56,7 @@ export default function MediaControlCard(props) {
     const classes = useStyles();
     // const theme = useTheme();
 
+    console.log("profile card", props.data)
     return (
         <Grid item lg={12}>
             <Card className={classes.root}>

@@ -24,6 +24,7 @@ import SpatialSearch from "../components/filter/spatialSearch"
 import ProfileMap from "../components/mapbox/profileMap"
 import ProfileCard from "../components/profile/profileCard"
 import DisplayProfile from "../components/filter/displayProfile"
+import SearchMap from "../components/mapbox/searchMap"
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -101,12 +102,13 @@ export default function PersistentDrawerRight() {
 
   let mainScreen;
   if(screenCounter===0){
-    mainScreen = <div><h1>Add query to see result</h1></div> 
+    mainScreen = <div><h1>Add query to see result</h1></div>
+    // mainScreen = <SearchMap/> 
   }
   else if(screenCounter===1){
     mainScreen = <ProfileMap width='90vw' height = '70vh' mapData = {mapData}/>
   }
-  else if(screenCounter==2){
+  else if(screenCounter===2){
     mainScreen = <DisplayProfile queryData = {queryData}/>
   }
   return (

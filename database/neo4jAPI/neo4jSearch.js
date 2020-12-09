@@ -36,7 +36,7 @@ async function studentSearch(data, id) {
     }
 
     if (student_filter) {
-        query += `WITH [] AS res, s_filter `
+        query += `WITH s_filter AS res, s_filter `
 
         data.institutes.forEach(institute => {
             query += `OPTIONAL MATCH (s:Student)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS '${institute.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
@@ -135,12 +135,21 @@ async function studentSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    var student = res.records.map(record => {
-        return {
-            ...record._fields[0].properties,
-            ...record._fields[1].properties,
-        }
+    // console.log('res inside neo4j', res)
+    var student = res.map(r => {
+        return(
+        r.records.map(record => {
+
+            return {
+                ...record._fields[0].properties,
+                ...record._fields[1].properties,
+            }
+        })
+
+        )
+
     })
+    console.log("studen inside neo", student);
     return isQuery === true ? student : [];
 }
 
@@ -158,7 +167,7 @@ async function teacherSearch(data, id) {
     }
 
     if (teacher_filter) {
-        query += 'WITH [] AS res, t_filter '
+        query += 'WITH t_filter AS res, t_filter '
 
         data.institutes.forEach(institute => {
             query += `OPTIONAL MATCH (t:Teacher)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS '${institute}' AND ID(t) IN t_filter WITH COLLECT(ID(t)) + res AS res, t_filter `
@@ -273,7 +282,7 @@ async function alumniSearch(data, id) {
         query += `OPTIONAL MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = ${data.yr} AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     }
 
-    query += `WITH [] AS res, s_filter `
+    query += `WITH s_filter AS res, s_filter `
 
     data.institutes.forEach(institute => {
         isQuery = true;
@@ -412,7 +421,7 @@ async function queryNeo4j(query) {
             var result = await txc.run(query);
 
             var arrayOfIds = result.records[0]._fields[0];
-
+            console.log('arrOfId', arrayOfIds);
             var cnts = arrayOfIds.reduce((obj, val) => {
                 obj[val] = (obj[val] || 0) + 1;
                 return obj;
