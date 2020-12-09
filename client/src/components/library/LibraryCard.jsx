@@ -57,6 +57,7 @@ export default function MediaControlCard(props) {
   const classes = useStyles();
   // const theme = useTheme();
   let image1 = "../images/hostel.png"
+  console.log(props)
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
       <div>
@@ -64,9 +65,9 @@ export default function MediaControlCard(props) {
         <CardMedia
           className={classes.im}
           // style={{height: 0, paddingTop: '56.25%'}}
-          image = 'http://ecx.images-amazon.com/images/I/61mnXb83KkL.jpg'
+          image = {props.imgUrl}
           // component = 'img'
-          title="Live from space album cover"
+          title={props.bookName}
         />
         {/* <div className={classes.details}>
           <CardContent className={classes.content}>

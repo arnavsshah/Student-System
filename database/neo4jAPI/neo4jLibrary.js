@@ -3,7 +3,8 @@ const driver = require('../../config/db');
 //for each query, end with <space> so as to add next part of query
 
 async function interestBased(req) {
-    var query = `MATCH (s:Student) -[:INTERESTED_IN_CATEGORY]-> (c:Category), (s) -[:READ]-> (b:Book) -[:ABOUT]-> (c) WHERE ID(s) = ${req.user.id} WITH s, c, COUNT(*) AS score, MATCH (b:Book) -[:ABOUT]-> (c) WHERE NOT EXISTS((s) -[:READ]-> (b)) RETURN b, ID(b), SUM(score) AS score ORDER BY score DESC;`
+    console.log("inside interest ",req.user);
+    var query = `MATCH (s:Student) -[:INTERESTED_IN_CATEGORY]-> (c:Category), (s) -[:READ]-> (b:Book) -[:ABOUT]-> (c) WHERE ID(s) = ${req.user.id} WITH s, c, COUNT(*) AS score MATCH (b:Book) -[:ABOUT]-> (c) WHERE NOT EXISTS((s) -[:READ]-> (b)) RETURN b, ID(b), SUM(score) AS score ORDER BY score DESC LIMIT 50;`
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
         return {
@@ -15,7 +16,7 @@ async function interestBased(req) {
 }
 
 async function bookBased(req) {
-    var query = `MATCH (s1:Student) -[:READ]-> (b:Book) <-[:READ]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(b) AS score ORDER BY score, MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b);`;
+    var query = `MATCH (s1:Student) -[:READ]-> (b:Book) <-[:READ]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(b) AS score ORDER BY score MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b) LIMIT 50;`;
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
         return {
@@ -27,7 +28,7 @@ async function bookBased(req) {
 }
 
 async function categoryBased(req) {
-    var query = `MATCH (s1:Student) -[:INTERESTED_IN_CATEGORY]-> (c:Category) <-[:INTERESTED_IN_CATEGORY]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(c) AS score ORDER BY score, MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b);`;
+    var query = `MATCH (s1:Student) -[:INTERESTED_IN_CATEGORY]-> (c:Category) <-[:INTERESTED_IN_CATEGORY]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(c) AS score ORDER BY score MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b) LIMIT 50;`;
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
         return {
@@ -39,7 +40,7 @@ async function categoryBased(req) {
 }
 
 async function authorBased(req) {
-    var query = `MATCH (s1:Student) -[:AUTHOR_READ]-> (a:Author) <-[:AUTHOR_READ]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(a) AS score ORDER BY score, MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b);`;
+    var query = `MATCH (s1:Student) -[:AUTHOR_READ]-> (a:Author) <-[:AUTHOR_READ]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(a) AS score ORDER BY score MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b) LIMIT 50;`;
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
         return {

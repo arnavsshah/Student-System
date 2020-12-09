@@ -8,6 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import { Box, Grid } from "@material-ui/core";
 import LibraryCard from "../components/library/LibraryCard";
+import axios from "axios";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -40,7 +41,10 @@ function a11yProps(index) {
     "aria-controls": `full-width-tabpanel-${index}`
   };
 }
-
+let data1 = [];
+let data2 = [];
+let data3 = [];
+let data4 = [];
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -52,6 +56,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row"
   }
 }));
+axios({
+  method: 'get',
+  url: 'http://localhost:5000/library',
+  withCredentials: true,
+})
+  .then((res) => {
+    data1 = res.data.interestBased;
+    data2 = res.data.bookBased;
+    data3 = res.data.categoryBased;
+    data4 = res.data.authorBased;
+    console.log("data1 ", data1)
+    // console.log(res.data);
+  })
 
 export default function FullWidthTabs() {
   const classes = useStyles();
@@ -77,9 +94,10 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Based on Your Interests" {...a11yProps(0)} />
+          <Tab label="Based on book you favourite Books" {...a11yProps(1)} />
+          <Tab label="Based on Student similar to you" {...a11yProps(2)} />
+          <Tab label="Based on Your Favourite Author" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -94,122 +112,62 @@ export default function FullWidthTabs() {
           className={classes.bookCard}
         >
           <Grid container spacing={1}>
-            <LibraryCard
-              bookName="harry potter 1"
-              bookAuthor="JK Rollins"
-              available={false}
-            />
-            <LibraryCard
-              bookName="harry potter 3"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
+           {data1.map((book) => {
+              return(
+                <LibraryCard
+                  bookName= {book.name}
+                  available={book.issued ==='false'}
+                  imgUrl = {book.image_url}
+                />
+                // <h1>hello</h1>
+              );
+            })
+          }
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Grid container spacing={1}>
-            <LibraryCard bookName="Abc" bookAuthor="Xyz" available={true} />
+        <Grid container spacing={1}>
+           {data2.map((book) => {
+              return(
+                <LibraryCard
+                  bookName= {book.name}
+                  available={book.issued ==='false'}
+                  imgUrl = {book.image_url}
+                />
+                // <h1>hello</h1>
+              );
+            })
+          }
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Grid container spacing={1}>
-            <LibraryCard bookName="kkkk" bookAuthor="jjjjjj" available={true} />
-            <LibraryCard bookName="gg" bookAuthor="ffffff" available={false} />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
-            <LibraryCard
-              bookName="harry potter 2"
-              bookAuthor="JK Rollins"
-              available={true}
-            />
+        <Grid container spacing={1}>
+           {data3.map((book) => {
+              return(
+                <LibraryCard
+                  bookName= {book.name}
+                  available={book.issued ==='false'}
+                  imgUrl = {book.image_url}
+                />
+                // <h1>hello</h1>
+              );
+            })
+          }
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+        <Grid container spacing={1}>
+           {data4.map((book) => {
+              return(
+                <LibraryCard
+                  bookName= {book.name}
+                  available={book.issued ==='false'}
+                  imgUrl = {book.image_url}
+                />
+                // <h1>hello</h1>
+              );
+            })
+          }
           </Grid>
         </TabPanel>
       </SwipeableViews>

@@ -74,7 +74,7 @@ export default function Profile() {
     .then((res)=>{
       setP(res.data);
   
-      console.log(res.data);
+      // console.log(res.data);
     }),[flag]
   )
   // const handleClick = (event) => {
