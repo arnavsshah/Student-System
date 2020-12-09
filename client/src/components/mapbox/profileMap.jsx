@@ -11,7 +11,7 @@ export default function ProfileMap(props) {
         zoom: 12
     });
     const [selectedPark, setSelectedPark] = useState(null);
-
+    console.log("NOO",props.mapData);
     useEffect(() => {
         const listener = e => {
             if (e.key === "Escape") {
@@ -37,7 +37,38 @@ export default function ProfileMap(props) {
                 }}
             >
 
-                <Marker
+                {props.mapData && props.mapData.map((data) => {
+                    
+                    // console.log('gg', Object.keys(data.studentLocation).length)
+                    {if (Object.keys(data.studentLocation).length) {
+                        return(
+                        <Marker
+                            key={'VJTI'}
+                            latitude={data.studentLocation.latitude}
+                            longitude={data.studentLocation.longitude}
+                        >
+                            <button
+                                className="marker-btn"
+                                onClick={e => {
+                                    e.preventDefault();
+                                    // setSelectedPark(park);
+                                }}
+                            >
+                                <img src="/skateboarding.svg" alt={data.studentLocation.address} />
+                            </button>
+                        </Marker>
+                    
+                    )
+                     }
+                }})
+                }
+
+
+
+
+
+
+                {/* <Marker
                     key={"vjti"}
                     latitude={19.022480}
                     longitude={72.855026}
@@ -51,8 +82,8 @@ export default function ProfileMap(props) {
                     >
                         <img src="/skateboarding.svg" alt="VJTI" />
                     </button>
-                </Marker>
-                <Marker
+                </Marker> */}
+                {/* <Marker
                     key={"vjti"}
                     latitude={19.022480}
                     longitude={72.855026}
@@ -66,7 +97,7 @@ export default function ProfileMap(props) {
                     >
                         <img src="/skateboarding.svg" alt="Navi Mumbai" />
                     </button>
-                </Marker>
+                </Marker> */}
                 {/* {parkDate.features.map(park => (
           <Marker
             key={park.properties.PARK_ID}

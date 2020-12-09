@@ -3,48 +3,64 @@ const driver = require('../../config/db');
 //for each query, end with <space> so as to add next part of query
 
 async function studentsInLocation(req) {
-    var query = `MATCH (s:Student)-[:LIVES_IN]->(l:Location) WHERE l.address CONTAINS ${req.body.place} RETURN s, l LIMIT 10;`
+    // console.log("req inside route",req.body);
+    var query = `MATCH (s:Student)-[:LIVES_IN]->(l:Location) WHERE l.address CONTAINS '${req.body.place}' RETURN s, l LIMIT 10;`
     var res = await queryNeo4j(query);
+    // console.log("res inside route", res);
     var result = res.records.map(record => {
         return {
-            ...record._fields[0].properties,
-            ...record._fields[1].properties,
+            student: {...record._fields[0].properties },
+            studentLocation: {...record._fields[1].properties },
+            company: {},
+            companyLocation: {},
+            institute: {},
+            instituteLocation: { },
         }
     })
     return result;
 }
 
 async function studentsLivedWithinDistance(req) {
-    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:LIVES_IN]->(x) WITH distance(point(x), stud) AS dist, s2, x WHERE dist < ${req.body.distance} RETURN s2, x ORDER BY dist `
+    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:LIVES_IN]->(x) WITH distance(point(x), stud) AS dist, s2, x WHERE dist < ${req.body.distance*1000} RETURN s2, x ORDER BY dist `
     var res = await queryNeo4j(query);
     var result = res.records.map(record => {
         return {
             student: {...record._fields[0].properties },
             studentLocation: {...record._fields[1].properties },
+            company: {},
+            companyLocation: {},
+            institute: {},
+            instituteLocation: {},
         }
     })
     return result;
 }
 
 async function studentsWorkedWithinDistance(req) {
-    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,c WHERE dist < ${req.body.nearbyWorking} RETURN s2, c, x ORDER BY dist `
+    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,c WHERE dist < ${req.body.nearbyWorking*1000} RETURN s2, c, x ORDER BY dist `
     var res = await queryNeo4j(query);
     var result = res.records.map(record => {
         return {
             student: {...record._fields[0].properties },
+            studentLocation: {},
             company: {...record._fields[1].properties },
             companyLocation: {...record._fields[0].properties },
+            institute: {},
+            instituteLocation: {},
         }
     })
     return result;
 }
 
 async function studentsStudiedWithinDistance(req) {
-    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,i WHERE dist < ${req.body.nearbyStudying} RETURN s2, i, x ORDER BY dist`
+    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,i WHERE dist < ${req.body.nearbyStudying*1000} RETURN s2, i, x ORDER BY dist`
     var res = await queryNeo4j(query);
     var result = res.records.map(record => {
         return {
             student: {...record._fields[0].properties },
+            studentLocation: {},
+            company: {},
+            companyLocation: {},
             institute: {...record._fields[1].properties },
             instituteLocation: {...record._fields[0].properties },
         }
@@ -59,6 +75,10 @@ async function studentsInYear(req) {
         return {
             student: {...record._fields[0].properties },
             studentLocation: {...record._fields[1].properties },
+            company: {},
+            companyLocation: {},
+            institute: {},
+            instituteLocation: {},
         }
     })
     return result;

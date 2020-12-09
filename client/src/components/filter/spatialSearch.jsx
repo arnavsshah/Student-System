@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
     List,
@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function StudentList() {
+export default function SpatialList(props) {
     const [open, setOpen] = React.useState(false);
-    const [state, setState] = React.useState({
+    const [state, setValues] = React.useState({
         place: "",
         distance: 1,
         nearbyWorking: 1,
@@ -40,11 +40,44 @@ export default function StudentList() {
     });
     const handleclickButton = (event) => {
         // console.log(state);
-        console.log(event.target.parentElement.name, state[event.target.parentElement.name]);
+        // console.log(event.target.parentElement.name, state[event.target.parentElement.name]);
+        let key = event.target.parentElement.name;
+        let value = state[event.target.parentElement.name]
+        value = value[0].toUpperCase() + value.substring(1);
+        let data = {
+            [key]:value
+        }
+        // console.log('data', data);
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/search/spatial',
+            withCredentials: true,
+            data: data,
+        })
+        .then((res) => {
+          // console.log('done');
+          // history.replace('/profile');
+        //   console.log('great')
+          setValues(preValue => ({
+            ...preValue,
+            place: "",
+            distance: 1,
+            nearbyWorking: 1,
+            nearbyStudying: 1,
+            startYear: 2020,
+          }))
+          console.log('f');
+            props.setMapData(res.data)
+          console.log("ressss", res.data)
+          
+        })
+        .catch(err => {
+            console.error(err);
+        });
         //here add what to do after clicking filter button
     };
     const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.value });
+        setValues({ ...state, [event.target.name]: event.target.value });
         // console.log(event.target)
     };
     

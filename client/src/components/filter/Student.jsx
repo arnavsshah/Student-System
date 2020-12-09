@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
   List,
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function StudentList() {
+export default function StudentList(props) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     myClass: false,
@@ -62,7 +63,53 @@ export default function StudentList() {
     companiesValue: ""
   });
   const handleclickButton = (event) => {
-    console.log(state);
+    // console.log(state);
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/search/student',
+      withCredentials: true,
+      data: state,
+    })
+      .then((res) => {
+        // console.log('done');
+        // history.replace('/profile');
+        //   console.log('great')
+        setState(preValue => ({
+          ...preValue,
+          myClass: false,
+          department: "",
+          semester: 1,
+          skills: [],
+          skillsValue: "",
+          institutes: [],
+          institutesValue: "",
+          courses: [],
+          coursesValue: "",
+          projects: [],
+          projectsValue: "",
+          achievements: [],
+          achievementsValue: "",
+          researchPapers: [],
+          researchPapersValue: "",
+          clubs: [],
+          clubsValue: "",
+          interests: [],
+          interestsValue: "",
+          languages: [],
+          languagesValue: "",
+          companies: [],
+          companiesValue: ""
+        }))
+        props.setQueryData(res.data);
+        props.setScreenCounter(1);
+        // console.log('f');
+        // props.setMapData(res.data)
+        // console.log("ressss", res.data)
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
     //here add what to do after clicking filter button
   };
   const handleChangeMyClass = (event) => {

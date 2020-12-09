@@ -5,7 +5,7 @@ var neo4jApi = require('../database/neo4jAPI/neo4jSearch');
 var neo4jApiMap = require('../database/neo4jAPI/neo4jMap');
 
 
-router.post('/', async(req, res) => {
+router.post('/student', async(req, res) => {
 
 
     // var data = {
@@ -21,7 +21,7 @@ router.post('/', async(req, res) => {
     //     languages: [],
     //     companies: [],
     // }
-    var students = await neo4jApi.studentSearch(data, req.user.id);
+    var students = await neo4jApi.studentSearch(req.body, req.user.id);
     res.send(students);
 });
 
@@ -47,8 +47,12 @@ router.post('/attributeSuggestion', async(req, res) => {
 })
 
 router.post('/spatial', async(req, res) => {
+    // console.log("inside spatial route")
+    // console.log("reqbody",req.body);
     if (req.body.place !== undefined) {
+        // console.log("inside place")
         var studentsInLocation = await neo4jApiMap.studentsInLocation(req);
+        // console.log(studentsInLocation)
         res.send(studentsInLocation)
     }
     if (req.body.distance !== undefined) {

@@ -23,6 +23,7 @@ import AttributeSuggestion from "../components/filter/AttributeSuggestion";
 import SpatialSearch from "../components/filter/spatialSearch"
 import ProfileMap from "../components/mapbox/profileMap"
 import ProfileCard from "../components/profile/profileCard"
+import DisplayProfile from "../components/filter/displayProfile"
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -82,12 +83,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 0
   }
 }));
-
+// let mapData = [];
 export default function PersistentDrawerRight() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const [screenCounter, setScreenCounter] = React.useState(0);
+  const [mapData, setMapData] = React.useState([])
+  const [queryData, setQueryData] = React.useState([])
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -95,32 +98,17 @@ export default function PersistentDrawerRight() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  // const mainScreen = <ProfileMap width='90vw' height = '70vh'/>
-  const mainScreen = <Grid container spacing={1}>
-    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO Somewhere in SOBO' />
-    <ProfileCard name = 'Saharsh Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
-    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
-    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
-    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
-    <ProfileCard name = 'Arnav Shah' email = 'a@g.com' semester = '2nd' department = 'IT' year = 'Third' age = '25' address = 'Somewhere in SOBO' />
-  </Grid>
-  
-  
-//   const mainScreen = <Typography paragraph>
-//   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-//   eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-//   dolor purus non enim praesent elementum facilisis leo vel. Risus at
-//   ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-//   quisque non tellus. Convallis convallis tellus id interdum velit
-//   laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-//   adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-//   integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-//   eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-//   quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-//   vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-//   lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-//   faucibus et molestie ac.
-// </Typography>
+
+  let mainScreen;
+  if(screenCounter===0){
+    mainScreen = <div><h1>Add query to see result</h1></div> 
+  }
+  else if(screenCounter===1){
+    mainScreen = <ProfileMap width='90vw' height = '70vh' mapData = {mapData}/>
+  }
+  else if(screenCounter==2){
+    mainScreen = <DisplayProfile queryData = {queryData}/>
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -175,12 +163,12 @@ export default function PersistentDrawerRight() {
         </div>
         <Divider />
 
-        <StudentList />
-        <TeacherList />
-        <AlumniList />
-        <StudentSuggestion />
-        <AttributeSuggestion />
-        <SpatialSearch/>
+        <StudentList setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <TeacherList setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <AlumniList setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <StudentSuggestion setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <AttributeSuggestion setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <SpatialSearch mapData = {mapData} setMapData={setMapData} setScreenCounter = {setScreenCounter}/>
       </Drawer>
     </div>
   );

@@ -79,31 +79,31 @@ export default function MediaControlCard(props) {
                             <Grid item lg={11}>
                                 <Grid container spacing={1} >
                                     <Grid item lg={6}>
-                                        <Typography>Name - {props.name}</Typography>
+                                        <Typography>Name - {props.data.name}</Typography>
                                     </Grid>
                                     <Grid item lg={6}>
-                                        <Typography>Email - {props.email}</Typography>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={1} >
-                                    <Grid item lg={6}>
-                                        <Typography>Semester - {props.semester}</Typography>
-                                    </Grid>
-                                    <Grid item lg={6}>
-                                        <Typography>Department - {props.department}</Typography>
+                                        <Typography>Email - {props.data.email}</Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={1} >
                                     <Grid item lg={6}>
-                                        <Typography>Year - {props.year}</Typography>
+                                        <Typography>Semester - {props.data.semester}</Typography>
                                     </Grid>
                                     <Grid item lg={6}>
-                                        <Typography>Age - {props.age}</Typography>
+                                        <Typography>Department - {props.data.department}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={1} >
+                                    <Grid item lg={6}>
+                                        <Typography>Year - {props.data.year}</Typography>
+                                    </Grid>
+                                    <Grid item lg={6}>
+                                        <Typography>Age - {props.data.age}</Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid container>
 
-                                    <Typography>Address - {props.address}</Typography>
+                                    <Typography>Address - {props.data.address}</Typography>
                                 </Grid>
                             </Grid>
 
