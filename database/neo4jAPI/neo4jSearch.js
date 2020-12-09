@@ -135,7 +135,13 @@ async function studentSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    return isQuery === true ? res : [];
+    var student = res.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            ...record._fields[1].properties,
+        }
+    })
+    return isQuery === true ? student : [];
 }
 
 
@@ -243,7 +249,13 @@ async function teacherSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    return isQuery === true ? res : [];
+    var teacher = res.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            ...record._fields[1].properties,
+        }
+    })
+    return isQuery === true ? teacher : [];
 }
 
 
@@ -316,7 +328,13 @@ async function alumniSearch(data, id) {
     query += `RETURN res; `
 
     var res = await queryNeo4j(query);
-    return isQuery === true ? res : [];
+    var student = res.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            ...record._fields[1].properties,
+        }
+    })
+    return isQuery === true ? student : [];
 }
 
 async function similarStudentSuggestion(data, id) {
@@ -375,7 +393,13 @@ async function similarStudentSuggestion(data, id) {
         query = query.substring(0, query.length - 6);
         query += `;`;
         var res = await queryNeo4j(query);
-        return res;
+        var student = res.records.map(record => {
+            return {
+                ...record._fields[0].properties,
+                ...record._fields[1].properties,
+            }
+        })
+        return student;
     } else { return []; }
 
 }
@@ -399,7 +423,7 @@ async function queryNeo4j(query) {
             });
 
             searchResult = await Promise.all(sortedArrayOfIds.map(async id => {
-                let res = await txc.run(`MATCH (n) WHERE ID(n) = ${id} RETURN n; `);
+                let res = await txc.run(`MATCH (n)-[:LIVES_IN]-(l) WHERE ID(n) = ${id} RETURN n, l; `);
                 return res;
             }));
 
@@ -417,31 +441,55 @@ async function studentAttributeSuggestion(data, id) {
     var session = driver.session();
     var res = {};
     var readTxResultPromise = await session.readTransaction(async txc => {
-        var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2.name, COUNT(s2) AS count ORDER BY count DESC;`;
+        var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2, COUNT(s2) AS count ORDER BY count DESC;`;
         var skillSuggestion = await txc.run(queryForSkill);
 
-        var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
         var courseSuggestion = await txc.run(queryForCourse);
 
-        var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2, COUNT(s2) AS count ORDER BY count DESC;`
         var projectSuggestion = await txc.run(queryForProject);
 
-        var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2, COUNT(s2) AS count ORDER BY count DESC;`
         var achievementSuggestion = await txc.run(queryForAchievement);
 
-        var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
         var clubSuggestion = await txc.run(queryForClub);
 
-        var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2.name, COUNT(s2) AS count ORDER BY count DESC;`
+        var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
         var companySuggestion = await txc.run(queryForCompany);
 
         res = {
-            skillSuggestion: skillSuggestion,
-            courseSuggestion: courseSuggestion,
-            projectSuggestion: projectSuggestion,
-            achievementSuggestion: achievementSuggestion,
-            clubSuggestion: clubSuggestion,
-            companySuggestion: companySuggestion,
+            skillSuggestion: skillSuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
+            courseSuggestion: courseSuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
+            projectSuggestion: projectSuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
+            achievementSuggestion: achievementSuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
+            clubSuggestion: clubSuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
+            companySuggestion: companySuggestion.records.map(record => {
+                return {
+                    ...record._fields[0].properties
+                }
+            }),
         }
     });
     session.close();
