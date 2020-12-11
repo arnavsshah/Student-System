@@ -9,20 +9,31 @@ router.get('/', async(req, res) => {
     res.send(events);
 })
 
-router.get('/:club_name', async(req, res) => {
-    var club_name = req.params.club_name;
-    var events = await neo4jApi.getClubEvents(club_name, req.user.id);
+router.get('/:event_name', async(req, res) => {
+    var event_name = req.params.event_name;
+    var events = await neo4jApi.searchEvents(event_name, req.user.id);
     res.send(events);
 })
 
-router.get('/:id', async(req, res) => {
-    var event_id = req.params.id;
-    var event = await neo4jApi.getEvent(event_id, req.user.id);
-    res.send(event);
-})
+router.get('/registered', async(req, res) => {
+    var events = await neo4jApi.getRegisteredEvents(req.user.id);
+    res.send(events)
+});
 
-router.post('/register/:id', async(req, res) => {
-    var event_id = req.params.id;
+router.get('/registered/:event_name', async(req, res) => {
+    var event_name = req.params.event_name;
+    var events = await neo4jApi.searchRegisteredEvents(event_name, req.user.id);
+    res.send(events)
+});
+
+// router.get('/:id', async(req, res) => {
+//     var event_id = req.params.id;
+//     var event = await neo4jApi.getEvent(event_id, req.user.id);
+//     res.send(event);
+// })
+
+router.post('/register', async(req, res) => {
+    var event_id = req.body.event_id;
     await neo4jApi.registerForEvent(req.user.id, event_id);
     res.send("registered for event");
 })

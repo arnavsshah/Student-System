@@ -34,17 +34,6 @@ router.get('/', async(req, res) => {
     res.send(data);
 })
 
-router.get('/event', async(req, res) => {
-    var events = await neo4jApi.getRegisteredEvents(req);
-    res.send(events)
-});
-
-router.get('/event', async(req, res) => {
-    var events = await neo4jApi.getPendingEvents(req);
-    res.send(events)
-});
-
-
 router.post('/institutes', async(req, res) => {
     await neo4jApi.addInstitutes(req);
     res.send('hello')
