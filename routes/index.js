@@ -10,6 +10,7 @@ router.get('/', async(req, res) => {
 router.use("/users", require("./users"));
 router.use("/search", require("./search"));
 router.use("/profile", require("./profile"));
+router.use("/teacherProfile", require("./teacherProfile"));
 router.use("/library", require("./library"));
 router.use("/hostel", require("./hostel"));
 router.use("/event", require("./event"));

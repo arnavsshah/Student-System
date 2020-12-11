@@ -43,4 +43,7 @@
 - for adding hostel data to the database
 `npm run create_hostel`
 
+- for adding event data to the database
+`npm run create_event`
+
 -run the commands in given order(it may take a few minutes)
