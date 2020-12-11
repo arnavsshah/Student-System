@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import MyNavbar from './components/MyNavbar';
@@ -9,23 +9,20 @@ import Profile from './pages/profile';
 import SchoolForm from '../src/components/forms/SchoolForm'
 import Library from './pages/library';
 import FilterPage from './pages/filter';
-class App extends React.Component{
-  render(){
+export default function App(){
+  const [isLogin, setIsLogin] = useState(false);
     return (
       <div className="app">
-        <Router>
-          <MyNavbar/>
-          <Route path='/' exact component={Home} />
-          <Route path='/login' component={Login} />
-          <Route path='/signup' component={SignUp} />
-          <Route path='/addData' component={SchoolForm} />
-          <Route path='/profile' exact component={Profile} />
-          <Route path='/library' exact component={Library} />
-          <Route path='/filter' exact component={FilterPage} />
+        <Router >
+          <MyNavbar isLogin = {isLogin} setIsLogin = {setIsLogin} />
+          <Route path='/' exact component={() => <Home isLogin = {isLogin}  setIsLogin = {setIsLogin}/>}/>
+          <Route path='/login' component={() => <Login isLogin = {isLogin} setIsLogin = {setIsLogin}/>} />
+          <Route path='/signup' component={() => <SignUp isLogin = {isLogin} />} /> 
+          <Route path='/addData' component={() => <SchoolForm isLogin = {isLogin} />} />
+          <Route path='/profile' exact component={() => <Profile isLogin = {isLogin} setIsLogin = {setIsLogin}/>} />
+          <Route path='/library' component={() => <Library isLogin = {isLogin} />}  />
+          <Route path='/filter' component={() => <FilterPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>}  />
       </Router>
       </div>
     );
   }
-}
-
-export default App;

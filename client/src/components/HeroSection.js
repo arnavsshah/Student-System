@@ -6,7 +6,7 @@ import './HeroSection.css';
 function HeroSection() {
   return (
     <div className='hero-container'>
-      <img src='/images/download.jpg' alt='VJTI'/>
+      <img src='/images/VJTI.jpg' alt='VJTI'/>
       <h1>STUDENT SYSTEM</h1>
       <h2>VJTI</h2>
       <div className='hero-btns'>
@@ -15,14 +15,14 @@ function HeroSection() {
           buttonStyle='btn--outline'
           buttonSize='btn--large'
         >
-          GET STARTED
+          SIGN UP
         </Button>
         <Button
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
         >
-          SIGN UP
+          LOGIN
         </Button>
       </div>
     </div>

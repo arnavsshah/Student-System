@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
+import { useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
@@ -12,6 +12,7 @@ import {
   IconButton,
   Grid
 } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -22,7 +23,7 @@ import StudentSuggestion from "../components/filter/StudentSuggestion";
 import AttributeSuggestion from "../components/filter/AttributeSuggestion";
 import SpatialSearch from "../components/filter/spatialSearch"
 import ProfileMap from "../components/mapbox/profileMap"
-import ProfileCard from "../components/profile/profileCard"
+// import ProfileCard from "../components/profile/profileCard"
 import DisplayProfile from "../components/filter/displayProfile"
 import SearchMap from "../components/mapbox/searchMap"
 const drawerWidth = 350;
@@ -85,9 +86,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 // let mapData = [];
-export default function PersistentDrawerRight() {
+export default function Filter(props) {
   const classes = useStyles();
   const theme = useTheme();
+  let history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [screenCounter, setScreenCounter] = React.useState(0);
   const [mapData, setMapData] = React.useState([])
@@ -100,6 +102,10 @@ export default function PersistentDrawerRight() {
     setOpen(false);
   };
 
+  if(!props.isLogin){
+    // console.log('islogin',props.isLogin)
+    history.push("/login");
+  }
   let mainScreen;
   if(screenCounter===0){
     // mainScreen = <div><h1>Add query to see result</h1></div>
@@ -111,6 +117,17 @@ export default function PersistentDrawerRight() {
   else if(screenCounter===2){
     mainScreen = <DisplayProfile queryData = {queryData}/>
   }
+  const doLogout = ()=>{
+    props.setIsLogin(false)
+    history.replace('/login')
+  } 
+  let navButton;
+  navButton = <div>
+                <Button color="inherit" onClick = {()=>history.push('/profile')}>Profile</Button>
+                <Button color="inherit" onClick = {()=>history.push('/filter')}>Filter</Button>
+                <Button color="inherit" onClick = {()=>history.push('/library')}>Library</Button>
+                <Button color="inherit" onClick = {doLogout}>Logout</Button>
+        </div>
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -124,6 +141,7 @@ export default function PersistentDrawerRight() {
           <Typography variant="h6" noWrap className={classes.title}>
             Student System
           </Typography>
+          {navButton}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -133,6 +151,7 @@ export default function PersistentDrawerRight() {
           >
             <MenuIcon />
           </IconButton>
+          
         </Toolbar>
       </AppBar> 
       <main

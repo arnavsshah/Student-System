@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Login() {
+export default function Login(props) {
     const classes = useStyles();
     const history = useHistory();
     const [values, setValues] = useState(initialValues);
@@ -58,6 +58,7 @@ export default function Login() {
         })
         .then((res) => {
             if(res.data=="Successfully Authenticated"){
+                props.setIsLogin(true)
                 console.log(res);
                 history.replace('/profile');
             }

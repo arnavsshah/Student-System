@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -70,9 +71,10 @@ axios({
     // console.log(res.data);
   })
 
-export default function FullWidthTabs() {
+export default function Library(props) {
   const classes = useStyles();
   const theme = useTheme();
+  let history = useHistory();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -82,6 +84,9 @@ export default function FullWidthTabs() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+  if(!props.isLogin){
+    history.push("/login");
+  }
 
   return (
     <div className={classes.root}>
