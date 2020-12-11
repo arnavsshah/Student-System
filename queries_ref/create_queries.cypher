@@ -335,6 +335,29 @@ CREATE (r:Room) {
 }
 
 
+//  Events
+
+CREATE (e:Event) {
+  club_name : ,
+  title : ,
+  description : ,
+  date : ,
+  prize : ,
+  prerequistes : , 
+  coordinator : ,
+  contact : ,
+  comments : ,
+  image_url : ,
+}
+
+CREATE (e:Event) -[:EVENT_OF]-> (c:Club)
+
+CREATE (s:Student) -[:CREATES]-> (e:Event)
+CREATE (s:Student) -[:HAS_PENDING]-> (e:Event)
+CREATE (s:Student) -[:REGISTERED_FOR]-> (e:Event)
+
+
+
 //queries template
 
 

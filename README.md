@@ -29,6 +29,7 @@
 
 - Setup Neo4j connection 
 - DATA folder must contain 2 folders - Students & Faculty - each containing the necessary json files
+- DATA folder will also contain Books.txt
 
 - for adding library data to the database
 `npm run create_library`

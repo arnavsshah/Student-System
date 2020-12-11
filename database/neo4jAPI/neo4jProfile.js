@@ -118,6 +118,31 @@ async function getCompanies(req) {
     return res;
 }
 
+async function getRegisteredEvents(req) {
+    var query = `MATCH (s:Student) -[:REGISTERED_FOR]-> (e) WHERE ID(s) = ${req.user.id} RETURN e, ID(e);`;
+    var events = await queryNeo4j(query);
+    var res = events.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            event_id: record._fields[1],
+        }
+    })
+    return res;
+}
+
+async function getPendingEvents(req) {
+    var query = `MATCH (s:Student) -[:HAS_PENDING]-> (e) WHERE ID(s) = ${req.user.id} RETURN e, ID(e);`;
+    var events = await queryNeo4j(query);
+    var res = events.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            event_id: record._fields[1],
+            user_id: req.user.id,
+        }
+    })
+    return res;
+}
+
 //POST queries
 
 async function addInstitutes(req) {
@@ -279,6 +304,8 @@ module.exports = {
     getClubs: getClubs,
     getLanguages: getLanguages,
     getCompanies: getCompanies,
+    getRegisteredEvents: getRegisteredEvents,
+    getPendingEvents: getPendingEvents,
     addInstitutes: addInstitutes,
     addSkills: addSkills,
     addCourses: addCourses,
