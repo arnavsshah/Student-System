@@ -39,8 +39,9 @@ export default function ButtonAppBar(props) {
         </div>;
     } else {
         navButton = <div>
+                <Button color="inherit" onClick = {()=>history.push('/event')}>Event</Button>
                 <Button color="inherit" onClick = {()=>history.push('/profile')}>Profile</Button>
-                <Button color="inherit" onClick = {()=>history.push('/filter')}>Filter</Button>
+                <Button color="inherit" onClick = {()=>history.push('/filter')}>Search</Button>
                 <Button color="inherit" onClick = {()=>history.push('/library')}>Library</Button>
                 <Button color="inherit" onClick = {doLogout}>Logout</Button>
         </div>
