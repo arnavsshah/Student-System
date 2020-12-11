@@ -57,7 +57,7 @@ export default function MediaControlCard(props) {
   const classes = useStyles();
   // const theme = useTheme();
   let image1 = "../images/hostel.png"
-  console.log(props)
+  // console.log(props)
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
       <div>
