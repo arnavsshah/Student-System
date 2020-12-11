@@ -29,6 +29,7 @@ export default function ButtonAppBar(props) {
     console.log("navbar", props)
     const isLoggedIn = props.isLoggedIn;
     let loginButton, signupButton;
+    //uncomment this
     if (!isLoggedIn) {
         loginButton =  <Button color="inherit" href="../login">Login</Button>;
         signupButton = <Button color="inherit" href="../signup">Signup</Button>;
@@ -36,6 +37,9 @@ export default function ButtonAppBar(props) {
         loginButton = <Button color="inherit">Profile</Button>;
         signupButton = <Button color="inherit">Logout</Button>;
     }
+
+    //comment this after presentation
+    
 
     return (
         <div className={classes.root}>
@@ -56,6 +60,31 @@ export default function ButtonAppBar(props) {
                     <SchoolIcon/>
                     {loginButton}
                     {signupButton}
+                    {/* <Button color="inherit" href="../login">
+                        <Typography variant="h7" className={classes.title}>
+                            Hostel
+                        </Typography>
+                    </Button>
+                    <Button color="inherit" href="../login">
+                        <Typography variant="h7" className={classes.title}>
+                            Search
+                        </Typography>   
+                    </Button>
+                    <Button color="inherit" href="../login">
+                        <Typography variant="h7" className={classes.title}>
+                            Library 
+                        </Typography>   
+                    </Button>
+                    <Button color="inherit" href="../login">
+                        <Typography variant="h7" className={classes.title}>
+                            Profile
+                        </Typography>    
+                    </Button>
+                    <Button color="inherit" href="../login">
+                        <Typography variant="h7" className={classes.title}>
+                            Logout
+                        </Typography>
+                    </Button> */}
                 </Toolbar>
             </AppBar>
         </div>
