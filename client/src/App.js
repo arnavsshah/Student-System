@@ -7,8 +7,10 @@ import Login from '../src/components/Login'
 import SignUp from './pages/signup';
 import Profile from './pages/profile';
 import SchoolForm from '../src/components/forms/SchoolForm'
+import EventDetails from '../src/components/event/eventDetails'
 import Library from './pages/library';
 import FilterPage from './pages/filter';
+import EventPage from './pages/event';
 export default function App(){
   const [isLogin, setIsLogin] = useState(false);
     return (
@@ -22,6 +24,8 @@ export default function App(){
           <Route path='/profile' exact component={() => <Profile isLogin = {isLogin} setIsLogin = {setIsLogin}/>} />
           <Route path='/library' component={() => <Library isLogin = {isLogin} />}  />
           <Route path='/filter' component={() => <FilterPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>}  />
+          <Route path='/event' component={() => <EventPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>}  />
+          <Route path='/eventDetails' component = {EventDetails} />
       </Router>
       </div>
     );
