@@ -44,14 +44,14 @@ router.get('/registered/:event_name', async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            await neo4jApi.addEvent(req.body, req.user.id, req.file.filename);
-        }
-    })
-
+    // upload(req, res, (err) => {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         await neo4jApi.addEvent(req.body, req.user.id, req.file.filename);
+    //     }
+    // })
+    await neo4jApi.addEvent(req.body, req.user.id, '');
     res.send("added event");
 })
 
