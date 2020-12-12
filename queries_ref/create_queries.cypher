@@ -271,14 +271,20 @@ CREATE (r:ResearchPaper) - [:ABOUT] -> (t:Topic)
 //ResearchPaper end
 
 
+//Notice
 
 CREATE (n:Notice 
-    { id : "",
+    { 
       title : "",
       content : "",
-      tag : ""
+      class : ""
       }
     )
+  
+  CREATE  (s:Student) -[:RECEIVED]-> (n:Notice)
+  CREATE (t:Teacher) -[:SENT]-> (n:Notice)
+
+
 //Project
 CREATE (p:Project 
     { id : "",
@@ -317,22 +323,44 @@ CREATE (a:Achievement) - [:ABOUT] -> (t:Topic)
 
 
 //Hostel
-CREATE (h:Hostel) {
+CREATE (h:Hostel {
   name : ""
-}
+})
 
-CREATE (b:Block) {
+CREATE (b:Block {
   number : 
-}
+})
 
-CREATE (f:Floor) {
+CREATE (f:Floor {
   number : 
-}
+})
 
-CREATE (r:Room) {
+CREATE (r:Room {
   number : ,
   capacity : 
-}
+})
+
+
+//  Events
+
+CREATE (e:Event {
+  club_name : "",
+  title : "",
+  description : "",
+  date : "",
+  prize : ,
+  prerequistes : "", 
+  coordinator : "",
+  contact : "",
+  comments : "",
+  image_url : ""
+})
+
+CREATE (e:Event) -[:EVENT_OF]-> (c:Club)
+
+CREATE (s:Student) -[:CREATES]-> (e:Event)
+CREATE (s:Student) -[:REGISTERED_FOR]-> (e:Event)
+
 
 
 //queries template

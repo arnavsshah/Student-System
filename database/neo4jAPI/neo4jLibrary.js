@@ -3,7 +3,7 @@ const driver = require('../../config/db');
 //for each query, end with <space> so as to add next part of query
 
 async function interestBased(req) {
-    console.log("inside interest ",req.user);
+    console.log("inside interest ", req.user);
     var query = `MATCH (s:Student) -[:INTERESTED_IN_CATEGORY]-> (c:Category), (s) -[:READ]-> (b:Book) -[:ABOUT]-> (c) WHERE ID(s) = ${req.user.id} WITH s, c, COUNT(*) AS score MATCH (b:Book) -[:ABOUT]-> (c) WHERE NOT EXISTS((s) -[:READ]-> (b)) RETURN b, ID(b), SUM(score) AS score ORDER BY score DESC LIMIT 50;`
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
@@ -88,4 +88,6 @@ module.exports = {
     bookBased: bookBased,
     categoryBased: categoryBased,
     authorBased: authorBased,
+    issueBook: issueBook,
+    returnBook: returnBook,
 }

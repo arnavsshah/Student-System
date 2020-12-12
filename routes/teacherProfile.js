@@ -5,7 +5,7 @@ var neo4jApi = require('../database/neo4jAPI/neo4jProfile');
 
 
 router.get('/', async(req, res) => {
-    var student = await neo4jApi.getStudent(req);
+    var teacher = await neo4jApi.getSkills(req);
     var skills = await neo4jApi.getSkills(req);
     var courses = await neo4jApi.getCourses(req);
     var languages = await neo4jApi.getLanguages(req);
@@ -13,12 +13,11 @@ router.get('/', async(req, res) => {
     var projects = await neo4jApi.getProjects(req);
     var researchPapers = await neo4jApi.getResearchPapers(req);
     var achievements = await neo4jApi.getAchievements(req);
-    var clubs = await neo4jApi.getClubs(req);
     var institutes = await neo4jApi.getInstitutes(req);
     var companies = await neo4jApi.getCompanies(req);
 
     var data = {
-        student: student,
+        teacher: teacher,
         skills: skills,
         courses: courses,
         languages: languages,
@@ -26,7 +25,6 @@ router.get('/', async(req, res) => {
         projects: projects,
         researchPapers: researchPapers,
         achievements: achievements,
-        clubs: clubs,
         institutes: institutes,
         companies: companies,
     }
@@ -67,11 +65,6 @@ router.post('/researchPapers', async(req, res) => {
 
 router.post('/interests', async(req, res) => {
     await neo4jApi.addInterests(req);
-    res.send('hello')
-});
-
-router.post('/clubs', async(req, res) => {
-    await neo4jApi.addClubs(req);
     res.send('hello')
 });
 

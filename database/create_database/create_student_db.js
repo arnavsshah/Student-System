@@ -35,6 +35,9 @@ try {
             var res = await create_db(files[i]);
             console.log(i);
         }
+
+        var cleanUp = await cleanUpQueries();
+        console.log("Clean up done");
         driver.close();
     });
 
@@ -42,6 +45,25 @@ try {
     console.log(err);
 }
 
+async function cleanUpQueries() {
+    let session = driver.session();
+    var cleanUp = await session.writeTransaction(async txc => {
+        var comp = `MATCH(s:Student) WHERE s.department CONTAINS "Comp" OR s.department CONTAINS "comp" SET s.department = "Computer Engineering";`
+        var it = `MATCH(s:Student) WHERE s.department CONTAINS "IT" OR s.department CONTAINS "I T" OR s.department CONTAINS "It" OR s.department CONTAINS "Information technology" SET s.department = "Information Technology";`
+        var production = `MATCH(s:Student) WHERE s.department CONTAINS "Prod" OR s.department CONTAINS "prod" SET s.department = "Production Engineering";`
+        var textile = `MATCH(s:Student) WHERE s.department CONTAINS "Textile" OR s.department CONTAINS "textile" SET s.department = "Textile Engineering";`
+        var extc = `MATCH(s:Student) WHERE s.department CONTAINS "Communications" OR s.department CONTAINS "Telecommunications" OR s.department CONTAINS "Telecommunication" OR s.department CONTAINS "telecommunication" OR s.department CONTAINS "Communication" OR s.department CONTAINS "Extc" OR s.department CONTAINS "EXTC" OR s.department CONTAINS "electronics and telecom engineering" SET s.department = "Electronics and Telecommunications Engineering";`
+        var electrical = `MATCH(s:Student) WHERE s.department CONTAINS "Electrical Engineering" OR s.department CONTAINS "Electrical engineering" OR s.department CONTAINS "Electrical and Electronics Engineering" OR s.department CONTAINS "Electrical Engineering Technologies/Technicians" OR s.department CONTAINS "Industrial Electronics Technology/Technician" OR s.department CONTAINS "Electronics Engineering" OR s.department CONTAINS "electrical engineering" OR s.department CONTAINS "Electronics" OR s.department CONTAINS "Electonics" OR s.department CONTAINS "Electrical" OR s.department CONTAINS "Mobile Sensing and Robotics" OR s.department CONTAINS "Electrical Power System" OR s.department CONTAINS "electronics" OR s.department CONTAINS "electrical" OR s.department CONTAINS "electronics engineering" OR s.department CONTAINS "Electrical Engineering - Control System" OR s.department CONTAINS "electrical" SET s.department = "Electrical Engineering";`
+        var res = txc.run(comp);
+        var res = txc.run(it);
+        var res = txc.run(production);
+        var res = txc.run(textile);
+        var res = txc.run(extc);
+        var res = txc.run(electrical);
+    });
+    session.close();
+    return cleanUp;
+}
 async function create_db(file_name) {
     let session = driver.session();
 
