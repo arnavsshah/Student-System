@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Typography, Button, Grid, TextField, FormControlLabel, Checkbox, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import SearchMap from "../mapbox/searchMap"
 const initialValues = {
   name: '',
   score: '',
   address: '',
-  city: '',
-  state: '',
-  postalCode: '',
-  country: '',
+  // city: '',
+  // state: '',
+  // postalCode: '',
+  // country: '',
   degree: '',
   startDate: '',
   endDate: '',
@@ -24,6 +25,8 @@ const useStyles = makeStyles(theme => {
 export default function JuniorCollegeForm(props) {
 
   const [values, setValues] = useState(initialValues);
+  const [lat, setLat] = useState('19.022281');
+  const [lon, setLon] = useState('72.856220');
   const classes = useStyles;
   const history = useHistory();
   const handleFormChange = (e) => {
@@ -42,10 +45,10 @@ export default function JuniorCollegeForm(props) {
       name: '',
       score: '',
       address: '',
-      city: '',
-      state: '',
-      postalCode: '',
-      country: '',
+      // city: '',
+      // state: '',
+      // postalCode: '',
+      // country: '',
       degree: '',
       startDate: '',
       endDate: '',
@@ -59,38 +62,41 @@ export default function JuniorCollegeForm(props) {
     // console.log('handle submit')
     // console.log(data)
     // const data1 = JSON.stringify(values); 
-    // console.log(`Search Data : ${data1}`); 
+    // console.log(`Search Data : ${data1}`);
+    let temp = values;
+    temp.latitute = lat;
+    temp.longitude = lon; 
     axios({
-        method: 'post',
-        url: 'http://localhost:5000/profile/institutes',
-        withCredentials: true,
-        data: values,
+      method: 'post',
+      url: 'http://localhost:5000/profile/institutes',
+      withCredentials: true,
+      data: temp,
     })
-    .then(() => {
-      // console.log('done');
-      // history.replace('/profile');
-      setValues(preValue => ({
-        ...preValue,
-        name: '',
-        score: '',
-        address: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: '',
-        degree: '',
-        startDate: '',
-        endDate: '',
-  
-      }))
-      props.setFlag(!props.flag);
-      props.handleClosePopUp();
-      props.setAnchorEl(null);
-    })
-    .catch(err => {
+      .then(() => {
+        // console.log('done');
+        // history.replace('/profile');
+        setValues(preValue => ({
+          ...preValue,
+          name: '',
+          score: '',
+          address: '',
+          // city: '',
+          // state: '',
+          // postalCode: '',
+          // country: '',
+          degree: '',
+          startDate: '',
+          endDate: '',
+
+        }))
+        props.setFlag(!props.flag);
+        props.handleClosePopUp();
+        props.setAnchorEl(null);
+      })
+      .catch(err => {
         console.error(err);
-    });
-}
+      });
+  }
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -165,7 +171,7 @@ export default function JuniorCollegeForm(props) {
           />
         </Grid>
 
-        
+
         <Grid item xs={12}>
           <TextField
             required
@@ -177,7 +183,13 @@ export default function JuniorCollegeForm(props) {
             onChange={handleFormChange}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+
+        <br />
+        <Grid item xs={12}>
+          Add Location
+          <SearchMap setLat={setLat} setLon={setLon} />
+        </Grid>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             required
             id="city"
@@ -220,13 +232,13 @@ export default function JuniorCollegeForm(props) {
             value={values.country}
             onChange={handleFormChange}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item style={{ marginTop: 16 }}>
           <Button
             type="button"
             variant="contained"
-          onClick={reset}
+            onClick={reset}
           // disabled={submitting || pristine}
           >
             Reset

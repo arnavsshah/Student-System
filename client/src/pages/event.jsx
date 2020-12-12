@@ -135,7 +135,10 @@ export default function Event(props) {
         setValue(index);
     };
     const handleSubmitA = (e) => {
-        console.log("hello");
+        // console.log(e.code)
+        if (e.code === 'Enter') {
+            console.log("hello");
+        }
     };
     //   if(!props.isLogin){
     //     history.push("/login");
@@ -180,9 +183,11 @@ export default function Event(props) {
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
                                 }}
+                        
                                 inputProps={{ 'aria-label': 'search' }}
-                                onSubmit = {handleSubmitA}
+                                onKeyPress={handleSubmitA}
                             />
+                            
                         </div>
                         <div className={classes.grow} />
                         {data1.map((event) => {

@@ -117,7 +117,7 @@ export default function CustomizedMenus(props) {
   });
   const handlePopup = (e) => {
     const name = e.target.offsetParent.id;
-    console.log('ggg',e);
+    // console.log('ggg',e);
     if (name) {
       setState(prevState => ({
         ...prevState,

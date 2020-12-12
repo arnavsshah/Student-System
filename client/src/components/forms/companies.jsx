@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import SearchMap from "../mapbox/searchMap"
+import nnnn from "./courses" 
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
 import axios from "axios";
+import PopUp from "../PopUp";
 import { useHistory } from "react-router-dom";
 const initialValues = {
     name: '',
@@ -11,10 +14,10 @@ const initialValues = {
     endDate: '',
     position: '',
     address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: ''
+    // city: '',
+    // state: '',
+    // postalCode: '',
+    // country: ''
 
 }
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +36,9 @@ export default function Company(props) {
     const [values, setValues] = useState(initialValues);
     const classes = useStyles();
     const history = useHistory();
+    // const [openMap, setOpenMap] = useState(false);
+    const [lat, setLat] = useState('19.022281');
+    const [lon, setLon] = useState('72.856220');
     const handleFormChange = (e) => {
         const key = e.target.name;
         const value = e.target.value;
@@ -41,8 +47,14 @@ export default function Company(props) {
             [key]: value,
         }))
     }
+    // const handleAddLocation = () =>{
+    //     setOpenMap(true);
+    // }
     const addData = (e) => {
-        data.push(values);
+        let temp = values;
+        temp.latitute = lat;
+        temp.longitude = lon;
+        data.push(temp);
         setValues(preValue => ({
             ...preValue,
             name: '',
@@ -51,21 +63,27 @@ export default function Company(props) {
             startDate: '',
             endDate: '',
             position: '',
-            companyAddress: '',
-            city: '',
-            state: '',
-            postalCode: '',
-            country: ''
+            address: '',
+            // city: '',
+            // state: '',
+            // postalCode: '',
+            // country: ''
         }))
     }
+    // const handleMapClose = () => {
+    //     setOpenMap(false);    
+    // };
     const handleSubmit = (event) => {
         event.preventDefault();
         // console.log(event.target);
         // console.log('handle submit')
         if(values.name!==''){
-          data.push(values);
+            let temp = values;
+            temp.latitute = lat;
+            temp.longitude = lon;
+            data.push(values);
         }
-        console.log(data)
+        // console.log(data)
         axios({
             method: 'post',
             url: 'http://localhost:5000/profile/companies',
@@ -84,11 +102,7 @@ export default function Company(props) {
             startDate: '',
             endDate: '',
             position: '',
-            companyAddress: '',
-            city: '',
-            state: '',
-            postalCode: '',
-            country: ''
+            address: '',
         }))
         data = [];
         props.setFlag(!props.flag);
@@ -184,15 +198,20 @@ export default function Company(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="companyAddress"
-                        name="companyAddress"
+                        id="address"
+                        name="address"
                         label="Address"
                         fullWidth
                         value={values.companyAddress}
                         onChange={handleFormChange}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <br/>
+                <Grid item xs={12}>
+                    Add Location
+                    <SearchMap setLat = {setLat} setLon = {setLon}/>
+                </Grid>
+                {/* <Grid item xs={12} >
                     <TextField
                         required
                         id="city"
@@ -234,7 +253,7 @@ export default function Company(props) {
                         value={values.country}
                         onChange={handleFormChange}
                     />
-                </Grid>
+                </Grid> */}
 
 
                 <Grid item style={{ marginTop: 16 }}>

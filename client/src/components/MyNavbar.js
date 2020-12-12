@@ -66,7 +66,7 @@ export default function ButtonAppBar(props) {
                     <Typography variant="h6" className={classes.title}>
                         Student System
                     </Typography>
-                    <SchoolIcon/>
+                    {/* <SchoolIcon/> */}
                     {navButton}
                     {/* {loginButton}
                     {signupButton} */}

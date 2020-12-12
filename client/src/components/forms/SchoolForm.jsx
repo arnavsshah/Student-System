@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Typography, TextField, Grid, Button, makeStyles } from "@material-ui/core";
 import axios from "axios";
+import SearchMap from "../mapbox/searchMap"
 const initialValues = {
   name: '',
   score: '',
   address: '',
-  city: '',
-  state: '',
-  postalCode: '',
-  country: '',
+  // city: '',
+  // state: '',
+  // postalCode: '',
+  // country: '',
   degree: '',
   startDate: '',
   endDate: '',
@@ -23,6 +24,9 @@ const useStyles = makeStyles(theme => {
 export default function SchoolForm(props) {
   const [values, setValues] = useState(initialValues);
   const history = useHistory();
+  const [lat, setLat] = useState('19.022281');
+  const [lon, setLon] = useState('72.856220');
+  const classes = useStyles;
   const handleFormChange = (e) => {
     const key = e.target.name;
     const value = e.target.value;
@@ -56,11 +60,14 @@ export default function SchoolForm(props) {
     // console.log(data)
     // const data1 = JSON.stringify(values); 
     // console.log(`Search Data : ${data1}`); 
+    let temp = values;
+    temp.latitute = lat;
+    temp.longitude = lon; 
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/institutes',
         withCredentials: true,
-        data: values,
+        data: temp,
     })
     .then(() => {
       // console.log('done');
@@ -70,11 +77,11 @@ export default function SchoolForm(props) {
         name: '',
         score: '',
         address: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: '',
-        degree: '',
+        // city: '',
+        // state: '',
+        // postalCode: '',
+        // country: '',
+        // degree: '',
         startDate: '',
         endDate: '',
   
@@ -87,8 +94,6 @@ export default function SchoolForm(props) {
         console.error(err);
     });
 }
-
-  const classes = useStyles;
   return (
     <form id='schoolform'>
       <Typography variant="h6" gutterBottom>
@@ -168,7 +173,13 @@ export default function SchoolForm(props) {
             onChange={handleFormChange}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+
+        <br />
+        <Grid item xs={12}>
+          Add Location
+          <SearchMap setLat={setLat} setLon={setLon} />
+        </Grid>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             required
             id="city"
@@ -210,7 +221,7 @@ export default function SchoolForm(props) {
             value={values.country}
             onChange={handleFormChange}
           />
-        </Grid>
+        </Grid> */}
         <Grid item style={{ marginTop: 16 }}>
           <Button
             type="button"

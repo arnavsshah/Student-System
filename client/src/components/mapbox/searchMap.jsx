@@ -7,15 +7,20 @@ import Geocoder from 'react-map-gl-geocoder'
 // Ways to set Mapbox token: https://uber.github.io/react-map-gl/#/Documentation/getting-started/about-mapbox-tokens
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2VkcmljZGlnZ29yeSIsImEiOiJja2lleWtuN2gwZW5xMnlxdXN6OHEycHpzIn0.tctm36B4zOZyPCaZV3SD5A'
  
-export default function Example() {
+export default function SearchMap(props) {
     const [viewport, setViewport] = useState({
-        latitude: 37.7577,
-        longitude: -122.4376,
-        zoom: 8
+        latitude: 19.022281,
+        longitude: 72.856220,
+        zoom: 12
       });
       const mapRef = useRef();
       const handleViewportChange = useCallback(
-        (newViewport) => setViewport(newViewport),
+        (newViewport) => {
+          setViewport(newViewport)
+          // console.log(newViewport)
+          props.setLat(newViewport.latitude);
+          props.setLon(newViewport.longitude);
+        },
         []
       );
      
