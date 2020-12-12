@@ -38,22 +38,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MediaControlCard() {
+export default function EventCard(props) {
   const classes = useStyles();
   const theme = useTheme();
   let history = useHistory();
-  let data = { 
-    club_name : "Technovanza", 
-    title : "Smart City", 
-    description : "The word Smart City gets thrown around a lot, especially lately. But what does it really mean? It is the city of your dreams with the execution in reality, it is a near utopia where technologies can solve our problems. A Smart City has solution to our everyday inconveniences and interruptions, whether it be the early warnings for calamities or the simple alarm that goes off on the probability of security breach. It has residential, industrial, economical, transportation, energy resources and environmental sectors. Though technology is an answer to most of our problems, an ideal Smart City has the contribution of its people to make it a better place. So, if you think you have what it takes to make this world just a bit better, we at TECHNOVANZA ’19 invite you to come and play to win in Making your ideas stem into the real world and plan your very own SMART CITY.",
-    date : "2020-12-27", 
-    prize : 20000, 
-    prerequistes : "A team should consist of minimum 2 and maximum 4 members.", 
-    coordinator : "Rushikesh Kejkar", 
-    contact : "9518506462", 
-    comments : "The team need to report on time at the venue", 
-    image_url : "", 
-  };
+  // console.log(props.data)
+  let data = props.data; 
+  // console.log("inside event",data);
+  // let data = { 
+  //   club_name : "Technovanza", 
+  //   title : "Smart City", 
+  //   description : "The word Smart City gets thrown around a lot, especially lately. But what does it really mean? It is the city of your dreams with the execution in reality, it is a near utopia where technologies can solve our problems. A Smart City has solution to our everyday inconveniences and interruptions, whether it be the early warnings for calamities or the simple alarm that goes off on the probability of security breach. It has residential, industrial, economical, transportation, energy resources and environmental sectors. Though technology is an answer to most of our problems, an ideal Smart City has the contribution of its people to make it a better place. So, if you think you have what it takes to make this world just a bit better, we at TECHNOVANZA ’19 invite you to come and play to win in Making your ideas stem into the real world and plan your very own SMART CITY.",
+  //   date : "2020-12-27", 
+  //   prize : 20000, 
+  //   prerequistes : "A team should consist of minimum 2 and maximum 4 members.", 
+  //   coordinator : "Rushikesh Kejkar", 
+  //   contact : "9518506462", 
+  //   comments : "The team need to report on time at the venue", 
+  //   image_url : "", 
+  // };
+  console.log(data)
   const handleClick = (event) =>{
     history.push({
       pathname: '/eventDetails',

@@ -97,21 +97,31 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-// axios({
-//   method: 'get',
-//   url: 'http://localhost:5000/library',
-//   withCredentials: true,
-// })
-//   .then((res) => {
-//     data1 = res.data.interestBased;
-//     data2 = res.data.bookBased;
-//     data3 = res.data.categoryBased;
-//     data4 = res.data.authorBased;
-//     console.log("data1 ", data1)
-//     // console.log(res.data);
-//   })
+
+
 
 export default function Event(props) {
+    axios({
+        method: 'get',
+        url: 'http://localhost:5000/event',
+        withCredentials: true,
+    })
+    .then((res) => {
+        data1 = res.data;
+        // console.log("data1 events", data1)
+        // console.log(res.data);
+    })
+    axios({
+        method: 'get',
+        url: 'http://localhost:5000/event/registered',
+        withCredentials: true,
+    })
+    .then((res) => {
+        data2 = res.data;
+        // console.log("data2 events", data2)
+        // console.log(res.data);
+    })
+
     const classes = useStyles();
     const theme = useTheme();
     let history = useHistory();
@@ -123,6 +133,9 @@ export default function Event(props) {
 
     const handleChangeIndex = (index) => {
         setValue(index);
+    };
+    const handleSubmitA = (e) => {
+        console.log("hello");
     };
     //   if(!props.isLogin){
     //     history.push("/login");
@@ -168,39 +181,20 @@ export default function Event(props) {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
+                                onSubmit = {handleSubmitA}
                             />
                         </div>
                         <div className={classes.grow} />
-                        <EventCard
-                            bookName='book'
-                            available={false}
-                            imgUrl=""
-                        />
-                        <EventCard
-                            bookName='book'
-                            available={false}
-                            imgUrl=""
-                        />
-                        <EventCard
-                            bookName='book'
-                            available={false}
-                            imgUrl=""
-                        />
-                    </Container>
-
-                    {/* <Grid container spacing={1}>
-                        {data1.map((book) => {
+                        {data1.map((event) => {
                             return (
-                                <LibraryCard
-                                    bookName={book.name}
-                                    available={book.issued === 'false'}
-                                    imgUrl={book.image_url}
+                                <EventCard
+                                    data={event}
                                 />
-                                // <h1>hello</h1>
-                            );
-                        })
-                        }
-                    </Grid> */}
+
+                            )
+                        })}
+
+                    </Container>
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     <Container >
@@ -218,13 +212,16 @@ export default function Event(props) {
                             />
                         </div>
                         <div className={classes.grow} />
-                        <EventCard
-                            bookName='book'
-                            available={false}
-                            imgUrl=""
-                        />
+                        {data2.map((event) => {
+                            return (
+                                <EventCard
+                                    data={event}
+                                />
+
+                            )
+                        })}
                     </Container>
-                    
+
 
 
                     {/* <Grid container spacing={1}>

@@ -291,8 +291,6 @@ module.exports = {
     getClubs: getClubs,
     getLanguages: getLanguages,
     getCompanies: getCompanies,
-    getRegisteredEvents: getRegisteredEvents,
-    getPendingEvents: getPendingEvents,
     addInstitutes: addInstitutes,
     addSkills: addSkills,
     addCourses: addCourses,

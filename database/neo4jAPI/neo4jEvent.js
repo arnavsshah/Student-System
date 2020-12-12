@@ -3,7 +3,7 @@ const driver = require('../../config/db');
 //for each query, end with <space> so as to add next part of query
 
 async function getAllEvents(user_id) {
-    var query = `MATCH (e:Event) WITH e OPTIONAL MATCH (s:Student) -[h:HAS_REGISTERED]-> (e) WHERE ID(s) = ${user_id} RETURN e, ID(e), h;`
+    var query = `MATCH (e:Event) WITH e OPTIONAL MATCH (s:Student) -[h:REGISTERED_IN]-> (e) WHERE ID(s) = ${user_id} RETURN e, ID(e), h;`
     var events = await queryNeo4j(query);
     var res = events.records.map(record => {
         return {
@@ -17,7 +17,7 @@ async function getAllEvents(user_id) {
 }
 
 async function searchEvents(event_name, user_id) {
-    var query = `MATCH (e:Event) WHERE e.club_name CONTAINS "${event_name}" OR e.title CONTAINS "${event_name}" OR e.description CONTAINS "${event_name}" WITH e OPTIONAL MATCH (s:Student) -[h:HAS_REGISTERED]-> (e) WHERE ID(s) = ${user_id} RETURN e, ID(e), h;`
+    var query = `MATCH (e:Event) WHERE e.club_name CONTAINS "${event_name}" OR e.title CONTAINS "${event_name}" OR e.description CONTAINS "${event_name}" WITH e OPTIONAL MATCH (s:Student) -[h:REGISTERED_IN]-> (e) WHERE ID(s) = ${user_id} RETURN e, ID(e), h;`
     var events = await queryNeo4j(query);
     var res = events.records.map(record => {
         return {
@@ -32,26 +32,28 @@ async function searchEvents(event_name, user_id) {
 
 
 async function getRegisteredEvents(user_id) {
-    var query = `MATCH (s:Student) -[:REGISTERED_FOR]-> (e:Event) WHERE ID(s) = ${user_id} RETURN e, ID(e);`;
+    var query = `MATCH (s:Student) -[:REGISTERED_IN]-> (e:Event) WHERE ID(s) = ${user_id} RETURN e, ID(e);`;
     var events = await queryNeo4j(query);
     var res = events.records.map(record => {
         return {
             ...record._fields[0].properties,
             event_id: record._fields[1],
             user_id: user_id,
+            has_registered: true,
         }
     })
     return res;
 }
 
 async function searchRegisteredEvents(event_name, user_id) {
-    var query = `MATCH (s:Student) -[:REGISTERED_FOR]-> (e:Event) WHERE ID(s) = ${user_id} AND (e.club_name CONTAINS "${event_name}" OR e.title CONTAINS "${event_name}" OR e.description CONTAINS "${event_name}") RETURN e, ID(e);`;
+    var query = `MATCH (s:Student) -[:REGISTERED_IN]-> (e:Event) WHERE ID(s) = ${user_id} AND (e.club_name CONTAINS "${event_name}" OR e.title CONTAINS "${event_name}" OR e.description CONTAINS "${event_name}") RETURN e, ID(e);`;
     var events = await queryNeo4j(query);
     var res = events.records.map(record => {
         return {
             ...record._fields[0].properties,
             event_id: record._fields[1],
             user_id: user_id,
+            has_registered: true,
         }
     })
     return res;
@@ -72,7 +74,7 @@ async function searchRegisteredEvents(event_name, user_id) {
 // }
 
 async function registerForEvent(user_id, event_id) {
-    var query = `MERGE (s:Student) -[:REGISTERED_FOR]-> (e:Event) WHERE ID(s) = ${user_id} WHERE ID(e) = ${event_id};`
+    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH (e:Event) WHERE ID(e) = ${event_id} MERGE (s) -[:REGISTERED_IN]-> (e);`
     var res = await queryNeo4j(query);
 }
 
@@ -100,7 +102,7 @@ async function queryNeo4j(query) {
 module.exports = {
     getAllEvents: getAllEvents,
     searchEvents: searchEvents,
-    getEvent: getEvent,
+    // getEvent: getEvent,
     getRegisteredEvents: getRegisteredEvents,
     searchRegisteredEvents: searchRegisteredEvents,
     registerForEvent: registerForEvent,

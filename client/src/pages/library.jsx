@@ -57,21 +57,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row"
   }
 }));
-axios({
-  method: 'get',
-  url: 'http://localhost:5000/library',
-  withCredentials: true,
-})
-  .then((res) => {
-    data1 = res.data.interestBased;
-    data2 = res.data.bookBased;
-    data3 = res.data.categoryBased;
-    data4 = res.data.authorBased;
-    console.log("data1 ", data1)
-    // console.log(res.data);
-  })
+
 
 export default function Library(props) {
+  axios({
+    method: 'get',
+    url: 'http://localhost:5000/library',
+    withCredentials: true,
+  })
+    .then((res) => {
+      data1 = res.data.interestBased;
+      data2 = res.data.bookBased;
+      data3 = res.data.categoryBased;
+      data4 = res.data.authorBased;
+      console.log("data1 ", data1)
+      // console.log(res.data);
+    })
   const classes = useStyles();
   const theme = useTheme();
   let history = useHistory();

@@ -9,16 +9,29 @@ router.get('/', async(req, res) => {
     res.send(events);
 })
 
+router.post('/register', async(req, res) => {
+    // console.log('get post request')
+    var event_id = req.body.event_id;
+    await neo4jApi.registerForEvent(req.user.id, event_id);
+    res.send("registered for event");
+})
+router.post('/', async(req, res) => {
+    await neo4jApi.addEvent(req.body, req.user.id);
+    res.send("added event");
+})
+router.get('/registered', async(req, res) => {
+    // console.log('in registered route')
+    var events = await neo4jApi.getRegisteredEvents(req.user.id);
+    // console.log("event s s s", events);
+    res.send(events)
+});
 router.get('/:event_name', async(req, res) => {
     var event_name = req.params.event_name;
     var events = await neo4jApi.searchEvents(event_name, req.user.id);
     res.send(events);
 })
 
-router.get('/registered', async(req, res) => {
-    var events = await neo4jApi.getRegisteredEvents(req.user.id);
-    res.send(events)
-});
+
 
 router.get('/registered/:event_name', async(req, res) => {
     var event_name = req.params.event_name;
@@ -32,16 +45,8 @@ router.get('/registered/:event_name', async(req, res) => {
 //     res.send(event);
 // })
 
-router.post('/register', async(req, res) => {
-    var event_id = req.body.event_id;
-    await neo4jApi.registerForEvent(req.user.id, event_id);
-    res.send("registered for event");
-})
 
-router.post('/', async(req, res) => {
-    await neo4jApi.addEvent(req.body, req.user.id);
-    res.send("added event");
-})
+
 
 
 module.exports = router;
