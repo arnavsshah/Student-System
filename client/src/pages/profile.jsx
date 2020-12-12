@@ -12,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import MyMenu from "../components/profile/profileMenu";
 import ProfileMap from "../components/mapbox/profileMap"
 import { Container, Divider,Link } from "@material-ui/core";
+import PopUp from "../components/PopUp";
+import EventForm from "../components/forms/addEvent"
 import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(7),
     height: theme.spacing(7)
+  },
+  bg:{
+    borderRadius: '35%'
   }
 }));
 
@@ -28,6 +33,7 @@ export default function Profile(props) {
   const classes = useStyles();
   let history = useHistory();
   const [flag, setFlag] = useState(false);
+  const [openCreateEvent, setOpenCreateEvent] = useState(false);
   const [p, setP] = useState(
     {
       name: '',
@@ -82,10 +88,13 @@ export default function Profile(props) {
       // console.log(res.data);
     }),[flag]
   )
-  // const handleClick = (event) => {
+  const handleEventButton = (event) => {
 
-  //   setAnchorEl(event.currentTarget);
-  // };
+    // setAnchorEl(event.currentTarget);
+    // console.log('hello')
+    setOpenCreateEvent(!openCreateEvent);
+
+  };
 
   // const handleClose = () => {
   //   setAnchorEl(null);
@@ -98,11 +107,25 @@ export default function Profile(props) {
         <ProfileMap width='90vw' height = '50vh'/>
         <CardActions>
           <Avatar
-            lt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large}
+            alt="Abhishek" src="$" className={classes.large}
+            height= '0'
+            color='primary'
           // className={classes.large}
           />
           <Grid item xs={9}></Grid>
+          <Button variant="contained" 
+            color="primary" 
+            className={classes.bg}  
+            size="medium" 
+            onClick={handleEventButton}
+          >
+            Create Event
+          </Button>
+          <PopUp openPopup={openCreateEvent} handleClosePopUp={handleEventButton}>
+            <EventForm />
+          </PopUp>
           <MyMenu setFlag = {setFlag} flag = {flag}/>
+
         </CardActions>
 
         <CardContent>

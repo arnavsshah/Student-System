@@ -5,6 +5,7 @@ import { Container, Typography, Paper, Card, CardMedia, Button } from "@material
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
 import ContactPhoneOutlinedIcon from '@material-ui/icons/ContactPhoneOutlined';
 import EmojiPeopleOutlinedIcon from '@material-ui/icons/EmojiPeopleOutlined';
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
     
     submitButton: {
@@ -25,14 +26,30 @@ export default function Details() {
     const classes = useStyles();
     let data = location.state;
     let bg;
+    const handleClick = (e) => {
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/event/register',
+            withCredentials: true,
+            data: {event_id: data.event_id},
+        })
+        .then(() => {
+            console.log('doneeeee')
+            data.has_registered = true;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    // console.log('hhhhhh')
+    }
     // data.is_registered = true;
-    if (data.is_registered) {
-        bg = <Button variant="contained" color="#667778" component="span" fullWidth ="true">
+    if (data.has_registered) {
+        bg = <Button variant="contained" color="#667778" component="span" fullWidth ="true" >
                 Already Register
             </Button>
     }
     else{
-        bg = <Button variant="contained" color="primary" component="span" fullWidth ="true">
+        bg = <Button variant="contained" color="primary" component="span" fullWidth ="true" onClick = {handleClick}>
                 Register
             </Button>
     }

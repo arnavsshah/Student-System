@@ -90,6 +90,8 @@ export default function CustomizedMenus(props) {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    // console.log("check this",anchorEl)
+    ////check this afterwards
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -115,12 +117,13 @@ export default function CustomizedMenus(props) {
   });
   const handlePopup = (e) => {
     const name = e.target.offsetParent.id;
-    // console.log(name);
+    console.log('ggg',e);
     if (name) {
       setState(prevState => ({
         ...prevState,
         [name]: !prevState.name
       }));
+      setAnchorEl(null);
     }
 
   }

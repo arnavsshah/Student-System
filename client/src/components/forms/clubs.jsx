@@ -52,7 +52,7 @@ export default function Club(props) {
     if(values.name!==''){
       data.push(values);
     }
-    console.log(data)
+    // console.log(data)
     axios({
         method: 'post',
         url: 'http://localhost:5000/profile/clubs',
