@@ -2,20 +2,11 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
 import axios from "axios";
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { useHistory } from "react-router-dom";
 const initialValues = {
-    name: '',
     title: '',
-    description: '',
-    date: '31/12/2020',
-    prize: '',
-    prerequistes: '',
-    coordinator: '',
-    contact: '',
-    comments: '',
-    image_url: '',
+    content: '',
+    class: ''
 }
 const useStyles = makeStyles((theme) => ({
     listItem: {
@@ -33,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let data = []
-export default function AddEvents(props) {
+export default function Notice(props) {
     const [values, setValues] = useState(initialValues);
     const classes = useStyles();
     const history = useHistory();
@@ -49,16 +40,9 @@ export default function AddEvents(props) {
         // data.push(values);
         setValues(preValue => ({
             ...preValue,
-            name: '',
             title: '',
-            description: '',
-            date: '31/12/2020',
-            prize: '',
-            prerequistes: '',
-            coordinator: '',
-            contact: '',
-            comments: '',
-            image_url: '',
+            content: '',
+            class: ''
         }))
     }
 
@@ -95,22 +79,10 @@ export default function AddEvents(props) {
 
     return (
         <>
-            <Typography variant="h6" gutterBottom>
-                Add Event Details
+        <Typography variant="h6" gutterBottom>
+                Add Notice Details
       </Typography>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="name"
-                        name="name"
-                        label="Club Name"
-                        fullWidth
-                        value={values.name}
-                        onChange={handleFormChange}
-                    />
-                </Grid>
-
                 <Grid item xs={12}>
                     <TextField
                         required
@@ -125,86 +97,25 @@ export default function AddEvents(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="description"
-                        name="description"
-                        label="Description"
+                        id="content"
+                        name="content"
+                        label="Content"
                         fullWidth
-                        value={values.description}
+                        value={values.content}
                         onChange={handleFormChange}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="date"
-                        name="date"
-                        // label="Date"
-                        type='date'
+                        id="class"
+                        name="class"
+                        label="Class"
                         fullWidth
-                        value={values.date}
+                        value={values.class}
                         onChange={handleFormChange}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="prerequistes"
-                        name="prerequistes"
-                        label="Prerequistes"
-                        fullWidth
-                        value={values.prerequistes}
-                        onChange={handleFormChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="coordinator"
-                        name="coordinator"
-                        label="Coordinator Name"
-                        fullWidth
-                        value={values.coordinator}
-                        onChange={handleFormChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="contact"
-                        name="contact"
-                        label="Coordinator Contact Number"
-                        fullWidth
-                        value={values.contact}
-                        onChange={handleFormChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        // required
-                        id="comments"
-                        name="comments"
-                        label="Other Comments"
-                        fullWidth
-                        value={values.comments}
-                        onChange={handleFormChange}
-                    />
-                </Grid>
-                <br/>
-                <Grid item xs={12}>
-                <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
-                        Upload
-                     </Button>
-                </label>
-                <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                />
-                </Grid>
-
                 <Grid item style={{ marginTop: 16 }}>
                     <Button
                         type="button"

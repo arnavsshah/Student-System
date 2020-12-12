@@ -10,10 +10,14 @@ import { Button, Grid, Paper } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import MyMenu from "../components/profile/profileMenu";
+import DisplayNotice from "../components/profile/displayNotice";
+import DisplayHostel from "../components/profile/displayHostel";
 import ProfileMap from "../components/mapbox/profileMap"
 import { Container, Divider,Link } from "@material-ui/core";
 import PopUp from "../components/PopUp";
 import EventForm from "../components/forms/addEvent"
+import NoticeForm from "../components/forms/createNotice"
+import HostelForm from "../components/forms/hostelForm"
 import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,15 +29,37 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(7)
   },
   bg:{
-    borderRadius: '35%'
+    borderStartEndRadius: '25%',
+    borderEndEndRadius: '25%',
+    borderStartStartRadius: '25%',
+    borderEndStartRadius: '25%'
   }
 }));
-
+let notices = [
+  {
+    title: 'SGD submission',
+    content: 'Submit project report before 14 dec'
+  },
+  {
+    title: 'WIM submission',
+    content: 'I will destroy your life'
+  }
+];
+let hostel = {
+  block: 'A',
+  floor: '1',
+  room: '12'
+}
+let si = 4;
 export default function Profile(props) {
   const classes = useStyles();
   let history = useHistory();
   const [flag, setFlag] = useState(false);
   const [openCreateEvent, setOpenCreateEvent] = useState(false);
+  const [openCreateNotice, setOpenCreateNotice] = useState(false);
+  const [displayNotice, setDisplayNotice] = useState(false);
+  const [hostelInfo, setHostelInfo] = useState(false);
+  const [displayHostelInfo, setDisplayHostelInfo] = useState(false);
   const [p, setP] = useState(
     {
       name: '',
@@ -84,17 +110,93 @@ export default function Profile(props) {
     })
     .then((res)=>{
       setP(res.data);
+      console.log(res);
   
       // console.log(res.data);
     }),[flag]
   )
   const handleEventButton = (event) => {
-
-    // setAnchorEl(event.currentTarget);
-    // console.log('hello')
     setOpenCreateEvent(!openCreateEvent);
-
   };
+  const handleDisplayNoticeButton = (event) => {
+    setDisplayNotice(!displayNotice);
+  };
+  const handleNoticeButton = (event) => {
+    setOpenCreateNotice(!openCreateNotice);
+  };
+  const handleHostelForm = (event) => {
+    setHostelInfo(!hostelInfo);
+  };
+  const handleHostelView = (event) => {
+    setDisplayHostelInfo(!displayHostelInfo);
+  };
+  let currentlyTeaching = true;
+  let hasHostel = true;
+  let bg = null;
+  let bg2 = null;
+  if(currentlyTeaching){
+      si=6;
+      bg = <div>
+        <Button variant="contained" 
+            color="primary" 
+            className={classes.bg}  
+            size="medium" 
+            onClick={handleNoticeButton}
+          >
+            Add Notice
+          </Button>
+          <PopUp openPopup={openCreateNotice} handleClosePopUp={handleNoticeButton}>
+            <NoticeForm />
+          </PopUp>
+      </div>
+  }
+  else{
+
+    bg = <div>
+    <Button variant="contained" 
+        color="primary" 
+        className={classes.bg}  
+        size="medium" 
+        onClick={handleDisplayNoticeButton}
+      >
+        Check Notice
+      </Button>
+      <PopUp openPopup={displayNotice} handleClosePopUp={handleDisplayNoticeButton}>
+        <DisplayNotice notices = {notices} />
+      </PopUp>
+    </div>
+    if(hasHostel){
+      bg2 =<div>
+      <Button variant="contained" 
+        color="primary" 
+        className={classes.bg}  
+        size="medium" 
+        onClick={handleHostelView}
+      >
+        Check Hostel
+      </Button>
+      <PopUp openPopup={displayHostelInfo} handleClosePopUp={handleHostelView}>
+        <DisplayHostel hostel = {hostel}/>
+      </PopUp>
+      </div>
+    }
+    else{
+      bg2 = <div>
+        <Button variant="contained" 
+        color="primary" 
+        className={classes.bg}  
+        size="medium" 
+        onClick={handleHostelForm}
+      >
+      Apply For Hostel
+      </Button>
+      <PopUp openPopup={hostelInfo} handleClosePopUp={handleHostelForm}>
+        <HostelForm hostel = {hostel}/>
+      </PopUp>
+      </div>
+    }
+  }
+  
 
   // const handleClose = () => {
   //   setAnchorEl(null);
@@ -112,7 +214,8 @@ export default function Profile(props) {
             color='primary'
           // className={classes.large}
           />
-          <Grid item xs={9}></Grid>
+          <Grid item xs={si}></Grid>
+          {bg2}
           <Button variant="contained" 
             color="primary" 
             className={classes.bg}  
@@ -124,6 +227,7 @@ export default function Profile(props) {
           <PopUp openPopup={openCreateEvent} handleClosePopUp={handleEventButton}>
             <EventForm />
           </PopUp>
+          {bg}
           <MyMenu setFlag = {setFlag} flag = {flag}/>
 
         </CardActions>
@@ -192,7 +296,7 @@ export default function Profile(props) {
           </CardContent>
           <Divider />
 
-          {p.achievements.length &&
+          {p.achievements &&
             p.achievements.map((element) => {
               return (
                 <div>

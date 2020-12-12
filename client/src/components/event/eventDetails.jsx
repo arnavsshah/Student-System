@@ -68,7 +68,7 @@ export default function Details() {
                 <CardMedia
                     // className={classes.im}
                     style={{ height: 0, paddingTop: '56.25%' }}
-                    image='https://tse3.mm.bing.net/th?id=OIP.pMvDpzfg-tlwnoqBw4EDUQHaCv&pid=Api&P=0&w=471&h=175'
+                    image='https://technovanza2014.files.wordpress.com/2014/12/vrcevent.jpg'
                 // component = 'img'
                 // title={props.bookName}
                 />

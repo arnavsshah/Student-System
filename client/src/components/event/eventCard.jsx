@@ -63,13 +63,17 @@ export default function EventCard(props) {
       pathname: '/eventDetails',
       state: data
   });
+  let linkArr = [
+    'https://technovanza2014.files.wordpress.com/2014/12/vrcevent.jpg',
+    "http://www.telehouse.com/wp-content/uploads/2017/06/Telehouse-blog-6-1-17.png",
+  ]
   }
   return (
     <Card className={classes.root} onClick = {handleClick}>
       <div className={classes.details}>
       <CardMedia
         className={classes.cover}
-        image="http://ecx.images-amazon.com/images/I/511ktNv2r3L.jpg"
+        image='https://tse3.mm.bing.net/th?id=OIP.pMvDpzfg-tlwnoqBw4EDUQHaCv&pid=Api&P=0&w=471&h=175'
         title="Live from space album cover"
       />
         <CardContent className={classes.content}>

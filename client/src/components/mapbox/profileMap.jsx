@@ -1,76 +1,12 @@
-import React, { useState, useEffect } from "react";
-import ReactMapGL, { Marker, Popup, Source, Layer} from "react-map-gl";
+import React, { useState, useEffect, useRef } from "react";
+import ReactMapGL, { Marker, Popup, Source, Layer } from "react-map-gl";
 import RoomIcon from '@material-ui/icons/Room';
-import {dataLayer} from './map-style.js';
+import { GeoJSONLayer } from "react-mapbox-gl";
+// import PolylineOverlay from './polyline'
 // import MapboxGL from '@mapbox/react-native-mapbox-gl';
 // const { mapbox_api } = require('../../../../config/env_vars');
 const mapbox_api = "pk.eyJ1IjoiY2VkcmljZGlnZ29yeSIsImEiOiJja2lleWtuN2gwZW5xMnlxdXN6OHEycHpzIn0.tctm36B4zOZyPCaZV3SD5A"
 export default function ProfileMap(props) {
-
-    let state = {
-        route:
-          {
-            "type": "FeatureCollection",
-            "features": [
-              {
-                "type": "Feature",
-                "properties": {},
-                "geometry": {
-                  "type": "LineString",
-                  "coordinates": [
-                    [
-                      11.953125,
-                      39.436192999314095
-                    ],
-                    [
-                      18.896484375,
-                      46.37725420510028
-                    ]
-                  ]
-                }
-              }
-            ]
-          },   
-      }
-      let data= [
-        {
-            latitude:19.203610,
-            longitude: 72.975050
-        },
-        {
-            latitude:19.183600,
-            longitude: 73.043450
-        }
-      ]
-    //   let addLines = () => {
-    //     const map = refs.map.getMap()
-    //     map.addLayer({
-    //       "id": "route",
-    //       "type": "line",
-    //       "source": {
-    //       "type": "geojson",
-    //          "data": {
-    //             "type": "Feature",
-    //             "properties": {},
-    //             "geometry": {
-    //                "type": "LineString",
-    //                "coordinates": [
-    //                    [-122.48369693756104, 37.83381888486939],
-    //                    [116.48348236083984, 37.83317489144141],
-    //                ]
-    //              }
-    //            }
-    //      },
-    //      "layout": {
-    //        "line-join": "round",
-    //        "line-cap": "round"
-    //      },
-    //      "paint": {
-    //        "line-color": "#888",
-    //        "line-width": 8
-    //      }
-    //    });
-    //  }
     const [viewport, setViewport] = useState({
         latitude: 19.022480,
         longitude: 72.855026,
@@ -78,20 +14,44 @@ export default function ProfileMap(props) {
         height: props.height,
         zoom: 12
     });
+    const mapRef = useRef();
     const [selectedPark, setSelectedPark] = useState(null);
     // console.log("NOO",props.mapData);
-    useEffect(() => {
-        const listener = e => {
-            if (e.key === "Escape") {
-                setSelectedPark(null);
-            }
-        };
-        window.addEventListener("keydown", listener);
-
-        return () => {
-            window.removeEventListener("keydown", listener);
-        };
-    }, []);
+    let points = [
+        ['72.975050', '19.203610'],
+        ['73.043450', '19.183600'],
+        ['-122.16969', '37.42896']
+    ]
+    // const addLines = () => {
+    //     // const map = ReactMapGL.getMap()
+    //     map.addLayer({
+    //         "id": "route",
+    //         "type": "line",
+    //         "source": {
+    //             "type": "geojson",
+    //             "data": {
+    //                 "type": "Feature",
+    //                 "properties": {},
+    //                 "geometry": {
+    //                     "type": "LineString",
+    //                     "coordinates": [
+    //                         ['72.975050', '19.203610'],
+    //                         ['73.043450', '19.183600'],
+    //                         ['-122.16969', '37.42896']
+    //                     ]
+    //                 }
+    //             }
+    //         },
+    //         "layout": {
+    //             "line-join": "round",
+    //             "line-cap": "round"
+    //         },
+    //         "paint": {
+    //             "line-color": "#888",
+    //             "line-width": 8
+    //         }
+    //     });
+    // }
 
     return (
         <div>
@@ -105,7 +65,7 @@ export default function ProfileMap(props) {
                     setViewport(viewport);
                 }}
             >
-
+                {/* <PolylineOverlay points={points} /> */}
                 <Marker
                     key={'Z'}
                     latitude={19.203610}
@@ -119,7 +79,7 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
                 <Marker
@@ -135,7 +95,7 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
                 <Marker
@@ -151,7 +111,7 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
                 <Marker
@@ -167,7 +127,7 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
                 <Marker
@@ -183,7 +143,7 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
                 <Marker
@@ -199,18 +159,18 @@ export default function ProfileMap(props) {
                         }}
                     >
                         {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large"/>
+                        <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
-                
-                <Source type="geojson" data={data}>
+
+                {/* <Source type="geojson" data={data}>
                     <Layer {...dataLayer} />
-                </Source>
+                </Source> */}
                 {/* <ReactMapGL.ShapeSource id='line1' shape={state.route}>
                     <ReactMapGL.LineLayer id='linelayer1' style={{lineColor:'red'}} />
                 </ReactMapGL.ShapeSource> */}
 
-                
+
 
                 {/* {props.mapData && props.mapData.map((data) => {
                     

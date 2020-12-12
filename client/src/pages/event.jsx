@@ -156,8 +156,8 @@ export default function Event(props) {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                 >
-                    <Tab label="A" {...a11yProps(0)} />
-                    <Tab label="B" {...a11yProps(1)} />
+                    <Tab label="All Events" {...a11yProps(0)} />
+                    <Tab label="Registered Events" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <SwipeableViews
