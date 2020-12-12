@@ -1,5 +1,6 @@
 const driver = require('../../config/db');
 
+
 //for each query, end with <space> so as to add next part of query
 
 async function getAllEvents(user_id) {
@@ -59,6 +60,17 @@ async function searchRegisteredEvents(event_name, user_id) {
     return res;
 }
 
+
+async function registerForEvent(user_id, event_id) {
+    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH (e:Event) WHERE ID(e) = ${event_id} MERGE (s) -[:REGISTERED_IN]-> (e);`
+    var res = await queryNeo4j(query);
+}
+
+async function addEvent(event, user_id, image_url) {
+    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MERGE (e:Event) { club_name : "${event.club_name}", title : "${event.title}", description : "${event.description}", date : "${event.date}", prize : "${event.prize}", prerequistes : "${event.prerequistes}", coordinator : "${event.coordinator}", contact : "${event.contact}", comments : "${event.comments}", image_url : "${image_url}"} MERGE (s) -[:CREATES]-> (e);`
+    var res = await queryNeo4j(query);
+}
+
 // async function getEvent(event_id, user_id) {
 //     var query = `MATCH (e:Event) WHERE ID(e) = ${event_id} WITH e OPTIONAL MATCH (s:Student) -[h:HAS_REGISTERED]-> (e) WHERE ID(s) = ${user_id} RETURN e, ID(e), h;`
 //     var event = await queryNeo4j(query);
@@ -72,16 +84,6 @@ async function searchRegisteredEvents(event_name, user_id) {
 //     })
 //     return res;
 // }
-
-async function registerForEvent(user_id, event_id) {
-    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH (e:Event) WHERE ID(e) = ${event_id} MERGE (s) -[:REGISTERED_IN]-> (e);`
-    var res = await queryNeo4j(query);
-}
-
-async function addEvent(event, user_id) {
-    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MERGE (e:Event) { club_name : "${event.club_name}", title : "${event.title}", description : "${event.description}", date : "${event.date}", prize : "${event.prize}", prerequistes : "${event.prerequistes}", coordinator : "${event.coordinator}", contact : "${event.contact}", comments : "${event.comments}", image_url : "${event.image_url}"} MERGE (s) -[:CREATES]-> (e);`
-    var res = await queryNeo4j(query);
-}
 
 
 async function queryNeo4j(query) {

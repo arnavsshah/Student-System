@@ -7,7 +7,7 @@ const driver = require('../../config/db');
 async function map() {
     var query = `MATCH (s:Student)-[stud:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(li), (s)-[work:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(lc) WHERE ID(s) = ${req.user.id} RETURN i, li, c, lc ORDER BY stud.startDate, work.startDate `
     var mapDisplay = await queryNeo4j(query);
-    var res = institutes.records.map(record => {
+    var res = mapDisplay.records.map(record => {
         return {
             institute: {...record._fields[0].properties },
             instituteLocation: {...record._fields[1].properties },
@@ -280,6 +280,7 @@ async function queryNeo4j(query) {
 }
 
 module.exports = {
+    map: map,
     getStudent: getStudent,
     getInstitutes: getInstitutes,
     getSkills: getSkills,
