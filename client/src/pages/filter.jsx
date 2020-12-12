@@ -22,10 +22,10 @@ import AlumniList from "../components/filter/Alumni";
 import StudentSuggestion from "../components/filter/StudentSuggestion";
 import AttributeSuggestion from "../components/filter/AttributeSuggestion";
 import SpatialSearch from "../components/filter/spatialSearch"
-import ProfileMap from "../components/mapbox/profileMap"
+import ProfileMap from "../components/mapbox/spatialSearchMap"
 // import ProfileCard from "../components/profile/profileCard"
 import DisplayProfile from "../components/filter/displayProfile"
-import SearchMap from "../components/mapbox/searchMap"
+import SearchMap from "../components/mapbox/searchPageMap"
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
