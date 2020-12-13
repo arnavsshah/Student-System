@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
   List,
@@ -33,10 +34,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AlumniList() {
+export default function AlumniList(props) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
-    myClass: false,
     department: "",
     year: 2020,
     skills: [],
@@ -61,8 +61,53 @@ export default function AlumniList() {
     companiesValue: ""
   });
   const handleclickButton = (event) => {
-    console.log(state);
+    // console.log(state);
     //here add what to do after clicking filter button
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/search/alumni',
+      withCredentials: true,
+      data: state,
+    })
+      .then((res) => {
+        // console.log('done');
+        // history.replace('/profile');
+        //   console.log('great')
+        setState(preValue => ({
+          ...preValue,
+          department: "",
+          year: 2020,
+          skills: [],
+          skillsValue: "",
+          institutes: [],
+          institutesValue: "",
+          courses: [],
+          coursesValue: "",
+          projects: [],
+          projectsValue: "",
+          achievements: [],
+          achievementsValue: "",
+          researchPapers: [],
+          researchPapersValue: "",
+          clubs: [],
+          clubsValue: "",
+          interests: [],
+          interestsValue: "",
+          languages: [],
+          languagesValue: "",
+          companies: [],
+          companiesValue: ""
+        }))
+        props.setQueryData(res.data);
+        props.setScreenCounter(2);
+        // console.log('f');
+        // props.setMapData(res.data)
+        // console.log("ressss", res.data)
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
   const handleChangeDepartment = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });

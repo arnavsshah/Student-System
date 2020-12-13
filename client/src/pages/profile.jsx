@@ -130,7 +130,7 @@ export default function Profile(props) {
   const handleHostelView = (event) => {
     setDisplayHostelInfo(!displayHostelInfo);
   };
-  let currentlyTeaching = true;
+  let currentlyTeaching = false;
   let hasHostel = true;
   let bg = null;
   let bg2 = null;

@@ -78,10 +78,7 @@ export default function Notice(props) {
     return (
         <>
         <Typography variant="h6" gutterBottom>
-                <strong>Add Hostel Preference</strong>
-        </Typography>
-        <Typography variant="h6" gutterBottom align = 'center'>
-                <strong>Note </strong>
+                Add Hostel Preference
         </Typography>
         <Typography variant="h6" gutterBottom>
                 <strong>Block A is for first year students</strong>
@@ -100,7 +97,7 @@ export default function Notice(props) {
                         name="floor"
                         label="Add your Floor preferenece"
                         type = "number"
-                        InputProps={{ inputProps: { min: 0, max: 8 } }}
+                        InputProps={{ inputProps: { min: 0, max: 4 } }}
                         fullWidth
                         value={values.floor}
                         onChange={handleFormChange}
@@ -114,7 +111,7 @@ export default function Notice(props) {
                         type = "number"
                         label="Add your Room preference"
                         fullWidth
-                        InputProps={{ inputProps: { min: 0, max: 20} }}
+                        InputProps={{ inputProps: { min: 0, max: 10} }}
                         value={values.room}
                         onChange={handleFormChange}
                     />

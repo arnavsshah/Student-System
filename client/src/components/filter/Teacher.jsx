@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
   List,
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TeacherList() {
+export default function TeacherList(props) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     department: "",
@@ -57,8 +58,41 @@ export default function TeacherList() {
     companiesValue: ""
   });
   const handleclickButton = (event) => {
-    console.log(state);
-    //here add what to do after clicking filter button
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/search/teacher',
+      withCredentials: true,
+      data: state,
+    })
+      .then((res) => {
+        setState(preValue => ({
+          ...preValue,
+          department: "",
+          skills: [],
+          skillsValue: "",
+          institutes: [],
+          institutesValue: "",
+          courses: [],
+          coursesValue: "",
+          projects: [],
+          projectsValue: "",
+          achievements: [],
+          achievementsValue: "",
+          researchPapers: [],
+          researchPapersValue: "",
+          interests: [],
+          interestsValue: "",
+          languages: [],
+          languagesValue: "",
+          companies: [],
+          companiesValue: ""
+        }))
+        props.setQueryData(res.data);
+        props.setScreenCounter(2);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
   const handleChangeDepartment = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
