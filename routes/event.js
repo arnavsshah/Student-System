@@ -51,7 +51,7 @@ router.post('/', async(req, res) => {
     //         await neo4jApi.addEvent(req.body, req.user.id, req.file.filename);
     //     }
     // })
-    await neo4jApi.addEvent(req.body, req.user.id, '');
+    await neo4jApi.addEvent(req.body, req.user.id, 'abc');
     res.send("added event");
 })
 

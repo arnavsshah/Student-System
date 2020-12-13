@@ -57,7 +57,7 @@ export default function EventCard(props) {
   //   comments : "The team need to report on time at the venue", 
   //   image_url : "", 
   // };
-  console.log(data)
+  // console.log(data)
   const handleClick = (event) =>{
     history.push({
       pathname: '/eventDetails',

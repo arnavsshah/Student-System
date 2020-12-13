@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { useHistory } from "react-router-dom";
 const initialValues = {
-    name: '',
+    club_name: '',
     title: '',
     description: '',
     date: '31/12/2020',
@@ -49,7 +49,7 @@ export default function AddEvents(props) {
         // data.push(values);
         setValues(preValue => ({
             ...preValue,
-            name: '',
+            club_name: '',
             title: '',
             description: '',
             date: '31/12/2020',
@@ -66,31 +66,37 @@ export default function AddEvents(props) {
         event.preventDefault();
         // console.log(event.target);
         // console.log('handle submit')
-        if (values.name !== '') {
-            data.push(values);
-        }
-        console.log(data)
-        //     axios({
-        //         method: 'post',
-        //         url: 'http://localhost:5000/profile/courses',
-        //         withCredentials: true,
-        //         data: data,
-        //     })
-        //     .then(() => {
-        //       // console.log('done');
-        //       // history.replace('/profile');
-        //       setValues(preValue => ({
-        //         ...preValue,
-        //         name: ''
-        //       }))
-        //       data = [];
-        //       props.setFlag(!props.flag);
-        //       props.handleClosePopUp();
-        //       props.setAnchorEl(null);
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //     });
+        // if (values.name !== '') {
+        //     data.push(values);
+        // }
+        // console.log("event form ",values)
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/event',
+            withCredentials: true,
+            data: values,
+        })
+            .then(() => {
+                console.log('done event form');
+                // history.replace('/profile');
+                setValues(preValue => ({
+                    ...preValue,
+                    club_name: '',
+                    title: '',
+                    description: '',
+                    date: '31/12/2020',
+                    prize: '',
+                    prerequistes: '',
+                    coordinator: '',
+                    contact: '',
+                    comments: '',
+                    image_url: '',
+                }))
+                props.handleClosePopUp();
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     return (
@@ -102,11 +108,11 @@ export default function AddEvents(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="name"
-                        name="name"
+                        id="club_name"
+                        name="club_name"
                         label="Club Name"
                         fullWidth
-                        value={values.name}
+                        value={values.club_name}
                         onChange={handleFormChange}
                     />
                 </Grid>
@@ -159,6 +165,19 @@ export default function AddEvents(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
+                        id="prize"
+                        name="prize"
+                        label="Prize"
+                        type = "number"
+                        InputProps={{ inputProps: { min: 0} }}
+                        fullWidth
+                        value={values.prize}
+                        onChange={handleFormChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        required
                         id="coordinator"
                         name="coordinator"
                         label="Coordinator Name"
@@ -178,6 +197,7 @@ export default function AddEvents(props) {
                         onChange={handleFormChange}
                     />
                 </Grid>
+
                 <Grid item xs={12}>
                     <TextField
                         // required
@@ -189,20 +209,20 @@ export default function AddEvents(props) {
                         onChange={handleFormChange}
                     />
                 </Grid>
-                <br/>
+                <br />
                 <Grid item xs={12}>
-                <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
-                        Upload
+                    <label htmlFor="contained-button-file">
+                        <Button variant="contained" color="primary" component="span">
+                            Upload
                      </Button>
-                </label>
-                <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                />
+                    </label>
+                    <input
+                        accept="image/*"
+                        className={classes.input}
+                        id="contained-button-file"
+                        multiple
+                        type="file"
+                    />
                 </Grid>
 
                 <Grid item style={{ marginTop: 16 }}>

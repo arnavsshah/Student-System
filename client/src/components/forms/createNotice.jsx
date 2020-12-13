@@ -54,7 +54,7 @@ export default function Notice(props) {
         //     data.push(values);
         // }
         // console.log(data)
-        props.setFlag(!props.flag);
+        // props.setFlag(!props.flag);
         axios({
             method: 'post',
             url: 'http://localhost:5000/notice',
@@ -62,7 +62,7 @@ export default function Notice(props) {
             data: values,
         })
         .then(() => {
-            console.log('done creating notice');
+            // console.log('done creating notice');
             // history.replace('/profile');
             setValues(preValue => ({
             ...preValue,

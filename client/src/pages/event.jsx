@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import SwipeableViews from "react-swipeable-views";
@@ -43,8 +43,7 @@ function a11yProps(index) {
         "aria-controls": `full-width-tabpanel-${index}`
     };
 }
-let data1 = [];
-let data2 = [];
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
@@ -97,30 +96,35 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-
-
 export default function Event(props) {
+    const [data1, setData1] = useState([]);
+    const [data2, setData2] = useState([]);
+    useEffect(()=>
     axios({
         method: 'get',
         url: 'http://localhost:5000/event',
         withCredentials: true,
     })
     .then((res) => {
-        data1 = res.data;
+        // data1 = res.data;
+        setData1(res.data);
         // console.log("data1 events", data1)
         // console.log(res.data);
-    })
+    }),[]
+    )
+    useEffect(()=>
     axios({
         method: 'get',
         url: 'http://localhost:5000/event/registered',
         withCredentials: true,
     })
     .then((res) => {
-        data2 = res.data;
+        // data2 = res.data;
+        setData2(res.data);
         // console.log("data2 events", data2)
         // console.log(res.data);
-    })
+    }),[]
+    )
 
     const classes = useStyles();
     const theme = useTheme();
@@ -137,7 +141,42 @@ export default function Event(props) {
     const handleSubmitA = (e) => {
         // console.log(e.code)
         if (e.code === 'Enter') {
-            console.log("hello");
+            // console.log("hello", e.target.value);
+            axios({
+                method: 'get',
+                url: 'http://localhost:5000/event/'+ e.target.value,
+                withCredentials: true,
+            })
+            .then((res) => {
+                // data1 = res.data;
+                setData1(res.data);
+                // console.log("search data",data1)
+                // console.log("data2 events", data2)
+                // console.log(res.data);
+            })
+            
+
+        }
+    };
+    const handleSubmitB = (e) => {
+        // console.log(e.code)
+        if (e.code === 'Enter') {
+            // console.log("hello", e.target.value);
+            axios({
+                method: 'get',
+                url: 'http://localhost:5000/event/registered/'+ e.target.value,
+                withCredentials: true,
+            })
+            .then((res) => {
+                // data1 = res.data;
+                setData2(res.data);
+                // console.log("search data2",data2)
+                // console.log("search data2",d)
+                // console.log("data2 events", data2)
+                // console.log(res.data);
+            })
+            
+
         }
     };
     //   if(!props.isLogin){
@@ -191,6 +230,7 @@ export default function Event(props) {
                         </div>
                         <div className={classes.grow} />
                         {data1.map((event) => {
+                            // console.log("eee");
                             return (
                                 <EventCard
                                     data={event}
@@ -214,10 +254,12 @@ export default function Event(props) {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
+                                onKeyPress={handleSubmitB}
                             />
                         </div>
                         <div className={classes.grow} />
                         {data2.map((event) => {
+                            // console.log('dddd')
                             return (
                                 <EventCard
                                     data={event}

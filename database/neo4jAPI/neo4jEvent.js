@@ -62,12 +62,12 @@ async function searchRegisteredEvents(event_name, user_id) {
 
 
 async function registerForEvent(user_id, event_id) {
-    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH (e:Event) WHERE ID(e) = ${event_id} MERGE (s) -[:REGISTERED_IN]-> (e);`
+    var query = `MATCH (s) WHERE ID(s) = ${user_id} WITH s MATCH (e:Event) WHERE ID(e) = ${event_id} MERGE (s) -[:REGISTERED_IN]-> (e);`
     var res = await queryNeo4j(query);
 }
 
 async function addEvent(event, user_id, image_url) {
-    var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MERGE (e:Event) { club_name : "${event.club_name}", title : "${event.title}", description : "${event.description}", date : "${event.date}", prize : "${event.prize}", prerequistes : "${event.prerequistes}", coordinator : "${event.coordinator}", contact : "${event.contact}", comments : "${event.comments}", image_url : "${image_url}"} MERGE (s) -[:CREATES]-> (e);`
+    var query = `MATCH (s) WHERE ID(s) = ${user_id} WITH s MERGE (e:Event { club_name : "${event.club_name}", title : "${event.title}", description : "${event.description}", date : "${event.date}", prize : "${event.prize}", prerequistes : "${event.prerequistes}", coordinator : "${event.coordinator}", contact : "${event.contact}", comments : "${event.comments}", image_url : "${image_url}"}) MERGE (s) -[:CREATES]-> (e);`
     var res = await queryNeo4j(query);
 }
 
