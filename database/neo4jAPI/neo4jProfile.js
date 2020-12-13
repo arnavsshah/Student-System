@@ -54,7 +54,7 @@ async function getInstitutes(req) {
 }
 
 async function getSkills(req) {
-    console.log("inside", req.user)
+    // console.log("inside", req.user)
     var query = `MATCH (s) -[:HAS]-> (sk) WHERE ID(s) = ${req.user.id} RETURN sk;`;
     var skills = await queryNeo4j(query);
     var res = skills.records.map(record => {

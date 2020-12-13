@@ -83,6 +83,9 @@ export default function MediaControlCard(props) {
       <IssueButton
             className={classes.issueButton}
             available={props.available}
+            id = {props.id}
+            setReload = {props.setReload}
+            reload = {props.reload}
       />
       </div>
     </Grid>

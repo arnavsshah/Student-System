@@ -41,6 +41,7 @@ async function categoryBased(req) {
 
 async function authorBased(req) {
     var query = `MATCH (s1:Student) -[:AUTHOR_READ]-> (a:Author) <-[:AUTHOR_READ]- (s2:Student) WHERE ID(s1) = ${req.user.id} AND ID(s1) <> ID(s2) WITH s1, s2, COUNT(a) AS score ORDER BY score MATCH (s2) -[:READ]-> (b:Book) WHERE NOT EXISTS((s1) -[:READ]-> (b)) RETURN b, ID(b) LIMIT 50;`;
+    // var query = `MATCH (s:Student) - [:AUTHOR_READ]-> (a:Author) WITH a MATCH (b: Book)-[WRITTEN_BY]->(a) RETURN b LIMIT 50;`
     var books = await queryNeo4j(query);
     var res = books.records.map(record => {
         return {
@@ -48,13 +49,15 @@ async function authorBased(req) {
             id: record._fields[1],
         }
     })
+    console.log("inside library",res);
     return res;
 }
 
 async function issueBook(book_id, req) {
     var query = `MATCH (b:Book) WHERE ID(b) = ${book_id} RETURN b.issued;`
     var issue_book = await queryNeo4j(query);
-    if (issue_book.records._fields[0] === 'true') return false;
+    // console.log('issue_book', issue_book.records);
+    if (issue_book.records[0]._fields[0] === 'true') return false;
     else {
         query = `MATCH (b:Book) WHERE ID(b) = ${book_id} SET b.issued = 'true' WITH b MATCH(s:Student) WHERE ID(s) = ${req.user.id} MERGE (b) -[:ISSUED_BY]-> (s) MERGE (s) -[:READ]-> (b);`
         issue_book = await queryNeo4j(query);
@@ -89,5 +92,5 @@ module.exports = {
     categoryBased: categoryBased,
     authorBased: authorBased,
     issueBook: issueBook,
-    returnBook: returnBook,
+    // returnBook: returnBook,
 }

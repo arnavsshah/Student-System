@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import SwipeableViews from "react-swipeable-views";
@@ -42,10 +42,7 @@ function a11yProps(index) {
     "aria-controls": `full-width-tabpanel-${index}`
   };
 }
-let data1 = [];
-let data2 = [];
-let data3 = [];
-let data4 = [];
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -60,19 +57,27 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Library(props) {
+
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
+  const [data4, setData4] = useState([]);
+  const [reload, setReload] = useState(false);
+  useEffect(()=>
   axios({
     method: 'get',
     url: 'http://localhost:5000/library',
     withCredentials: true,
   })
-    .then((res) => {
-      data1 = res.data.interestBased;
-      data2 = res.data.bookBased;
-      data3 = res.data.categoryBased;
-      data4 = res.data.authorBased;
-      console.log("data1 ", data1)
+  .then((res) => {
+    setData1(res.data.interestBased);
+    setData2(res.data.bookBased);
+    setData3(res.data.categoryBased);
+    setData4(res.data.authorBased)
+    // console.log("data1 ", data1)
       // console.log(res.data);
-    })
+  }),[reload]
+  )
   const classes = useStyles();
   const theme = useTheme();
   let history = useHistory();
@@ -124,6 +129,9 @@ export default function Library(props) {
                   bookName= {book.name}
                   available={book.issued ==='false'}
                   imgUrl = {book.image_url}
+                  id = {book.id}
+                  setReload = {setReload}
+                  reload = {reload}
                 />
                 // <h1>hello</h1>
               );
@@ -139,6 +147,9 @@ export default function Library(props) {
                   bookName= {book.name}
                   available={book.issued ==='false'}
                   imgUrl = {book.image_url}
+                  id = {book.id}
+                  setReload = {setReload}
+                  reload = {reload}
                 />
                 // <h1>hello</h1>
               );
@@ -154,6 +165,9 @@ export default function Library(props) {
                   bookName= {book.name}
                   available={book.issued ==='false'}
                   imgUrl = {book.image_url}
+                  id = {book.id}
+                  setReload = {setReload}
+                  reload = {reload}
                 />
                 // <h1>hello</h1>
               );
@@ -169,6 +183,9 @@ export default function Library(props) {
                   bookName= {book.name}
                   available={book.issued ==='false'}
                   imgUrl = {book.image_url}
+                  id = {book.id}
+                  setReload = {setReload}
+                  reload = {reload}
                 />
                 // <h1>hello</h1>
               );

@@ -243,7 +243,7 @@ export default function Profile(props) {
 
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {"Abhishek Nair"}
+            {p.user.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {p.content}
