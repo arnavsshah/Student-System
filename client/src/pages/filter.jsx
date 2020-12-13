@@ -95,7 +95,7 @@ export default function Filter(props) {
   const [screenCounter, setScreenCounter] = React.useState(0);
   const [mapData, setMapData] = React.useState([])
   const [queryData, setQueryData] = React.useState([])
-  const [attributeData, setAttributeData] = React.useState([])
+  const [attributeData, setAttributeData] = React.useState({})
   const handleDrawerOpen = () => {
     setOpen(true);
   };

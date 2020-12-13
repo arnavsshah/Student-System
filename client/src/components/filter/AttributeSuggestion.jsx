@@ -46,6 +46,7 @@ export default function AttributeSuggestion(props) {
       data: state,
     })
       .then((res) => {
+        console.log('atrribut ldkkd')
         setState(preValue => ({
           ...preValue,
           attribute: ""

@@ -33,9 +33,9 @@ export default function SpatialList(props) {
     const [open, setOpen] = React.useState(false);
     const [state, setValues] = React.useState({
         place: "",
-        distance: 1,
-        nearbyWorking: 1,
-        nearbyStudying: 1,
+        distance: 0,
+        nearbyWorking: 0,
+        nearbyStudying: 0,
         startYear: 2020,
     });
     const handleclickButton = (event) => {
@@ -61,9 +61,9 @@ export default function SpatialList(props) {
           setValues(preValue => ({
             ...preValue,
             place: "",
-            distance: 1,
-            nearbyWorking: 1,
-            nearbyStudying: 1,
+            distance: 0,
+            nearbyWorking: 0,
+            nearbyStudying: 0,
             startYear: 2020,
           }))
         //   console.log('f');
@@ -130,7 +130,7 @@ export default function SpatialList(props) {
                                 label="Distance"
                                 type="number"
                                 value={state.distance}
-                                InputProps={{ inputProps: { min: 1 } }, {
+                                InputProps={{ inputProps: { min: 0 } }, {
                                     endAdornment: <InputAdornment position="start">Km</InputAdornment>,
                                 }}
                                 onChange={handleChange}
@@ -156,7 +156,7 @@ export default function SpatialList(props) {
                                 label="Distance"
                                 type="number"
                                 value={state.nearbyWorking}
-                                InputProps={{ inputProps: { min: 1 } }, {
+                                InputProps={{ inputProps: { min: 0} }, {
                                     endAdornment: <InputAdornment position="start">Km</InputAdornment>,
                                 }}
                                 onChange={handleChange}
@@ -182,7 +182,7 @@ export default function SpatialList(props) {
                                 label="Distance"
                                 type="number"
                                 value={state.nearbyStudying}
-                                InputProps={{ inputProps: { min: 1 } }, {
+                                InputProps={{ inputProps: { min: 0 } }, {
                                     endAdornment: <InputAdornment position="start">Km</InputAdornment>,
                                 }}
                                 onChange={handleChange}

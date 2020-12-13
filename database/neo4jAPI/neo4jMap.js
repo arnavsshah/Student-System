@@ -17,6 +17,7 @@ async function studentsInLocation(req) {
             instituteLocation: { },
         }
     })
+    console.log('spatial ssss',result);
     return result;
 }
 

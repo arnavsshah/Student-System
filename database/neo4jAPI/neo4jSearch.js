@@ -449,62 +449,56 @@ async function studentAttributeSuggestion(data, id) {
     var res = {};
     var readTxResultPromise = await session.readTransaction(async txc => {
         if (data.attribute === 'skill') {
-            var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2, COUNT(s2) AS count ORDER BY count DESC;`;
+            var queryForSkill = `MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`;
             var skillSuggestion = await txc.run(queryForSkill);
+            
             res.name = skillSuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.name
-                }
+                return record._fields[0].properties.name;
             })
             res.attribute = 'Skill you should work on.';
+            console.log("skill search",res);
         }
+        
         if (data.attribute === 'course') {
-            var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var queryForCourse = `MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`
             var courseSuggestion = await txc.run(queryForCourse);
+            
             res.name = courseSuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.name
-                }
+                return record._fields[0].properties.name
             })
             res.attribute = 'Courses you should take next.'
         }
         if (data.attribute === 'project') {
-            var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2, COUNT(s2) AS count ORDER BY count DESC;`
+            var queryForProject = `MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`
             var projectSuggestion = await txc.run(queryForProject);
             res.name = projectSuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.name
-                }
+                return record._fields[0].properties.name
             })
             res.attribute = 'Projects can you work on.'
         }
         if (data.attribute === 'achievement') {
-            var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2, COUNT(s2) AS count ORDER BY count DESC;`
+            var queryForAchievement = `MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`
             var achievementSuggestion = await txc.run(queryForAchievement);
             res.name = achievementSuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.title
-                }
+                return record._fields[0].properties.title
             })
             res.attribute = 'Achievements you can aim for.'
         }
         if (data.attribute === 'club') {
-            var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var queryForClub = `MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`
             var clubSuggestion = await txc.run(queryForClub);
             res.name = clubSuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.name
-                }
+                return record._fields[0].properties.name
+        
             })
             res.attribute = 'Club you can be a part of.'
         }
         if (data.attribute === 'company') {
-            var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var queryForCompany = `MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} AND NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC LIMIT 30;`
             var companySuggestion = await txc.run(queryForCompany);
             res.name == companySuggestion.records.map(record => {
-                return {
-                    ...record._fields[0].properties.name
-                }
+                return record._fields[0].properties.name
+                
             })
             res.attribute = 'Companies that you can apply for.'
         }
