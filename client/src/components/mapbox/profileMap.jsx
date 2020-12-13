@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactMapGL, { Marker, Popup, Source, Layer } from "react-map-gl";
 import RoomIcon from '@material-ui/icons/Room';
-import { GeoJSONLayer } from "react-mapbox-gl";
+// import { GeoJSONLayer } from "react-mapbox-gl";
 // import PolylineOverlay from './polyline'
 // import MapboxGL from '@mapbox/react-native-mapbox-gl';
 // const { mapbox_api } = require('../../../../config/env_vars');

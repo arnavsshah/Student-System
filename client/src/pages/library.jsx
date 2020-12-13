@@ -101,9 +101,9 @@ export default function Library(props) {
           aria-label="full width tabs example"
         >
           <Tab label="Based on Your Interests" {...a11yProps(0)} />
-          <Tab label="Based on book your favourite Books" {...a11yProps(1)} />
-          <Tab label="Based on Student similar to you" {...a11yProps(2)} />
-          <Tab label="Based on Your Favourite Author" {...a11yProps(3)} />
+          <Tab label="Based on your Favourite Books" {...a11yProps(1)} />
+          <Tab label="Based on Students similar to you" {...a11yProps(2)} />
+          <Tab label="Based on Your Favourite Authors" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

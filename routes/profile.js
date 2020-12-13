@@ -5,7 +5,7 @@ var neo4jApi = require('../database/neo4jAPI/neo4jProfile');
 
 
 router.get('/', async(req, res) => {
-    var student = await neo4jApi.getStudent(req);
+    var user = await neo4jApi.getUser(req);
     var skills = await neo4jApi.getSkills(req);
     var courses = await neo4jApi.getCourses(req);
     var languages = await neo4jApi.getLanguages(req);
@@ -18,7 +18,7 @@ router.get('/', async(req, res) => {
     var companies = await neo4jApi.getCompanies(req);
 
     var data = {
-        student: student,
+        user: user,
         skills: skills,
         courses: courses,
         languages: languages,

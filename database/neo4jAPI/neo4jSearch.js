@@ -138,14 +138,14 @@ async function studentSearch(data, id) {
     var res = await queryNeo4j(query);
     // console.log('res inside neo4j', res)
     var student = res.map(r => {
-        return(
-        r.records.map(record => {
+        return (
+            r.records.map(record => {
 
-            return {
-                ...record._fields[0].properties,
-                ...record._fields[1].properties,
-            }
-        })
+                return {
+                    ...record._fields[0].properties,
+                    ...record._fields[1].properties,
+                }
+            })
 
         )
 
@@ -259,12 +259,20 @@ async function teacherSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    var teacher = res.records.map(record => {
-        return {
-            ...record._fields[0].properties,
-            ...record._fields[1].properties,
-        }
+    var teacher = res.map(r => {
+        return (
+            r.records.map(record => {
+
+                return {
+                    ...record._fields[0].properties,
+                    ...record._fields[1].properties,
+                }
+            })
+
+        )
+
     })
+    console.log("teaceher inside neo", teacher);
     return isQuery === true ? teacher : [];
 }
 
@@ -338,12 +346,20 @@ async function alumniSearch(data, id) {
     query += `RETURN res; `
 
     var res = await queryNeo4j(query);
-    var student = res.records.map(record => {
-        return {
-            ...record._fields[0].properties,
-            ...record._fields[1].properties,
-        }
+    var student = res.map(r => {
+        return (
+            r.records.map(record => {
+
+                return {
+                    ...record._fields[0].properties,
+                    ...record._fields[1].properties,
+                }
+            })
+
+        )
+
     })
+    console.log("studen inside neo", student);
     return isQuery === true ? student : [];
 }
 
@@ -353,49 +369,49 @@ async function similarStudentSuggestion(data, id) {
 
     if (data.isSkill) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(sk) AS count ORDER BY count DESC `;
         query += `UNION `
     }
 
     if (data.isCourse) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isProject) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(p) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isClub) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isAchievement) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(a) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isLanguage) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(l) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isInterest) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(l:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(i:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(i) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
     if (data.isCompany) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(*) AS count ORDER BY count DESC `;
+        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
         query += `UNION `;
     }
 
