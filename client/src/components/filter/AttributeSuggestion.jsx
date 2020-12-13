@@ -41,7 +41,7 @@ export default function AttributeSuggestion(props) {
     console.log(state);
     axios({
       method: 'post',
-      url: 'http://localhost:5000/search/studentSuggestion',
+      url: 'http://localhost:5000/search/attributeSuggestion',
       withCredentials: true,
       data: state,
     })
@@ -51,7 +51,7 @@ export default function AttributeSuggestion(props) {
           attribute: ""
         }))
         props.setQueryData(res.data);
-        props.setScreenCounter(2);
+        props.setScreenCounter(3);
       })
       .catch(err => {
         console.error(err);

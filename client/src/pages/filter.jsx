@@ -25,6 +25,7 @@ import SpatialSearch from "../components/filter/spatialSearch"
 import ProfileMap from "../components/mapbox/spatialSearchMap"
 // import ProfileCard from "../components/profile/profileCard"
 import DisplayProfile from "../components/filter/displayProfile"
+import DisplayAttribute from "../components/filter/displayAttribute"
 import SearchMap from "../components/mapbox/searchPageMap"
 const drawerWidth = 350;
 
@@ -94,6 +95,7 @@ export default function Filter(props) {
   const [screenCounter, setScreenCounter] = React.useState(0);
   const [mapData, setMapData] = React.useState([])
   const [queryData, setQueryData] = React.useState([])
+  const [attributeData, setAttributeData] = React.useState([])
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -116,6 +118,9 @@ export default function Filter(props) {
   }
   else if(screenCounter===2){
     mainScreen = <DisplayProfile queryData = {queryData}/>
+  }
+  else if(screenCounter===3){
+    mainScreen = <DisplayAttribute attributeData = {attributeData}/>
   }
   const doLogout = ()=>{
     props.setIsLogin(false)
@@ -189,7 +194,7 @@ export default function Filter(props) {
         <TeacherList setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
         <AlumniList setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
         <StudentSuggestion setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
-        <AttributeSuggestion setScreenCounter = {setScreenCounter} setQueryData = {setQueryData}/>
+        <AttributeSuggestion setScreenCounter = {setScreenCounter} setQueryData = {setAttributeData}/>
         <SpatialSearch mapData = {mapData} setMapData={setMapData} setScreenCounter = {setScreenCounter}/>
       </Drawer>
     </div>
