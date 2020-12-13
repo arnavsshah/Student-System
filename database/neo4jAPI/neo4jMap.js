@@ -4,20 +4,20 @@ const driver = require('../../config/db');
 
 async function studentsInLocation(req) {
     // console.log("req inside route",req.body);
-    var query = `MATCH (s:Student)-[:LIVES_IN]->(l:Location) WHERE l.address CONTAINS '${req.body.place}' RETURN s, l LIMIT 10;`
+    var query = `MATCH (s:Student)-[:LIVES_IN]->(l:Location) WHERE l.address CONTAINS '${req.body.place}' RETURN s, l;`
     var res = await queryNeo4j(query);
     // console.log("res inside route", res);
     var result = res.records.map(record => {
-        return {
-            student: {...record._fields[0].properties },
-            studentLocation: {...record._fields[1].properties },
-            company: {},
-            companyLocation: {},
-            institute: {},
-            instituteLocation: { },
-        }
-    })
-    console.log('spatial ssss',result);
+            return {
+                student: {...record._fields[0].properties },
+                studentLocation: {...record._fields[1].properties },
+                company: {},
+                companyLocation: {},
+                institute: {},
+                instituteLocation: {},
+            }
+        })
+        // console.log('spatial ssss',result);
     return result;
 }
 

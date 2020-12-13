@@ -38,8 +38,8 @@ export default function ProfileMap(props) {
                 {...viewport}
                 mapboxApiAccessToken={mapbox_api}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
-                width="100%"
-                height="100%"
+                // width="100%"
+                // height="100%"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}
@@ -50,7 +50,7 @@ export default function ProfileMap(props) {
                         return (
                             <Marker
                                 key={data.student.name}
-                                latitude={data.studentLocation.latitute}
+                                latitude={data.studentLocation.latitude}
                                 longitude={data.studentLocation.longitude}
                             >
                                 <button
@@ -69,7 +69,7 @@ export default function ProfileMap(props) {
                         return (
                             <Marker
                                 key={data.company.name}
-                                latitude={data.companyLocation.latitute}
+                                latitude={data.companyLocation.latitude}
                                 longitude={data.companyLocation.longitude}
                             >
                                 <button
@@ -88,7 +88,7 @@ export default function ProfileMap(props) {
                         return (
                             <Marker
                                 key={data.institute.name}
-                                latitude={data.instituteLocation.latitute}
+                                latitude={data.instituteLocation.latitude}
                                 longitude={data.instituteLocation.longitude}
                             >
                                 <button
@@ -110,8 +110,8 @@ export default function ProfileMap(props) {
                 {/* for student */}
                 {selectedStudent ? (
                     <Popup
-                        latitude={selectedStudent.studentLocation.latitute}
-                        longitude={selectedStudent.studentLocation.latitute}
+                        latitude={selectedStudent.studentLocation.latitude}
+                        longitude={selectedStudent.studentLocation.longitude}
                         onClose={() => {
                             setSelectedStudent(null);
                         }}
@@ -127,8 +127,8 @@ export default function ProfileMap(props) {
                 {/* for company */}
                 {selectedCompany ? (
                     <Popup
-                        latitude={selectedCompany.companyLocation.latitute}
-                        longitude={selectedCompany.companyLocation.latitute}
+                        latitude={selectedCompany.companyLocation.latitude}
+                        longitude={selectedCompany.companyLocation.longitude}
                         onClose={() => {
                             setSelectedCompany(null);
                         }}
@@ -144,8 +144,8 @@ export default function ProfileMap(props) {
                 {/* for institute */}
                 {selectedInstitute ? (
                     <Popup
-                        latitude={selectedInstitute.instituteLocation.latitute}
-                        longitude={selectedInstitute.instituteLocation.latitute}
+                        latitude={selectedInstitute.instituteLocation.latitude}
+                        longitude={selectedInstitute.instituteLocation.longitude}
                         onClose={() => {
                             setSelectedInstitute(null);
                         }}
