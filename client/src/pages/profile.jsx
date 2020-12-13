@@ -60,6 +60,7 @@ export default function Profile(props) {
   const [displayNotice, setDisplayNotice] = useState(false);
   const [hostelInfo, setHostelInfo] = useState(false);
   const [displayHostelInfo, setDisplayHostelInfo] = useState(false);
+  const [profileMapData, setProfileMapData] = useState([]);
   const [p, setP] = useState(
     {
       name: '',
@@ -103,7 +104,8 @@ export default function Profile(props) {
       isTeaching: null,
       notices:[
 
-      ]
+      ],
+      maps: null
     }
   )
   // if(!props.isLogin){
@@ -121,7 +123,8 @@ export default function Profile(props) {
     })
     .then((res)=>{
       setP(res.data);
-      console.log("notice",res.data.notices);
+      setProfileMapData(res.data.maps);
+      console.log("map data profile",res.data.maps);
       // console.log(res.data);
     }),[flag]
   )
@@ -200,7 +203,7 @@ export default function Profile(props) {
       Apply For Hostel
       </Button>
       <PopUp openPopup={hostelInfo} handleClosePopUp={handleHostelForm}>
-        <HostelForm hostel = {hostel}/>
+        <HostelForm hostel = {hostel} handleClosePopUp={handleHostelForm}/>
       </PopUp>
       </div>
     }
@@ -215,7 +218,7 @@ export default function Profile(props) {
       <CssBaseline />
       {/* <ProfileMap/> */}
       <Card className={classes.root} >
-        <ProfileMap width='90vw' height = '50vh'/>
+        <ProfileMap width='90vw' height = '50vh' maps = {profileMapData}/>
         <CardActions>
           <Avatar
             alt="Abhishek" src="$" className={classes.large}

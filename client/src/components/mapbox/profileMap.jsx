@@ -14,7 +14,8 @@ export default function ProfileMap(props) {
         height: props.height,
         zoom: 12
     });
-    const [selectedPoint, setSelectedPoint] = useState(null);
+    const [selectedCompany, setSelectedCompany] = useState(null);
+    const [selectedInstitute, setSelectedInstitute] = useState(null);
     let points = [
         ['72.975050', '19.203610'],
         ['73.043450', '19.183600'],
@@ -26,224 +27,94 @@ export default function ProfileMap(props) {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={mapbox_api}
-                // onLoad={addLines}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}
             >
-                {/* <PolylineOverlay points={points} /> */}
-                <Marker
-                    key={'Z'}
-                    latitude={19.203610}
-                    longitude={72.975050}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                <Popup
-                    latitude={19.203610}
-                    longitude={72.975050}
-                >
+                
+                {props.maps.map((m)=>{
+                    if( m.companyLocation.latitude !== undefined ){
+                        return (
+                            <Marker
+                                key={m.name}
+                                latitude={m.companyLocation.latitude}
+                                longitude={m.companyLocation.longitude}
+                            >
+                                <button
+                                    className="marker-btn"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        setSelectedCompany(m);
+                                    }}
+                                >
+                                    <RoomIcon color="primary" fontSize="large" />
+                                </button>
+                            </Marker>
+                        )
+                    }
+                    else if( m.instituteLocation.latitude !== undefined ){
+                        return (
+                            <Marker
+                                key={m.institute.name}
+                                latitude={m.instituteLocation.latitude}
+                                longitude={m.instituteLocation.longitude}
+                            >
+                                <button
+                                    className="marker-btn"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        setSelectedInstitute(m);
+                                    }}
+                                >
+                                    <RoomIcon color="primary" fontSize="large" />
+                                </button>
+                            </Marker>
+                        )
+                    }
+                })
+            }
 
-                </Popup>
-                <Marker
-                    key={'A'}
-                    latitude={19.183600}
-                    longitude={73.043450}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                <Marker
-                    key={'B'}
-                    latitude={37.42896}
-                    longitude={-122.16969}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                <Marker
-                    key={'C'}
-                    latitude={19.0274356}
-                    longitude={72.8501467}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                <Marker
-                    key={'D'}
-                    latitude={19.01807}
-                    longitude={73.04038}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                <Marker
-                    key={'E'}
-                    latitude={19.203610}
-                    longitude={72.975050}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        {/* <img src="" alt="VJTI" /> */}
-                        <RoomIcon color="primary" fontSize="large" />
-                    </button>
-                </Marker>
-                {selectedPoint ? (
+             {/* for company */}
+             {selectedCompany ? (
                     <Popup
-                        latitude={19.203610}
-                        longitude={72.975050}
+                        latitude={selectedCompany.companyLocation.latitude}
+                        longitude={selectedCompany.companyLocation.longitude}
                         onClose={() => {
-                            setSelectedPoint(null);
+                            setSelectedCompany(null);
                         }}
                     >
                         <div>
-                            {/* <h2>{selectedPark.properties.NAME}</h2>
-                            <p>{selectedPark.properties.DESCRIPTIO}</p> */}
-                            <h2>Hello</h2>
+                            <h2><strong>Company</strong></h2>
+                            <h4>Name: {selectedCompany.company.name}</h4>
+                            <h4>Website: {selectedCompany.company.website}</h4>
+                            <h4>Field: {selectedCompany.company.field}</h4>
                         </div>
                     </Popup>
                 ) : null}
-
-                {/* {props.mapData && props.mapData.map((data) => {
-                    
-                    // console.log('gg', Object.keys(data.studentLocation).length)
-                    {if (Object.keys(data.studentLocation).length) {
-                        return(
-                        <Marker
-                            key={'VJTI'}
-                            latitude={19.0223}
-                            longitude={72.8562}
-                        >
-                            <button
-                                className="marker-btn"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    // setSelectedPark(park);
-                                }}
-                            >
-                                <img src="/skateboarding.svg" alt={data.studentLocation.address} />
-                            </button>
-                        </Marker>
-                    
-                    )
-                     }
-                }}) */}
-                {/* } */}
-
-
-
-
-
-
-                {/* <Marker
-                    key={"vjti"}
-                    latitude={19.022480}
-                    longitude={72.855026}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
+                {/* for institute */}
+                {selectedInstitute ? (
+                    <Popup
+                        latitude={selectedInstitute.instituteLocation.latitude}
+                        longitude={selectedInstitute.instituteLocation.longitude}
+                        onClose={() => {
+                            setSelectedInstitute(null);
                         }}
                     >
-                        <img src="/skateboarding.svg" alt="VJTI" />
-                    </button>
-                </Marker> */}
-                {/* <Marker
-                    key={"vjti"}
-                    latitude={19.022480}
-                    longitude={72.855026}
-                >
-                    <button
-                        className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            // setSelectedPark(park);
-                        }}
-                    >
-                        <img src="/skateboarding.svg" alt="Navi Mumbai" />
-                    </button>
-                </Marker> */}
-                {/* {parkDate.features.map(park => (
-          <Marker
-            key={park.properties.PARK_ID}
-            latitude={park.geometry.coordinates[1]}
-            longitude={park.geometry.coordinates[0]}
-          >
-            <button
-              className="marker-btn"
-              onClick={e => {
-                e.preventDefault();
-                setSelectedPark(park);
-              }}
-            >
-              <img src="/skateboarding.svg" alt="Skate Park Icon" />
-            </button>
-          </Marker>
-        ))} */}
+                        <div>
+                            <h2><strong>Institute</strong></h2>
+                            <h4>Name: {selectedInstitute.institute.name}</h4>
+                            <h4>Degree: {selectedInstitute.institute.degree}</h4>
+                        </div>
+                    </Popup>
+                ) : null}
+                
+              
 
-                {/* {selectedPark ? (
-          <Popup
-            latitude={selectedPark.geometry.coordinates[1]}
-            longitude={selectedPark.geometry.coordinates[0]}
-            onClose={() => {
-              setSelectedPark(null);
-            }}
-          >
-            <div>
-              <h2>{selectedPark.properties.NAME}</h2>
-              <p>{selectedPark.properties.DESCRIPTIO}</p>
-            </div>
-          </Popup>
-        ) : null} */}
+
+
+
+
             </ReactMapGL>
         </div>
     );

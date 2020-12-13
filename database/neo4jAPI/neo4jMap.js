@@ -38,14 +38,14 @@ async function studentsLivedWithinDistance(req) {
 }
 
 async function studentsWorkedWithinDistance(req) {
-    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,c WHERE dist < ${req.body.nearbyWorking*1000} RETURN s2, c, x ORDER BY dist `
+    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,c WHERE dist < ${req.body.nearbyWorking*1000} RETURN c, x ORDER BY dist `
     var res = await queryNeo4j(query);
     var result = res.records.map(record => {
         return {
-            student: {...record._fields[0].properties },
+            student: {},
             studentLocation: {},
-            company: {...record._fields[1].properties },
-            companyLocation: {...record._fields[0].properties },
+            company: {...record._fields[0].properties },
+            companyLocation: {...record._fields[1].properties },
             institute: {},
             instituteLocation: {},
         }
@@ -54,16 +54,16 @@ async function studentsWorkedWithinDistance(req) {
 }
 
 async function studentsStudiedWithinDistance(req) {
-    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,i WHERE dist < ${req.body.nearbyStudying*1000} RETURN s2, i, x ORDER BY dist`
+    var query = `MATCH (s1: Student)-[:LIVES_IN]->(l) WHERE ID(s1) = ${req.user.id} WITH point(l) AS stud MATCH (s2:Student)-[:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(x) WITH distance(point(x), stud) AS dist,s2,x,i WHERE dist < ${req.body.nearbyStudying*1000} RETURN  i, x ORDER BY dist`
     var res = await queryNeo4j(query);
     var result = res.records.map(record => {
         return {
-            student: {...record._fields[0].properties },
+            student: {},
             studentLocation: {},
             company: {},
             companyLocation: {},
-            institute: {...record._fields[1].properties },
-            instituteLocation: {...record._fields[0].properties },
+            institute: {...record._fields[0].properties },
+            instituteLocation: {...record._fields[1].properties },
         }
     })
     return result;
