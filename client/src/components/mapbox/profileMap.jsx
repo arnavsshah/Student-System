@@ -14,45 +14,12 @@ export default function ProfileMap(props) {
         height: props.height,
         zoom: 12
     });
-    const mapRef = useRef();
-    const [selectedPark, setSelectedPark] = useState(null);
-    // console.log("NOO",props.mapData);
+    const [selectedPoint, setSelectedPoint] = useState(null);
     let points = [
         ['72.975050', '19.203610'],
         ['73.043450', '19.183600'],
         ['-122.16969', '37.42896']
     ]
-    // const addLines = () => {
-    //     // const map = ReactMapGL.getMap()
-    //     map.addLayer({
-    //         "id": "route",
-    //         "type": "line",
-    //         "source": {
-    //             "type": "geojson",
-    //             "data": {
-    //                 "type": "Feature",
-    //                 "properties": {},
-    //                 "geometry": {
-    //                     "type": "LineString",
-    //                     "coordinates": [
-    //                         ['72.975050', '19.203610'],
-    //                         ['73.043450', '19.183600'],
-    //                         ['-122.16969', '37.42896']
-    //                     ]
-    //                 }
-    //             }
-    //         },
-    //         "layout": {
-    //             "line-join": "round",
-    //             "line-cap": "round"
-    //         },
-    //         "paint": {
-    //             "line-color": "#888",
-    //             "line-width": 8
-    //         }
-    //     });
-    // }
-
     return (
         <div>
             {/* <h1>profileMap</h1> */}
@@ -82,6 +49,12 @@ export default function ProfileMap(props) {
                         <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
+                <Popup
+                    latitude={19.203610}
+                    longitude={72.975050}
+                >
+
+                </Popup>
                 <Marker
                     key={'A'}
                     latitude={19.183600}
@@ -162,15 +135,21 @@ export default function ProfileMap(props) {
                         <RoomIcon color="primary" fontSize="large" />
                     </button>
                 </Marker>
-
-                {/* <Source type="geojson" data={data}>
-                    <Layer {...dataLayer} />
-                </Source> */}
-                {/* <ReactMapGL.ShapeSource id='line1' shape={state.route}>
-                    <ReactMapGL.LineLayer id='linelayer1' style={{lineColor:'red'}} />
-                </ReactMapGL.ShapeSource> */}
-
-
+                {selectedPoint ? (
+                    <Popup
+                        latitude={19.203610}
+                        longitude={72.975050}
+                        onClose={() => {
+                            setSelectedPoint(null);
+                        }}
+                    >
+                        <div>
+                            {/* <h2>{selectedPark.properties.NAME}</h2>
+                            <p>{selectedPark.properties.DESCRIPTIO}</p> */}
+                            <h2>Hello</h2>
+                        </div>
+                    </Popup>
+                ) : null}
 
                 {/* {props.mapData && props.mapData.map((data) => {
                     
