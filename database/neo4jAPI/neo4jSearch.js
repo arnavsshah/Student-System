@@ -25,13 +25,13 @@ async function studentSearch(data, id) {
         student_filter = true;
         query += `OPTIONAL MATCH (s:Student) WHERE s.class = '${student.class}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     } else {
-        if (data.department.length>0) {
+        if (data.department.length > 0) {
             // console.log("dep is true");
             isQuery = true;
             student_filter = true;
             query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${data.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
         }
-        if (parseInt(data.semester)>0) {
+        if (parseInt(data.semester) > 0) {
             // console.log("sem is true");
             isQuery = true;
             student_filter = true;
@@ -140,15 +140,15 @@ async function studentSearch(data, id) {
     }
     var res = await queryNeo4j(query);
     var students = res.map(r => {
-        var student = r.records.map(record => {
-            return {
-                ...record._fields[0].properties,
-                ...record._fields[1].properties,
-            }
+            var student = r.records.map(record => {
+                return {
+                    ...record._fields[0].properties,
+                    ...record._fields[1].properties,
+                }
+            })
+            return student[0];
         })
-        return student[0];
-    })
-    // console.log("student inside neo", students);
+        // console.log("student inside neo", students);
     return isQuery === true ? students : [];
 }
 
@@ -159,7 +159,7 @@ async function teacherSearch(data, id) {
     var isQuery = false;
     var teacher_filter = false;
 
-    if (data.department.length>0) {
+    if (data.department.length > 0) {
         isQuery = true;
         teacher_filter = true;
         query += `OPTIONAL MATCH (t:Teacher) WHERE t.department = '${data.department}' AND ID(t) IN t_filter WITH COLLECT(ID(t)) AS t_filter `
@@ -258,15 +258,15 @@ async function teacherSearch(data, id) {
     }
     var res = await queryNeo4j(query);
     var teachers = res.map(r => {
-        var teacher = r.records.map(record => {
-            return {
-                ...record._fields[0].properties,
-                ...record._fields[1].properties,
-            }
+            var teacher = r.records.map(record => {
+                return {
+                    ...record._fields[0].properties,
+                    ...record._fields[1].properties,
+                }
+            })
+            return teacher[0];
         })
-        return teacher[0];
-    })
-    // console.log("student inside neo", students);
+        // console.log("student inside neo", students);
     return isQuery === true ? teachers : [];
 }
 
@@ -276,11 +276,11 @@ async function alumniSearch(data, id) {
 
     var isQuery = false;
 
-    if (data.department.length>0) {
+    if (data.department.length > 0) {
         isQuery = true;
         query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${data.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     }
-    if (parseInt(data.year)<2021) {
+    if (parseInt(data.year) < 2021) {
         isQuery = true;
         query += `OPTIONAL MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = '${data.year}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     }
@@ -448,55 +448,65 @@ async function studentAttributeSuggestion(data, id) {
     var session = driver.session();
     var res = {};
     var readTxResultPromise = await session.readTransaction(async txc => {
-        var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2, COUNT(s2) AS count ORDER BY count DESC;`;
-        var skillSuggestion = await txc.run(queryForSkill);
-
-        var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
-        var courseSuggestion = await txc.run(queryForCourse);
-
-        var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2, COUNT(s2) AS count ORDER BY count DESC;`
-        var projectSuggestion = await txc.run(queryForProject);
-
-        var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2, COUNT(s2) AS count ORDER BY count DESC;`
-        var achievementSuggestion = await txc.run(queryForAchievement);
-
-        var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
-        var clubSuggestion = await txc.run(queryForClub);
-
-        var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
-        var companySuggestion = await txc.run(queryForCompany);
-
-        res = {
-            skillSuggestion: skillSuggestion.records.map(record => {
+        if (data.attribute === 'skill') {
+            var queryForSkill = `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk1:Skill)<-[:HAS]-(s2:Student)-[:HAS]->(sk2:Skill) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS]->(sk2)) RETURN sk2, COUNT(s2) AS count ORDER BY count DESC;`;
+            var skillSuggestion = await txc.run(queryForSkill);
+            res.name = skillSuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.name
                 }
-            }),
-            courseSuggestion: courseSuggestion.records.map(record => {
+            })
+            res.attribute = 'Skill you should work on.';
+        }
+        if (data.attribute === 'course') {
+            var queryForCourse = `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c1:Course)<-[:COMPLETED]-(s2:Student)-[:COMPLETED]->(c2:Course) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:COMPLETED]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var courseSuggestion = await txc.run(queryForCourse);
+            res.name = courseSuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.name
                 }
-            }),
-            projectSuggestion: projectSuggestion.records.map(record => {
+            })
+            res.attribute = 'Courses you should take next.'
+        }
+        if (data.attribute === 'project') {
+            var queryForProject = `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p1:Project)<-[:HAS_DONE]-(s2:Student)-[:HAS_DONE]->(p2:Project) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_DONE]->(p2)) RETURN p2, COUNT(s2) AS count ORDER BY count DESC;`
+            var projectSuggestion = await txc.run(queryForProject);
+            res.name = projectSuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.name
                 }
-            }),
-            achievementSuggestion: achievementSuggestion.records.map(record => {
+            })
+            res.attribute = 'Projects can you work on.'
+        }
+        if (data.attribute === 'achievement') {
+            var queryForAchievement = `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a1:Achievement)<-[:HAS_ACHIEVED]-(s2:Student)-[:HAS_ACHIEVED]->(a2:Achievement) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:HAS_ACHIEVED]->(a2)) RETURN a2, COUNT(s2) AS count ORDER BY count DESC;`
+            var achievementSuggestion = await txc.run(queryForAchievement);
+            res.name = achievementSuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.title
                 }
-            }),
-            clubSuggestion: clubSuggestion.records.map(record => {
+            })
+            res.attribute = 'Achievements you can aim for.'
+        }
+        if (data.attribute === 'club') {
+            var queryForClub = `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c1:Club)<-[:PART_OF]-(s2:Student)-[:PART_OF]->(c2:Club) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:PART_OF]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var clubSuggestion = await txc.run(queryForClub);
+            res.name = clubSuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.name
                 }
-            }),
-            companySuggestion: companySuggestion.records.map(record => {
+            })
+            res.attribute = 'Club you can be a part of.'
+        }
+        if (data.attribute === 'company') {
+            var queryForCompany = `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c1:Company)<-[:WORKED_IN]-(s2:Student)-[:WORKED_IN]->(c2:Company) WHERE ID(s1) = ${id} NOT EXISTS((s1)-[:WORKED_IN]->(c2)) RETURN c2, COUNT(s2) AS count ORDER BY count DESC;`
+            var companySuggestion = await txc.run(queryForCompany);
+            res.name == companySuggestion.records.map(record => {
                 return {
-                    ...record._fields[0].properties
+                    ...record._fields[0].properties.name
                 }
-            }),
+            })
+            res.attribute = 'Companies that you can apply for.'
         }
     });
     session.close();
