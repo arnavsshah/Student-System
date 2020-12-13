@@ -29,22 +29,22 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(7)
   },
   bg:{
-    borderStartEndRadius: '25%',
-    borderEndEndRadius: '25%',
-    borderStartStartRadius: '25%',
-    borderEndStartRadius: '25%'
+    // borderStartEndRadius: '25%',
+    // borderEndEndRadius: '25%',
+    // borderStartStartRadius: '25%',
+    // borderEndStartRadius: '25%'
   }
 }));
-let notices = [
-  {
-    title: 'SGD submission',
-    content: 'Submit project report before 14 dec'
-  },
-  {
-    title: 'WIM submission',
-    content: 'I will destroy your life'
-  }
-];
+// let notices = [
+//   {
+//     title: 'SGD submission',
+//     content: 'Submit project report before 14 dec'
+//   },
+//   {
+//     title: 'WIM submission',
+//     content: 'I will destroy your life'
+//   }
+// ];
 let hostel = {
   block: 'A',
   floor: '1',
@@ -97,11 +97,22 @@ export default function Profile(props) {
       companies: [
         // { name: "Google", field: "Technical", website: 'https://www.google.com', startDate: '22/01/2020', endDate: '', position: "SE", address: 'US' }
       ],
+      user:{
+
+      },
+      isTeaching: null,
+      notices:[
+
+      ]
     }
   )
   // if(!props.isLogin){
   //     history.push("/login");
   // }
+  let bg = null;
+  let bg2 = null;
+  var currentlyTeaching;
+  var hasHostel;
   useEffect(()=>
   axios({
     method: 'get',
@@ -110,8 +121,7 @@ export default function Profile(props) {
     })
     .then((res)=>{
       setP(res.data);
-      console.log(res);
-  
+      console.log("notice",res.data.notices);
       // console.log(res.data);
     }),[flag]
   )
@@ -130,11 +140,10 @@ export default function Profile(props) {
   const handleHostelView = (event) => {
     setDisplayHostelInfo(!displayHostelInfo);
   };
-  let currentlyTeaching = false;
-  let hasHostel = true;
-  let bg = null;
-  let bg2 = null;
-  if(currentlyTeaching){
+  
+  
+  if(p.isTeaching){
+    console.log("userrrrrr ",p.user)
       si=6;
       bg = <div>
         <Button variant="contained" 
@@ -146,7 +155,7 @@ export default function Profile(props) {
             Add Notice
           </Button>
           <PopUp openPopup={openCreateNotice} handleClosePopUp={handleNoticeButton}>
-            <NoticeForm />
+            <NoticeForm handleClosePopUp={handleNoticeButton}/>
           </PopUp>
       </div>
   }
@@ -162,7 +171,7 @@ export default function Profile(props) {
         Check Notice
       </Button>
       <PopUp openPopup={displayNotice} handleClosePopUp={handleDisplayNoticeButton}>
-        <DisplayNotice notices = {notices} />
+        <DisplayNotice notices = {p.notices} handleClosePopUp={handleDisplayNoticeButton} flag = {openCreateNotice} setFlag = {setOpenCreateEvent}/>
       </PopUp>
     </div>
     if(hasHostel){
@@ -176,7 +185,7 @@ export default function Profile(props) {
         Check Hostel
       </Button>
       <PopUp openPopup={displayHostelInfo} handleClosePopUp={handleHostelView}>
-        <DisplayHostel hostel = {hostel}/>
+        <DisplayHostel hostel = {hostel} handleClosePopUp={handleHostelView}/>
       </PopUp>
       </div>
     }

@@ -49,7 +49,7 @@ router.post("/register", validationChecks, async (req, res) => {
         console.log("start....");
         const session = driver.session();
         var result2 = await session.run(
-            `Match(s:Student{email: $email}) return s`, { email: email }
+            `Match(s) WHERE s.email = $email return s`, { email: email }
         )
         if (result2.records.length > 0) {
             errors['msg'] = 'Sorry, this email id already register!';

@@ -50,31 +50,31 @@ export default function Notice(props) {
         event.preventDefault();
         // console.log(event.target);
         // console.log('handle submit')
-        if (values.name !== '') {
-            data.push(values);
-        }
-        console.log(data)
-        //     axios({
-        //         method: 'post',
-        //         url: 'http://localhost:5000/profile/courses',
-        //         withCredentials: true,
-        //         data: data,
-        //     })
-        //     .then(() => {
-        //       // console.log('done');
-        //       // history.replace('/profile');
-        //       setValues(preValue => ({
-        //         ...preValue,
-        //         name: ''
-        //       }))
-        //       data = [];
-        //       props.setFlag(!props.flag);
-        //       props.handleClosePopUp();
-        //       props.setAnchorEl(null);
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //     });
+        // if (values.name !== '') {
+        //     data.push(values);
+        // }
+        // console.log(data)
+        props.setFlag(!props.flag);
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/notice',
+            withCredentials: true,
+            data: values,
+        })
+        .then(() => {
+            console.log('done creating notice');
+            // history.replace('/profile');
+            setValues(preValue => ({
+            ...preValue,
+            name: ''
+            }))
+            // props.setFlag(!props.flag);
+            props.handleClosePopUp();
+            // props.setAnchorEl(null);
+        })
+        .catch(err => {
+            console.error(err);
+        });
     }
 
     return (

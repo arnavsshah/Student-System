@@ -9,7 +9,7 @@ module.exports = function (passport) {
         }, (email, password, done) => {
             const session = driver.session();
             session.run(
-                `Match(s:Student{email: $email}) return s, ID(s)`, { email: email }
+                `Match(s) WHERE s.email=$email return s, ID(s)`, { email: email }
             ).then( (users, err) => {
                 // console.log('hello from password');
                 session.close();
@@ -40,7 +40,7 @@ module.exports = function (passport) {
   passport.deserializeUser((email, cb) => {
     const session = driver.session();
     session.run(
-        `Match(s:Student{email: $email}) return s, ID(s)`, { email: email }
+        `Match(s) WHERE s.email=$email return s, ID(s)`, { email: email }
     ).then( (users, err) => {
         session.close();
         user = users.records[0]._fields[0].properties;

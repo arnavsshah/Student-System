@@ -13,5 +13,6 @@ router.use("/profile", require("./profile"));
 router.use("/library", require("./library"));
 router.use("/hostel", require("./hostel"));
 router.use("/event", require("./event"));
+router.use("/notice", require("./notice"));
 
 module.exports = router;

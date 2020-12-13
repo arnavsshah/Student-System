@@ -16,6 +16,7 @@ router.get('/', async(req, res) => {
     var clubs = await neo4jApi.getClubs(req);
     var institutes = await neo4jApi.getInstitutes(req);
     var companies = await neo4jApi.getCompanies(req);
+    var notices = await neo4jApi.getNotices(req);
 
     var data = {
         user: user,
@@ -29,7 +30,9 @@ router.get('/', async(req, res) => {
         clubs: clubs,
         institutes: institutes,
         companies: companies,
+        notices: notices
     }
+    data.isTeaching = data.user.currentlyTeaching===true;
     res.send(data);
 })
 
