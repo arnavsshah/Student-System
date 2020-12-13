@@ -21,10 +21,12 @@ async function map() {
 async function getTeacher(req) {
     var query = `MATCH (t:Teacher) WHERE ID(t) = ${req.user.id} RETURN t, ID(t)`;
     var teacher = await queryNeo4j(query);
-    var res = {
-        ...teacher.records[0]._fields[0].properties,
-        user_id: student.records[0]._fields[1].properties,
-    }
+    var res = teacher.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            user_id: record._fields[1].properties,
+        }
+    })
 
     return res;
 }

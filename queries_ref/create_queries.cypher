@@ -359,7 +359,7 @@ CREATE (e:Event {
 CREATE (e:Event) -[:EVENT_OF]-> (c:Club)
 
 CREATE (s:Student) -[:CREATES]-> (e:Event)
-CREATE (s:Student) -[:REGISTERED_FOR]-> (e:Event)
+CREATE (s:Student) -[:REGISTERED_IN]-> (e:Event)
 
 
 
