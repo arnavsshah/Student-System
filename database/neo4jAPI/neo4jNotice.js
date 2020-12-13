@@ -14,7 +14,7 @@ async function getNotice(user_id) {
 }
 
 async function addNotice(notice, teacher_id) {
-    var query = `CREATE (n:Notice { title : "${notice.title}", content : "${notice.content}", class : "${notice.class}" }) WITH n MATCH (t: Teacher) WHERE ID(t) = ${teacher_id} WITH t CREATE (t) -[:SENT]-> (n) WITH n MATCH (s: Student) WHERE s.class = "${notice.class}" CREATE (s) -[:RECEIVED]-> (n);`
+    var query = `CREATE (n:Notice { title : "${notice.title}", content : "${notice.content}", class : "${notice.class}" }) WITH n MATCH (t: Teacher) WHERE ID(t) = ${teacher_id} WITH t, n CREATE (t) -[:SENT]-> (n) WITH n MATCH (s: Student) WHERE s.class = "${notice.class}" WITH s, n CREATE (s) -[:RECEIVED]-> (n);`
     // var query = `CREATE (n:Notice { title : "${notice.title}", content : "${notice.content}", class : "${notice.class}" }) CREATE (t:Teacher) -[:SENT]-> (n) WHERE ID(t) = ${teacher_id} CREATE (s:Student) -[:RECEIVED]-> (n) WHERE s.class = "${notice.class}";`
     var notice = await queryNeo4j(query);
 }

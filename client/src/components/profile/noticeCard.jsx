@@ -6,10 +6,10 @@ export default function MediaControlCard(props) {
     return(
         <div>
             <br/>
-            <Typography component="h5" variant="h5" color="textPrimary" gutterBottom fontFamily = 'Segoe UI'>
+            <Typography component="h6" variant="h6" color="textPrimary" gutterBottom fontFamily = 'Segoe UI'>
                 <strong>Title: </strong>{data.title}
             </Typography>
-            <Typography component="h5" variant="h5" color="textPrimary" gutterBottom>
+            <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
                 <strong>Content: </strong>{data.content}
             </Typography>
             <br/>

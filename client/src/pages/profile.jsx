@@ -234,7 +234,7 @@ export default function Profile(props) {
             Create Event
           </Button>
           <PopUp openPopup={openCreateEvent} handleClosePopUp={handleEventButton}>
-            <EventForm />
+            <EventForm handleClosePopUp={handleEventButton}/>
           </PopUp>
           {bg}
           <MyMenu setFlag = {setFlag} flag = {flag}/>
