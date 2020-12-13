@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.getContrastText(deepPurple[500]),
         backgroundColor: deepPurple[500],
       },
+      profilePic: {
+        // marginLeft : theme.spacing(1)
+      }
 }));
 
 export default function MediaControlCard(props) {
@@ -69,7 +72,7 @@ export default function MediaControlCard(props) {
                     <CardContent className={classes.content}>
 
                         <Grid container direction="row" spacing={1}>
-                            <Grid item lg={1}>
+                            <Grid item lg={2} className={classes.profilePic}>
                                 <Avatar
                                     className={classes.purple}
                                     style={{ height: '70px', width: '70px' }}
@@ -77,7 +80,7 @@ export default function MediaControlCard(props) {
                                 >
                                     </Avatar>
                             </Grid>
-                            <Grid item lg={11}>
+                            <Grid item lg={10}>
                                 <Grid container spacing={1} >
                                     <Grid item lg={6}>
                                         <Typography>Name - {props.data.name}</Typography>
@@ -88,19 +91,27 @@ export default function MediaControlCard(props) {
                                 </Grid>
                                 <Grid container spacing={1} >
                                     <Grid item lg={6}>
-                                        <Typography>Semester - {props.data.semester}</Typography>
-                                    </Grid>
-                                    <Grid item lg={6}>
                                         <Typography>Department - {props.data.department}</Typography>
                                     </Grid>
+                                    <Grid item lg={6}>
+                                        {props.data.semester.length>0 &&
+                                        <Typography>Semester - {props.data.semester}</Typography>
+                                        }
+                                    </Grid>
+                                    
                                 </Grid>
                                 <Grid container spacing={1} >
                                     <Grid item lg={6}>
-                                        <Typography>Year - {props.data.year}</Typography>
-                                    </Grid>
-                                    <Grid item lg={6}>
                                         <Typography>Age - {props.data.age}</Typography>
                                     </Grid>
+                                    
+                                    {/* <Grid item lg={6}>
+                                    {props.data.year &&
+                                         <Typography>Year - {props.data.year}</Typography>
+                                    }
+                                    </Grid> */}
+                                   
+                                    
                                 </Grid>
                                 <Grid container>
 

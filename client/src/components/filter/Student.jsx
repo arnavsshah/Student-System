@@ -64,7 +64,7 @@ export default function StudentList(props) {
   });
   const handleclickButton = (event) => {
     // console.log(state);
-    console.log("filter data", state)
+    // console.log("filter data", state)
     axios({
       method: 'post',
       url: 'http://localhost:5000/search/student',
@@ -230,17 +230,27 @@ export default function StudentList(props) {
                   <FormControlLabel
                     value="Electrical Engineering"
                     control={<Radio color="primary" />}
-                    label="Electrical Engineering"
+                    label="Electrical"
                   />
                   <FormControlLabel
                     value="Mechanical Engineering"
                     control={<Radio color="primary" />}
-                    label="Mech"
+                    label="Mechanical"
                   />
                   <FormControlLabel
                     value="Civil Engineering"
                     control={<Radio color="primary" />}
                     label="Civil"
+                  />
+                  <FormControlLabel
+                    value="Textile Engineering"
+                    control={<Radio color="primary" />}
+                    label="Textile"
+                  />
+                  <FormControlLabel
+                    value="Production Engineering"
+                    control={<Radio color="primary" />}
+                    label="Production"
                   />
                   <FormControlLabel
                     value="Other"

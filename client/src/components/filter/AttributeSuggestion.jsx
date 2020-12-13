@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
   List,
@@ -31,13 +32,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AttributeSuggestion() {
+export default function AttributeSuggestion(props) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     attribute: ""
   });
   const handleclickButton = (event) => {
     console.log(state);
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/search/studentSuggestion',
+      withCredentials: true,
+      data: state,
+    })
+      .then((res) => {
+        setState(preValue => ({
+          ...preValue,
+          attribute: ""
+        }))
+        props.setQueryData(res.data);
+        props.setScreenCounter(2);
+      })
+      .catch(err => {
+        console.error(err);
+      });
     //here add what to do after clicking filter button
   };
   const handleChange = (event) => {

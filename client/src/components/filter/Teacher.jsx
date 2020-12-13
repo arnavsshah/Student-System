@@ -170,37 +170,47 @@ export default function TeacherList(props) {
                   onChange={handleChangeDepartment}
                 >
                   <FormControlLabel
-                    value="CS"
+                    value="Computer Engineering"
                     control={<Radio color="primary" />}
                     label="CS"
                   />
                   <FormControlLabel
-                    value="IT"
+                    value="Information Technology"
                     control={<Radio color="primary" />}
                     label="IT"
                   />
                   <FormControlLabel
-                    value="EXTC"
+                    value="Electronics and Telecommunications Engineering"
                     control={<Radio color="primary" />}
                     label="EXTC"
                   />
                   <FormControlLabel
-                    value="Electronics"
+                    value="Electrical Engineering"
                     control={<Radio color="primary" />}
-                    label="Electronics"
+                    label="Electrical"
                   />
                   <FormControlLabel
-                    value="MECH"
+                    value="Mechanical Engineering"
                     control={<Radio color="primary" />}
-                    label="Mech"
+                    label="Mechanical"
                   />
                   <FormControlLabel
-                    value="CIVIL"
+                    value="Civil Engineering"
                     control={<Radio color="primary" />}
-                    label="Mech"
+                    label="Civil"
                   />
                   <FormControlLabel
-                    value=""
+                    value="Textile Engineering"
+                    control={<Radio color="primary" />}
+                    label="Textile"
+                  />
+                  <FormControlLabel
+                    value="Production Engineering"
+                    control={<Radio color="primary" />}
+                    label="Production"
+                  />
+                  <FormControlLabel
+                    value="Other"
                     control={<Radio color="primary" />}
                     label="Other"
                   />

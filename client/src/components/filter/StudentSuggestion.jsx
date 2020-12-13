@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 // import ListSubheader from "@material-ui/core/ListSubheader";
 import {
   List,
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function StudentSuggestion() {
+export default function StudentSuggestion(props) {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     isSkill: false,
@@ -42,7 +43,32 @@ export default function StudentSuggestion() {
     isCompany: false
   });
   const handleclickButton = (event) => {
-    console.log(state);
+    // console.log(state);
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/search/studentSuggestion',
+      withCredentials: true,
+      data: state,
+    })
+      .then((res) => {
+        setState(preValue => ({
+          ...preValue,
+          isSkill: false,
+          isInstitute: false,
+          isCourse: false,
+          isProject: false,
+          isAchievement: false,
+          isResearchPaper: false,
+          isInterest: false,
+          isLanguage: false,
+          isCompany: false
+        }))
+        props.setQueryData(res.data);
+        props.setScreenCounter(2);
+      })
+      .catch(err => {
+        console.error(err);
+      });
     //here add what to do after clicking filter button
   };
   const handleChange = (event) => {

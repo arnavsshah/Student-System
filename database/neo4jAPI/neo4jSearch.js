@@ -43,43 +43,43 @@ async function studentSearch(data, id) {
         query += `WITH s_filter AS res, s_filter `
 
         data.institutes.forEach(institute => {
-            query += `OPTIONAL MATCH (s:Student)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS '${institute.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS '${institute}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.skills.forEach(skill => {
-            query += `OPTIONAL MATCH (s:Student)-[:HAS]->(sk:Skill) WHERE sk.name CONTAINS '${skill.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:HAS]->(sk:Skill) WHERE sk.name CONTAINS '${skill}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.courses.forEach(course => {
-            query += `OPTIONAL MATCH (s:Student)-[:COMPLETED]->(c:Course) WHERE c.name CONTAINS '${course.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:COMPLETED]->(c:Course) WHERE c.name CONTAINS '${course}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.projects.forEach(project => {
-            query += `OPTIONAL MATCH (s:Student)-[:HAS_DONE]->(p:Project) WHERE p.name CONTAINS '${project.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:HAS_DONE]->(p:Project) WHERE p.name CONTAINS '${project}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.achievements.forEach(achievement => {
-            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS '${achievement.title}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:HAS_ACHIEVED]->(a:Achievement) WHERE a.title CONTAINS '${achievement}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.researchPapers.forEach(researchPaper => {
-            query += `OPTIONAL MATCH (s:Student)-[:PUBLISHED]->(r:ResearchPaper) WHERE r.title CONTAINS '${researchPaper.title}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:PUBLISHED]->(r:ResearchPaper) WHERE r.title CONTAINS '${researchPaper}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.clubs.forEach(club => {
-            query += `OPTIONAL MATCH (s:Student)-[:PART_OF]->(c:Club) WHERE c.name CONTAINS '${club.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:PART_OF]->(c:Club) WHERE c.name CONTAINS '${club}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.interests.forEach(interest => {
-            query += `OPTIONAL MATCH (s:Student)-[:INTERESTED_IN]->(i:Interest) WHERE i.name CONTAINS '${interest.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:INTERESTED_IN]->(i:Interest) WHERE i.name CONTAINS '${interest}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.languages.forEach(language => {
-            query += `OPTIONAL MATCH (s:Student)-[:SPEAKS]->(l:Language) WHERE l.name CONTAINS '${language.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:SPEAKS]->(l:Language) WHERE l.name CONTAINS '${language}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         });
 
         data.companies.forEach(company => {
-            query += `OPTIONAL MATCH (s:Student)-[:WORKED_IN]->(c:Company) WHERE c.name CONTAINS '${company.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter OPTIONAL MATCH (s:Student)-[:WORKED_IN]->(c:Company) WHERE c.field CONTAINS '${company.name}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+            query += `OPTIONAL MATCH (s:Student)-[:WORKED_IN]->(c:Company) WHERE c.name CONTAINS '${company}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter OPTIONAL MATCH (s:Student)-[:WORKED_IN]->(c:Company) WHERE c.field CONTAINS '${company}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
         })
 
         query += `RETURN res; `
@@ -159,10 +159,10 @@ async function teacherSearch(data, id) {
     var isQuery = false;
     var teacher_filter = false;
 
-    if (data.department) {
+    if (data.department.length>0) {
         isQuery = true;
         teacher_filter = true;
-        query += `OPTIONAL MATCH (t:Teacher) WHERE t.department = '${req.dept}' AND ID(t) IN s_filter WITH COLLECT(ID(t)) AS t_filter `
+        query += `OPTIONAL MATCH (t:Teacher) WHERE t.department = '${data.department}' AND ID(t) IN t_filter WITH COLLECT(ID(t)) AS t_filter `
     }
 
     if (teacher_filter) {
@@ -264,7 +264,7 @@ async function teacherSearch(data, id) {
                 ...record._fields[1].properties,
             }
         })
-        return student[0];
+        return teacher[0];
     })
     // console.log("student inside neo", students);
     return isQuery === true ? teachers : [];
@@ -272,29 +272,29 @@ async function teacherSearch(data, id) {
 
 
 async function alumniSearch(data, id) {
-    var query = `MATCH (s:Student) WHERE s.isAlumni = "true" WITH COLLECT(ID(s)) AS s_filter `;
+    var query = `MATCH (s:Student) WHERE s.currentlyStudying = false WITH COLLECT(ID(s)) AS s_filter `;
 
     var isQuery = false;
 
-    if (data.department) {
+    if (data.department.length>0) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${data.dept}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
+        query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${data.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     }
-    if (data.year) {
+    if (parseInt(data.year)<2021) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = ${data.yr} AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
+        query += `OPTIONAL MATCH (s:Student)-[studiedIn:STUDIED_IN]->(:Institute) WHERE studiedIn.endDate = '${data.year}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     }
 
     query += `WITH s_filter AS res, s_filter `
 
     data.institutes.forEach(institute => {
         isQuery = true;
-        query += `OPTIONAL MATCH (s:Student)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS ${institute} AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+        query += `OPTIONAL MATCH (s:Student)-[:STUDIED_IN]->(i:Institute) WHERE i.name CONTAINS '${institute}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
     });
 
     data.skills.forEach(skill => {
         isQuery = true;
-        query += `OPTIONAL MATCH (s:Student)-[:HAS]->(sk:Skill) WHERE sk.name CONTAINS ${skill} AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
+        query += `OPTIONAL MATCH (s:Student)-[:HAS]->(sk:Skill) WHERE sk.name CONTAINS '${skill}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) + res AS res, s_filter `
     });
 
     data.courses.forEach(course => {
@@ -359,43 +359,44 @@ async function similarStudentSuggestion(data, id) {
 
     if (data.isSkill) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `
     }
 
     if (data.isCourse) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isProject) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isClub) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isAchievement) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isLanguage) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isInterest) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(i:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(i:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
 
     if (data.isCompany) {
         isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} WITH COLLECT(ID(s2)) + res AS res `;
     }
+    query += `RETURN res;`
     var res = await queryNeo4j(query);
     var students = res.map(r => {
         var student = r.records.map(record => {
@@ -407,7 +408,7 @@ async function similarStudentSuggestion(data, id) {
         return student[0];
     })
     console.log("student inside neo", students);
-    return isQuery === true ? students : [];
+    return isQuery === true ? students.slice(0, 50) : [];
 }
 
 async function queryNeo4j(query) {
