@@ -40,7 +40,7 @@ export default function StudentList(props) {
   const [state, setState] = React.useState({
     myClass: false,
     department: "",
-    semester: 0,
+    semester: "0",
     skills: [],
     skillsValue: "",
     institutes: [],
@@ -64,6 +64,7 @@ export default function StudentList(props) {
   });
   const handleclickButton = (event) => {
     // console.log(state);
+    console.log("filter data", state)
     axios({
       method: 'post',
       url: 'http://localhost:5000/search/student',
@@ -74,6 +75,7 @@ export default function StudentList(props) {
         // console.log('done');
         // history.replace('/profile');
         //   console.log('great')
+        
         setState(preValue => ({
           ...preValue,
           myClass: false,
@@ -162,11 +164,11 @@ export default function StudentList(props) {
 
   const handlePaste = (evt) => {
     evt.preventDefault();
-    var paste = evt.clipboardData.getData("text");
-    setState((preValue) => ({
-      ...preValue,
-      [evt.target.id]: [...state.items, paste]
-    }));
+    // var paste = evt.clipboardData.getData("text");
+    // setState((preValue) => ({
+    //   ...preValue,
+    //   [evt.target.id]: [...state.items, paste]
+    // }));
   };
 
   const classes = useStyles();
@@ -211,7 +213,7 @@ export default function StudentList(props) {
                   onChange={handleChangeDepartment}
                 >
                   <FormControlLabel
-                    value="Computer Science"
+                    value="Computer Engineering"
                     control={<Radio color="primary" />}
                     label="CS"
                   />
@@ -221,22 +223,22 @@ export default function StudentList(props) {
                     label="IT"
                   />
                   <FormControlLabel
-                    value="Electronic Telecommunication"
+                    value="Electronics and Telecommunications Engineering"
                     control={<Radio color="primary" />}
                     label="EXTC"
                   />
                   <FormControlLabel
-                    value="Electronics"
+                    value="Electrical Engineering"
                     control={<Radio color="primary" />}
-                    label="Electronics"
+                    label="Electrical Engineering"
                   />
                   <FormControlLabel
-                    value="Mechanical"
+                    value="Mechanical Engineering"
                     control={<Radio color="primary" />}
                     label="Mech"
                   />
                   <FormControlLabel
-                    value="Civil"
+                    value="Civil Engineering"
                     control={<Radio color="primary" />}
                     label="Civil"
                   />

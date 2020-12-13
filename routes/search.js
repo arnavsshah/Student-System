@@ -6,7 +6,7 @@ var neo4jApiMap = require('../database/neo4jAPI/neo4jMap');
 
 
 router.post('/student', async(req, res) => {
-
+    console.log("inside search ", req.body)
     var students = await neo4jApi.studentSearch(req.body, req.user.id);
     res.send(students);
 });

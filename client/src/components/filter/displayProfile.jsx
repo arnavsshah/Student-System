@@ -17,7 +17,7 @@ export default function DisplayProfile(props) {
         props.queryData.map((profile)=>{
             // console.log("profile", profile[0]);
             return(
-                <ProfileCard data = {profile[0]}/>
+                <ProfileCard data = {profile}/>
             );
         }) 
     );

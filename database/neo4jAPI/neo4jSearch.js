@@ -20,19 +20,22 @@ async function studentSearch(data, id) {
     var student_filter = false;
 
     if (data.myClass === true) {
+        // console.log("myclass is true");
         isQuery = true;
         student_filter = true;
         query += `OPTIONAL MATCH (s:Student) WHERE s.class = '${student.class}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
     } else {
-        if (data.department) {
+        if (data.department.length>0) {
+            // console.log("dep is true");
             isQuery = true;
             student_filter = true;
-            query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${student.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
+            query += `OPTIONAL MATCH (s:Student) WHERE s.department = '${data.department}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter `
         }
-        if (data.semester) {
+        if (parseInt(data.semester)>0) {
+            // console.log("sem is true");
             isQuery = true;
             student_filter = true;
-            query += `OPTIONAL MATCH (s:Student) WHERE s.semester = ${student.semester} AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter  `
+            query += `OPTIONAL MATCH (s:Student) WHERE s.semester = '${data.semester}' AND ID(s) IN s_filter WITH COLLECT(ID(s)) AS s_filter  `
         }
     }
 
@@ -145,7 +148,7 @@ async function studentSearch(data, id) {
         })
         return student[0];
     })
-    console.log("student inside neo", students);
+    // console.log("student inside neo", students);
     return isQuery === true ? students : [];
 }
 
@@ -263,7 +266,7 @@ async function teacherSearch(data, id) {
         })
         return student[0];
     })
-    console.log("student inside neo", students);
+    // console.log("student inside neo", students);
     return isQuery === true ? teachers : [];
 }
 
