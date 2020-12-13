@@ -18,17 +18,19 @@ router.get('/', async(req, res) => {
     res.send(books);
 })
 
-router.post('/issue/:id', async(req, res) => {
-    var book_id = req.params.id;
+router.post('/issue', async(req, res) => {
+    var book_id = req.body.id;
     var issueBook = await neo4jApi.issueBook(book_id, req);
     res.send(issueBook);
 })
 
-router.post('/return/:id', async(req, res) => {
-    var book_id = req.params.id;
-    var returnBook = await neo4jApi.returnBook(book_id, req);
-    res.send(returnBook);
-})
+
+
+// router.post('/return', async(req, res) => {
+//     var book_id = req.params.id;
+//     var returnBook = await neo4jApi.returnBook(book_id, req);
+//     res.send(returnBook);
+// })
 
 
 module.exports = router;

@@ -52,21 +52,21 @@ async function authorBased(req) {
 }
 
 async function issueBook(book_id, req) {
-    var query = `MATCH (b:Book) WHERE ID(b) = ${book_id} RETURN b.isIssued;`
+    var query = `MATCH (b:Book) WHERE ID(b) = ${book_id} RETURN b.issued;`
     var issue_book = await queryNeo4j(query);
     if (issue_book.records._fields[0] === 'true') return false;
     else {
-        query = `MATCH (b:Book) WHERE ID(b) = ${book_id} SET isIssued = 'true' WITH b MATCH(s:Student) WHERE ID(s) = ${req.user.id} MERGE (b) -[:ISSUED_BY]-> (s);`
+        query = `MATCH (b:Book) WHERE ID(b) = ${book_id} SET b.issued = 'true' WITH b MATCH(s:Student) WHERE ID(s) = ${req.user.id} MERGE (b) -[:ISSUED_BY]-> (s) MERGE (s) -[:READ]-> (b);`
         issue_book = await queryNeo4j(query);
         return true;
     }
 }
 
-async function returnBook(book_id, req) {
-    var query = `MATCH (b:Book) WHERE ID(b) = ${book_id} SET b.isIssued = 'false' WITH b MATCH(s:Student) <-[i:ISSUED_BY]- (b) WHERE ID(s) = ${req.user.id} DELETE i;`
-    var return_book = await queryNeo4j(query);
-    return false;
-}
+// async function returnBook(book_id, req) {
+//     var query = `MATCH (b:Book) WHERE ID(b) = ${book_id} SET b.isIssued = 'false' WITH b MATCH(s:Student) <-[i:ISSUED_BY]- (b) WHERE ID(s) = ${req.user.id} DELETE i;`
+//     var return_book = await queryNeo4j(query);
+//     return false;
+// }
 
 async function queryNeo4j(query) {
     try {

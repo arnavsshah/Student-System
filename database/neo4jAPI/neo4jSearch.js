@@ -136,22 +136,17 @@ async function studentSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    // console.log('res inside neo4j', res)
-    var student = res.map(r => {
-        return (
-            r.records.map(record => {
-
-                return {
-                    ...record._fields[0].properties,
-                    ...record._fields[1].properties,
-                }
-            })
-
-        )
-
+    var students = res.map(r => {
+        var student = r.records.map(record => {
+            return {
+                ...record._fields[0].properties,
+                ...record._fields[1].properties,
+            }
+        })
+        return student[0];
     })
-    console.log("studen inside neo", student);
-    return isQuery === true ? student : [];
+    console.log("student inside neo", students);
+    return isQuery === true ? students : [];
 }
 
 
@@ -259,21 +254,17 @@ async function teacherSearch(data, id) {
         query += `RETURN res; `
     }
     var res = await queryNeo4j(query);
-    var teacher = res.map(r => {
-        return (
-            r.records.map(record => {
-
-                return {
-                    ...record._fields[0].properties,
-                    ...record._fields[1].properties,
-                }
-            })
-
-        )
-
+    var teachers = res.map(r => {
+        var teacher = r.records.map(record => {
+            return {
+                ...record._fields[0].properties,
+                ...record._fields[1].properties,
+            }
+        })
+        return student[0];
     })
-    console.log("teaceher inside neo", teacher);
-    return isQuery === true ? teacher : [];
+    console.log("student inside neo", students);
+    return isQuery === true ? teachers : [];
 }
 
 
@@ -346,88 +337,74 @@ async function alumniSearch(data, id) {
     query += `RETURN res; `
 
     var res = await queryNeo4j(query);
-    var student = res.map(r => {
-        return (
-            r.records.map(record => {
-
-                return {
-                    ...record._fields[0].properties,
-                    ...record._fields[1].properties,
-                }
-            })
-
-        )
-
-    })
-    console.log("studen inside neo", student);
-    return isQuery === true ? student : [];
-}
-
-async function similarStudentSuggestion(data, id) {
-    var query = ``;
-    var isQuery = false;
-
-    if (data.isSkill) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(sk) AS count ORDER BY count DESC `;
-        query += `UNION `
-    }
-
-    if (data.isCourse) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isProject) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(p) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isClub) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isAchievement) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(a) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isLanguage) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(l) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isInterest) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(i:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(i) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (data.isCompany) {
-        isQuery = true;
-        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} RETURN ID(s2), COUNT(c) AS count ORDER BY count DESC `;
-        query += `UNION `;
-    }
-
-    if (isQuery) {
-        query = query.substring(0, query.length - 6);
-        query += `;`;
-        var res = await queryNeo4j(query);
-        var student = res.records.map(record => {
+    var students = res.map(r => {
+        var student = r.records.map(record => {
             return {
                 ...record._fields[0].properties,
                 ...record._fields[1].properties,
             }
         })
-        return student;
-    } else { return []; }
+        return student[0];
+    })
+    console.log("student inside neo", students);
+    return isQuery === true ? students : [];
+}
 
+async function similarStudentSuggestion(data, id) {
+    var query = `WITH [] AS res `;
+    var isQuery = false;
+
+    if (data.isSkill) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS]->(sk:Skill)<-[:HAS]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `
+    }
+
+    if (data.isCourse) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:COMPLETED]->(c:Course)<-[:COMPLETED]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isProject) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_DONE]->(p:Project)<-[:HAS_DONE]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isClub) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:PART_OF]->(c:Club)<-[:PART_OF]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isAchievement) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:HAS_ACHIEVED]->(a:Achievement)<-[:HAS_ACHIEVED]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isLanguage) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:SPEAKS]->(l:Language)<-[:SPEAKS]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isInterest) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:INTERESTED_IN]->(i:Interest)<-[:INTERESTED_IN]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+
+    if (data.isCompany) {
+        isQuery = true;
+        query += `OPTIONAL MATCH (s1:Student)-[:WORKED_IN]->(c:Company)<-[:WORKED_IN]-(s2:Student) WHERE ID(s1) = ${id} COLLECT(ID(s2)) + res AS res `;
+    }
+    var res = await queryNeo4j(query);
+    var students = res.map(r => {
+        var student = r.records.map(record => {
+            return {
+                ...record._fields[0].properties,
+                ...record._fields[1].properties,
+            }
+        })
+        return student[0];
+    })
+    console.log("student inside neo", students);
+    return isQuery === true ? students : [];
 }
 
 async function queryNeo4j(query) {

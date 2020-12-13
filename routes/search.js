@@ -7,20 +7,6 @@ var neo4jApiMap = require('../database/neo4jAPI/neo4jMap');
 
 router.post('/student', async(req, res) => {
 
-
-    // var data = {
-    //     myClass: true,
-    //     skills: [{ name: 'c++' }, { name: 'java' }],
-    //     institutes: [],
-    //     courses: [],
-    //     projects: [],
-    //     achievements: [],
-    //     researchPapers: [],
-    //     clubs: [],
-    //     interests: [],
-    //     languages: [],
-    //     companies: [],
-    // }
     var students = await neo4jApi.studentSearch(req.body, req.user.id);
     res.send(students);
 });
