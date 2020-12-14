@@ -73,8 +73,8 @@ export default function EventCard(props) {
       <div className={classes.details}>
       <CardMedia
         className={classes.cover}
-        image='https://tse3.mm.bing.net/th?id=OIP.pMvDpzfg-tlwnoqBw4EDUQHaCv&pid=Api&P=0&w=471&h=175'
-        title="Live from space album cover"
+        image={data.image_url}
+        title="event"
       />
         <CardContent className={classes.content}>
           <Typography variant="h5" >

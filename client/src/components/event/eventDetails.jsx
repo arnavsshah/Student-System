@@ -68,7 +68,7 @@ export default function Details() {
                 <CardMedia
                     // className={classes.im}
                     style={{ height: 0, paddingTop: '56.25%' }}
-                    image='https://technovanza2014.files.wordpress.com/2014/12/vrcevent.jpg'
+                    image={data.image_url}
                 // component = 'img'
                 // title={props.bookName}
                 />
