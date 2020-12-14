@@ -28,7 +28,7 @@ export default function Details() {
     // console.log("props",location.state.club_name);
     const classes = useStyles();
     let data = location.state;
-    console.log(data);
+    // console.log(data);
     let data2 = {
         options: {
             chart: {

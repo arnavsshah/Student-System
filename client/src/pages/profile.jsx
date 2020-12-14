@@ -137,9 +137,9 @@ export default function Profile(props) {
         setHData(res.data.hostel[0]);
         setHasHostel(true)
       }
-      console.log("hostel data",res.data.hostel[0])
-      console.log("hData",hData)
-      console.log("hostel info",hasHostel);
+      // console.log("hostel data",res.data.hostel[0])
+      // console.log("hData",hData)
+      // console.log("hostel info",hasHostel);
       // console.log(res.data);
     }),[flag]
   )

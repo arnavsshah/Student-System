@@ -11,6 +11,8 @@ import EventDetails from '../src/components/event/eventDetails'
 import Library from './pages/library';
 import FilterPage from './pages/filter';
 import EventPage from './pages/event';
+import StatisticPage from './pages/displayStatistic';
+
 export default function App(){
   const [isLogin, setIsLogin] = useState(false);
     return (
@@ -26,6 +28,7 @@ export default function App(){
           <Route path='/filter' component={() => <FilterPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>}  />
           <Route path='/event' component={() => <EventPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>}  />
           <Route path='/eventDetails' component = {EventDetails} />
+          <Route path='/statistic' component={() => <StatisticPage isLogin = {isLogin} setIsLogin = {setIsLogin}/>} />
       </Router>
       </div>
     );
