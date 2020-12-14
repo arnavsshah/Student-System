@@ -36,7 +36,7 @@ export default function DesplayStatistic(props) {
             options={data.options}
             series={data.series}
             type="bar"
-            width="900"/>
+            width="800"/>
 
     )
 }

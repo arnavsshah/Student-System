@@ -52,8 +52,8 @@ export default function Company(props) {
     // }
     const addData = (e) => {
         let temp = values;
-        temp.latitute = lat;
-        temp.longitude = lon;
+        temp.latitude = lat;
+        temp.longitude = lon; 
         data.push(temp);
         setValues(preValue => ({
             ...preValue,
@@ -79,7 +79,7 @@ export default function Company(props) {
         // console.log('handle submit')
         if(values.name!==''){
             let temp = values;
-            temp.latitute = lat;
+            temp.latitude = lat;
             temp.longitude = lon;
             data.push(values);
         }

@@ -64,13 +64,15 @@ export default function JuniorCollegeForm(props) {
     // const data1 = JSON.stringify(values); 
     // console.log(`Search Data : ${data1}`);
     let temp = values;
-    temp.latitute = lat;
+    temp.latitude = lat;
     temp.longitude = lon; 
+    let datax = []
+    datax.push(temp)
     axios({
       method: 'post',
       url: 'http://localhost:5000/profile/institutes',
       withCredentials: true,
-      data: temp,
+      data: datax,
     })
       .then(() => {
         // console.log('done');

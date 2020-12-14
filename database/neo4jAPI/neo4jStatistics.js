@@ -30,7 +30,6 @@ async function getByScore() {
 async function getBySem(user_id) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s1:Student) WHERE s1.semester = s.semester RETURN s1.class, COUNT(s);`
     var events = await queryNeo4j(query);
-
     var res = {}, department = [], count = [];
     events.records.map(record => {        
         department.push(record._fields[0].split('-')[1]);
@@ -44,34 +43,82 @@ async function getBySem(user_id) {
 async function getBySkill(user_id) {
     var query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[:HAS]->(sk:Skill) <-[:HAS]- (s1:Student) RETURN sk.name, COUNT(s1);`
     var events = await queryNeo4j(query);
-    var res = events.records.map(record => {
-        return {
-            department: record._fields[0],
-            count: record._fields[1],
-        }
+    var res = {}, skill = [], count = [];
+    events.records.map(record => {        
+        skill.push(record._fields[0]);
+        count.push(record._fields[1]); 
     })
+    res.skill = skill;
+    res.count = count;
     return res;
 }
 
 async function getByAttribute(user_id) {
     var query = ``,
-        events, res = [];
+        events, res = {}, attributes = [], count = [];
     query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Skill) RETURN 'Skills', COUNT(r)`
     events = await queryNeo4j(query);
-    if (events.records.length > 0) res.push({ attribute: events.records[0]._fields[0], count: events.records[0]._fields[1] })
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
 
     query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Course) RETURN 'Courses', COUNT(r)`
     events = await queryNeo4j(query);
-    if (events.records.length > 0) res.push({ attribute: events.records[0]._fields[0], count: events.records[0]._fields[1] })
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
 
     query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Project) RETURN 'Projects', COUNT(r)`
     events = await queryNeo4j(query);
-    if (events.records.length > 0) res.push({ attribute: events.records[0]._fields[0], count: events.records[0]._fields[1] })
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
 
     query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Company) RETURN 'Jobs', COUNT(r)`
     events = await queryNeo4j(query);
-    if (events.records.length > 0) res.push({ attribute: events.records[0]._fields[0], count: events.records[0]._fields[1] })
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
+    query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Book) RETURN 'Books', COUNT(r)`
+    events = await queryNeo4j(query);
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
 
+    query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Achievement) RETURN 'Achievements', COUNT(r)`
+    events = await queryNeo4j(query);
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
+
+    query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Language) RETURN 'Languages', COUNT(r)`
+    events = await queryNeo4j(query);
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
+
+    query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Interest) RETURN 'Interests', COUNT(r)`
+    events = await queryNeo4j(query);
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
+
+    query = `MATCH (s:Student) WHERE ID(s) = ${user_id} WITH s MATCH(s)-[r]->(:Club) RETURN 'Clubs', COUNT(r)`
+    events = await queryNeo4j(query);
+    if (events.records.length > 0){ 
+        attributes.push(events.records[0]._fields[0]);
+        count.push(events.records[0]._fields[1])
+    }
+    res.attributes = attributes;
+    res.count = count;
     return res;
 }
 

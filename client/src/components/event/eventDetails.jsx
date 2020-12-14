@@ -27,6 +27,7 @@ export default function Details() {
     const location = useLocation();
     // console.log("props",location.state.club_name);
     const classes = useStyles();
+    
     let data = location.state;
     // console.log(data);
     let data2 = {

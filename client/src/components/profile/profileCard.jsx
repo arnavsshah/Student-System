@@ -94,8 +94,8 @@ export default function MediaControlCard(props) {
                                         <Typography>Department - {props.data.department}</Typography>
                                     </Grid>
                                     <Grid item lg={6}>
-                                        {props.data.semester.length>0 &&
-                                        <Typography>Semester - {props.data.semester}</Typography>
+                                        {props.data.semester && props.data.semester.length>0 &&
+                                            <Typography>Semester - {props.data.semester}</Typography>
                                         }
                                     </Grid>
                                     

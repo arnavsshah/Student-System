@@ -5,16 +5,37 @@ const driver = require('../../config/db');
 //GET queries
 
 async function map(req) {
-    var query = `MATCH (s)-[stud:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(li), (s)-[work:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(lc) WHERE ID(s) = ${req.user.id} RETURN i, li, c, lc ORDER BY stud.startDate, work.startDate `
+    var res = {};
+    var query = `MATCH (s)-[stud:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(li) WHERE ID(s) = ${req.user.id} RETURN i, li `
     var mapDisplay = await queryNeo4j(query);
-    var res = mapDisplay.records.map(record => {
-        return {
-            institute: {...record._fields[0].properties },
-            instituteLocation: {...record._fields[1].properties },
-            company: {...record._fields[2].properties },
-            companyLocation: {...record._fields[3].properties },
+    var institutes = [];
+    mapDisplay.records.map(record => {
+        let temp = {};
+        if (record._fields[0] !== null) {
+            temp.institute = {...record._fields[0].properties }
+            temp.instituteLocation = {...record._fields[1].properties }
+        } else {
+            temp.institute = {}
+            temp.instituteLocation = {}
         }
+        institutes.push(temp);
     })
+    query = `MATCH (s)-[work:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(lc) WHERE ID(s) = ${req.user.id} RETURN c, lc `
+    mapDisplay = await queryNeo4j(query);
+    var companies = [];
+    mapDisplay.records.map(record => {
+        let temp = {};
+        if (record._fields[0] !== null) {
+            temp.company = {...record._fields[0].properties }
+            temp.companyLocation = {...record._fields[1].properties }
+        } else {
+            temp.company = {}
+            temp.companyLocation = {}
+        }
+        companies.push(temp);
+    })
+    res.institutes = institutes;
+    res.companies = companies;
     return res;
 }
 
@@ -57,12 +78,13 @@ async function getNotices(req) {
     return res;
 }
 async function getInstitutes(req) {
-    var query = `MATCH (s) -[st:STUDIED_IN]-> (i) WHERE ID(s) = ${req.user.id} RETURN st, i`;
+    var query = `MATCH (s) -[st:STUDIED_IN]-> (i) -[:LOCATED_IN]-> (l) WHERE ID(s) = ${req.user.id} RETURN st, i, l `;
     var institutes = await queryNeo4j(query);
     var res = institutes.records.map(record => {
         return {
             ...record._fields[0].properties,
             ...record._fields[1].properties,
+            ...record._fields[2].properties,
         }
     })
     return res;
@@ -100,7 +122,9 @@ async function getAchievements(req) {
     var query = `MATCH (s) -[:HAS_ACHIEVED]-> (a) WHERE ID(s) = ${req.user.id} RETURN a`;
     var achievements = await queryNeo4j(query);
     var res = achievements.records.map(record => {
-        return record._fields[0].properties
+        return {
+            ...record._fields[0].properties,
+        }
     })
     return res;
 }
@@ -109,7 +133,9 @@ async function getResearchPapers(req) {
     var query = `MATCH (s)-[:PUBLISHED]-> (r) WHERE ID(s) = ${req.user.id} RETURN r`;
     var researchPapers = await queryNeo4j(query);
     var res = researchPapers.records.map(record => {
-        return record._fields[0].properties
+        return {
+            ...record._fields[0].properties,
+        }
     })
     return res;
 }
@@ -145,12 +171,13 @@ async function getLanguages(req) {
 }
 
 async function getCompanies(req) {
-    var query = `MATCH (s) -[w:WORKED_IN]-> (c) WHERE ID(s) = ${req.user.id} RETURN c, w`;
+    var query = `MATCH (s) -[w:WORKED_IN]-> (c) -[:LOCATED_IN]-> (l) WHERE ID(s) = ${req.user.id} RETURN c, w, l`;
     var companies = await queryNeo4j(query);
     var res = companies.records.map(record => {
         return {
             ...record._fields[0].properties,
             ...record._fields[1].properties,
+            ...record._fields[2].properties,
         }
     })
     return res;
@@ -164,7 +191,7 @@ async function addInstitutes(req) {
     req.body.map(institute => {
         i++;
         query += `MERGE (i:Institute { name : "${institute.name}", degree : "${institute.degree}" } ) MERGE (s) - [:STUDIED_IN { startDate : "${institute.startDate}", endDate : "${institute.endDate}", score : ${institute.score} }] -> (i) `
-        query += `MERGE (l:Location { latitude : ${institute.latitude}, longitude : ${institute.longitude}, city : "${institute.city}", state : "${institute.state}", country : "${institute.country}", address : "${institute.address}", postalCode : ${institute.postalCode}}) MERGE (i) - [:LOCATED_IN] -> (l) `
+        query += `MERGE (l:Location { latitude : ${institute.latitude}, longitude : ${institute.longitude}, address : "${institute.address}" }) MERGE (i) - [:LOCATED_IN] -> (l) `
         if (i !== req.body.length) {
             query += `WITH s `
         }
@@ -283,7 +310,7 @@ async function addCompanies(req) {
     req.body.map(company => {
         i++;
         query += `MERGE (c:Company { name : "${company.name}", field : "${company.field}", website : "${company.website}"}) MERGE (s) - [:WORKED_IN { startDate : "${company.startDate}" , endDate : "${company.endDate}", position : "${company.position}" }] -> (c) `;
-        query += `MERGE (l:Location { latitude : ${company.latitude}, longitude : ${company.longitude}, city : "${company.city}", state : "${company.state}", country : "${company.country}", address : "${company.address}", postalCode : ${company.postalCode}}) CREATE (c) - [:LOCATED_IN] -> (l) `
+        query += `MERGE (l:Location { latitude : ${company.latitude}, longitude : ${company.longitude}, address : "${company.address}" }) CREATE (c) - [:LOCATED_IN] -> (l) `
         if (i !== req.body.length) {
             query += `WITH s `
         }

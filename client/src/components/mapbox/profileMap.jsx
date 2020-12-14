@@ -7,12 +7,13 @@ import RoomIcon from '@material-ui/icons/Room';
 // const { mapbox_api } = require('../../../../config/env_vars');
 const mapbox_api = "pk.eyJ1IjoiY2VkcmljZGlnZ29yeSIsImEiOiJja2lleWtuN2gwZW5xMnlxdXN6OHEycHpzIn0.tctm36B4zOZyPCaZV3SD5A"
 export default function ProfileMap(props) {
+    console.log("gg", props.maps)
     const [viewport, setViewport] = useState({
         latitude: 19.022480,
         longitude: 72.855026,
         width: props.width,
         height: props.height,
-        zoom: 12
+        zoom: 4
     });
     const [selectedCompany, setSelectedCompany] = useState(null);
     const [selectedInstitute, setSelectedInstitute] = useState(null);
@@ -33,27 +34,8 @@ export default function ProfileMap(props) {
                 }}
             >
                 
-                {props.maps.map((m)=>{
-                    if( m.companyLocation.latitude !== undefined ){
-                        return (
-                            <Marker
-                                key={m.name}
-                                latitude={m.companyLocation.latitude}
-                                longitude={m.companyLocation.longitude}
-                            >
-                                <button
-                                    className="marker-btn"
-                                    onClick={e => {
-                                        e.preventDefault();
-                                        setSelectedCompany(m);
-                                    }}
-                                >
-                                    <RoomIcon color="primary" fontSize="large" />
-                                </button>
-                            </Marker>
-                        )
-                    }
-                    else if( m.instituteLocation.latitude !== undefined ){
+                {props.maps.institutes.map((m)=>{
+                    if( m.instituteLocation.latitude !== undefined ){
                         return (
                             <Marker
                                 key={m.institute.name}
@@ -73,7 +55,29 @@ export default function ProfileMap(props) {
                         )
                     }
                 })
-            }
+                }
+                {props.maps.companies.map((m)=>{
+                        if( m.companyLocation.latitude !== undefined ){
+                            return (
+                                <Marker
+                                    key={m.company.name}
+                                    latitude={m.companyLocation.latitude}
+                                    longitude={m.companyLocation.longitude}
+                                >
+                                    <button
+                                        className="marker-btn"
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setSelectedCompany(m);
+                                        }}
+                                    >
+                                        <RoomIcon color="primary" fontSize="large" />
+                                    </button>
+                                </Marker>
+                            )
+                        }
+                    }
+                )}
 
              {/* for company */}
              {selectedCompany ? (

@@ -87,7 +87,7 @@ router.post('/languages', async(req, res) => {
     res.send('hello')
 });
 
-router.post('/comapanies', async(req, res) => {
+router.post('/companies', async(req, res) => {
     await neo4jApi.addCompanies(req);
     res.send('hello')
 });

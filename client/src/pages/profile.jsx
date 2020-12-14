@@ -60,7 +60,10 @@ export default function Profile(props) {
   const [displayNotice, setDisplayNotice] = useState(false);
   const [hostelInfo, setHostelInfo] = useState(false);
   const [displayHostelInfo, setDisplayHostelInfo] = useState(false);
-  const [profileMapData, setProfileMapData] = useState([]);
+  const [profileMapData, setProfileMapData] = useState({
+    companies: [],
+    institutes: []
+  });
   const [hData, setHData] = useState({});
   const [hasHostel, setHasHostel] = useState(false);
   const [p, setP] = useState(
@@ -72,8 +75,6 @@ export default function Profile(props) {
         // { name: 'BB', description: 'bbb' }
       ],
       achievements: [
-        // { title: 'YY', description: 'yyy' },
-        // { title: 'ZZ', description: 'zzz' },
       ],
       skills: [
         // { name: 'q' },
@@ -129,7 +130,8 @@ export default function Profile(props) {
     .then((res)=>{
       setP(res.data);
       setProfileMapData(res.data.maps);
-      
+      console.log("achievement  h h ",p)
+      console.log("achievement  h h ",p.achievements.length)
       if(res.data.hostel.length === 0){
         setHasHostel(false)
       }
@@ -270,7 +272,7 @@ export default function Profile(props) {
         </CardContent>
 
       </Card>
-
+    {/* {console.log("achievement  hddd h ",p.achievements)} */}
       {/* institute */}
       { p.institutes.length !== 0 &&
         <Card className={classes.root} >
@@ -282,7 +284,9 @@ export default function Profile(props) {
           <Divider />
           {p.institutes.length &&
             p.institutes.map((element) => {
+              console.log("institue", element);
               return (
+      
                 <div>
                   <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
@@ -324,7 +328,7 @@ export default function Profile(props) {
           </CardContent>
           <Divider />
 
-          {p.achievements &&
+          {p.achievements.length  &&
             p.achievements.map((element) => {
               return (
                 <div>
