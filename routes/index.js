@@ -14,5 +14,6 @@ router.use("/library", require("./library"));
 router.use("/hostel", require("./hostel"));
 router.use("/event", require("./event"));
 router.use("/notice", require("./notice"));
+router.use("/statistics", require("./statistics"));
 
 module.exports = router;
