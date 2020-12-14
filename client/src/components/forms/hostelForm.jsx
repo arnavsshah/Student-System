@@ -60,7 +60,7 @@ export default function Notice(props) {
                 data: values,
             })
             .then((res) => {
-              console.log('hostel done', res);
+            //   console.log('hostel done', res);
               // history.replace('/profile');
               setValues(preValue => ({
                 ...preValue,

@@ -45,11 +45,11 @@ const useStyles = makeStyles((theme) => ({
 //     content: 'I will destroy your life'
 //   }
 // ];
-let hostel = {
-  block: 'A',
-  floor: '1',
-  room: '12'
-}
+// let hostel = {
+//   block: 'A',
+//   floor: '1',
+//   room: '12'
+// }
 let si = 4;
 export default function Profile(props) {
   const classes = useStyles();
@@ -61,6 +61,8 @@ export default function Profile(props) {
   const [hostelInfo, setHostelInfo] = useState(false);
   const [displayHostelInfo, setDisplayHostelInfo] = useState(false);
   const [profileMapData, setProfileMapData] = useState([]);
+  const [hData, setHData] = useState({});
+  const [hasHostel, setHasHostel] = useState(false);
   const [p, setP] = useState(
     {
       name: '',
@@ -105,6 +107,10 @@ export default function Profile(props) {
       notices:[
 
       ],
+      hostel:[
+      ]
+
+      ,
       maps: null
     }
   )
@@ -113,8 +119,7 @@ export default function Profile(props) {
   // }
   let bg = null;
   let bg2 = null;
-  var currentlyTeaching;
-  var hasHostel;
+ 
   useEffect(()=>
   axios({
     method: 'get',
@@ -124,7 +129,17 @@ export default function Profile(props) {
     .then((res)=>{
       setP(res.data);
       setProfileMapData(res.data.maps);
-      console.log("map data profile",res.data.maps);
+      
+      if(res.data.hostel.length === 0){
+        setHasHostel(false)
+      }
+      else{
+        setHData(res.data.hostel[0]);
+        setHasHostel(true)
+      }
+      console.log("hostel data",res.data.hostel[0])
+      console.log("hData",hData)
+      console.log("hostel info",hasHostel);
       // console.log(res.data);
     }),[flag]
   )
@@ -146,7 +161,7 @@ export default function Profile(props) {
   
   
   if(p.isTeaching){
-    console.log("userrrrrr ",p.user)
+    // console.log("userrrrrr ",p.user)
       si=6;
       bg = <div>
         <Button variant="contained" 
@@ -177,6 +192,7 @@ export default function Profile(props) {
         <DisplayNotice notices = {p.notices} handleClosePopUp={handleDisplayNoticeButton} flag = {openCreateNotice} setFlag = {setOpenCreateEvent}/>
       </PopUp>
     </div>
+    console.log("hostel info2",hasHostel);
     if(hasHostel){
       bg2 =<div>
       <Button variant="contained" 
@@ -188,7 +204,7 @@ export default function Profile(props) {
         Check Hostel
       </Button>
       <PopUp openPopup={displayHostelInfo} handleClosePopUp={handleHostelView}>
-        <DisplayHostel hostel = {hostel} handleClosePopUp={handleHostelView}/>
+        <DisplayHostel hostel = {hData} handleClosePopUp={handleHostelView}/>
       </PopUp>
       </div>
     }
@@ -203,7 +219,7 @@ export default function Profile(props) {
       Apply For Hostel
       </Button>
       <PopUp openPopup={hostelInfo} handleClosePopUp={handleHostelForm}>
-        <HostelForm hostel = {hostel} handleClosePopUp={handleHostelForm}/>
+        <HostelForm hostel = {hData} handleClosePopUp={handleHostelForm}/>
       </PopUp>
       </div>
     }

@@ -36,13 +36,13 @@ async function getHostel(req) {
     var user = await queryNeo4j(query);
     var res = user.records.map(record => {
         return {
-            ...record._fields[0].properties,
-            ...record._fields[1].properties,
-            ...record._fields[2].properties,
+            room: {...record._fields[0].properties},
+            floor: {...record._fields[1].properties},
+            block: {...record._fields[2].properties},
         }
     })
-
-    return res[0];
+    console.log('resssss', res)
+    return res;
 }
 
 

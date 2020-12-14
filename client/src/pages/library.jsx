@@ -108,7 +108,7 @@ export default function Library(props) {
           <Tab label="Based on Your Interests" {...a11yProps(0)} />
           <Tab label="Based on your Favourite Books" {...a11yProps(1)} />
           <Tab label="Based on Students similar to you" {...a11yProps(2)} />
-          <Tab label="Based on Your Favourite Authors" {...a11yProps(3)} />
+          {/* <Tab label="Based on Your Favourite Authors" {...a11yProps(3)} /> */}
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -175,7 +175,7 @@ export default function Library(props) {
           }
           </Grid>
         </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
+        {/* <TabPanel value={value} index={3} dir={theme.direction}>
         <Grid container spacing={1}>
            {data4.map((book) => {
               return(
@@ -192,7 +192,7 @@ export default function Library(props) {
             })
           }
           </Grid>
-        </TabPanel>
+        </TabPanel> */}
       </SwipeableViews>
     </div>
   );
