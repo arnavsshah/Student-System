@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import Chart from "react-apexcharts";
 import axios from "axios";
-import { Container } from "@material-ui/core";
+import { Container,Typography, Divider } from "@material-ui/core";
+import BarGraph from '../components/statistic/barGraph';
 const useStyles = makeStyles((theme) => ({
     stats:{
         marginTop: theme.spacing(3)
@@ -13,43 +14,53 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DesplayStatistic(props) {
     const classes = useStyles();
-    const [val, setVal] = React.useEffect([]) 
-    const [data, setData] = React.useState({
-        options: {
-            chart: {
-                id: "basic-bar"
-            },
-            xaxis: {
-                categories: ['CS', 'IT', 'EXTC', 'ELECTRICAL', 'MECH']
-            }
-        },
-        series: [
-            {
-                name: "Students",
-                data: [2, 3, 5, 5, 5],
-                // data: val
-            }
-        ]
-    })
-
+    const [val, setVal] = React.useState({}) 
+    useEffect(()=>
     axios({
         method: 'get',
-        url: 'http://localhost:5000/statistic',
+        url: 'http://localhost:5000/statistics',
         withCredentials: true,
         })
         .then((res)=>{
-          setData(res.data);
+            console.log(res.data);
+            setVal(res.data);
           
-          // console.log(res.data);
-        })
+          console.log(val);
+        }),[]
+    )
     return(
         <Container maxWidth="md" className = {classes.stats}>
-            <Chart
-                    options={data.options}
-                    series={data.series}
-                    type="bar"
-                    width="900"
-                />
+            <Typography></Typography>
+            {val.department && 
+            <div>
+                <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom fontFamily='Segoe UI'>
+                    Distribution of Students in all Departments 
+                </Typography>
+                <BarGraph data1 = {val.department.department} data2 = {val.department.count}/>
+                <Divider/>
+                <br/>
+            </div>
+            }
+            {val.score && 
+            <div>
+                <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom fontFamily='Segoe UI'>
+                    Average Score of all Students across all Departments 
+                </Typography>
+                <BarGraph data1 = {val.score.department} data2 = {val.score.score}/>
+                <Divider/>
+                <br/>
+            </div>
+            }
+            {val.sem && 
+            <div>
+                <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom fontFamily='Segoe UI'>
+                    Distribution of Student across all Departments of your Semester 
+                </Typography>
+                <BarGraph data1 = {val.sem.department} data2 = {val.sem.count}/>
+                <Divider/>
+                <br/>
+            </div>
+            }
         </Container>
         
     )
