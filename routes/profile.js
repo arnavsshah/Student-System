@@ -17,9 +17,11 @@ router.get('/', async(req, res) => {
     var institutes = await neo4jApi.getInstitutes(req);
     var companies = await neo4jApi.getCompanies(req);
     var notices = await neo4jApi.getNotices(req);
+    var hostel = await neo4jApi.getHostel(req);
 
     var data = {
         user: user,
+        hostel: hostel,
         skills: skills,
         courses: courses,
         languages: languages,
@@ -32,7 +34,7 @@ router.get('/', async(req, res) => {
         companies: companies,
         notices: notices
     }
-    data.isTeaching = data.user.currentlyTeaching===true;
+    data.isTeaching = data.user.currentlyTeaching === true;
     res.send(data);
 })
 

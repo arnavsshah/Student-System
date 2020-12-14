@@ -19,7 +19,6 @@ async function map() {
 }
 
 async function getUser(req) {
-    console.log('hello from getUser', req.user)
     var query = `MATCH (s) WHERE ID(s) = ${req.user.id} RETURN s, ID(s)`;
     var user = await queryNeo4j(query);
     var res = user.records.map(record => {
@@ -31,6 +30,22 @@ async function getUser(req) {
 
     return res[0];
 }
+
+async function getHostel(req) {
+    var query = `MATCH (s) WHERE ID(s) = ${req.user.id} WITH s MATCH (s) -[:HOSTEL_ROOM]-> (r) <-[:HAS_ROOM]- (f:Floor) <-[:HAS_FLOOR]- (b:Block) RETURN r, f, b;`;
+    var user = await queryNeo4j(query);
+    var res = user.records.map(record => {
+        return {
+            ...record._fields[0].properties,
+            ...record._fields[1].properties,
+            ...record._fields[2].properties,
+        }
+    })
+
+    return res[0];
+}
+
+
 async function getNotices(req) {
     var query = `MATCH (s:Student) -[:RECEIVED]-> (n:Notice) WHERE ID(s) = ${req.user.id} RETURN n ORDER BY ID(n) DESC;`
     var notices = await queryNeo4j(query);
@@ -294,6 +309,7 @@ async function queryNeo4j(query) {
 module.exports = {
     map: map,
     getUser: getUser,
+    getHostel: getHostel,
     getInstitutes: getInstitutes,
     getSkills: getSkills,
     getCourses: getCourses,

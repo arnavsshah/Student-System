@@ -25,7 +25,7 @@ async function getRoom(req) {
         var updateCapacity = await queryNeo4j(query);
 
         query = `MATCH (r:Room {number : ${res.room}}) <-[:HAS_ROOM]- (f:Floor {number : ${res.floor}}) <-[:HAS_FLOOR]- (b:Block {number : ${res.block}}) WITH r `
-        query += `MATCH (s:Student) WHERE ID(s) = 15673 MERGE (s) -[:HOSTEL_ROOM]-> (r);`
+        query += `MATCH (s:Student) WHERE ID(s) = ${req.user.id} MERGE (s) -[:HOSTEL_ROOM]-> (r);`
         var giveRoom = await queryNeo4j(query);
 
     }
@@ -39,7 +39,8 @@ async function assignRoom(hostelData) {
 
     query = `MATCH (h:Hostel) -[:HAS_BLOCK]-> (b:Block{number : ${hostelData.block}}) -[:HAS_FLOOR]-> (f:Floor{number : ${hostelData.floor}}) -[:HAS_ROOM]-> (r:Room) RETURN r, f;`;
     var rooms = await queryNeo4j(query);
-    rooms.records.map(record => {
+    for (var i = 0; i < rooms.records.length; i++) {
+        var record = rooms.records[i];
         if (record._fields[0].properties.capacity > 0) {
             return {
                 block: hostelData.block,
@@ -47,7 +48,7 @@ async function assignRoom(hostelData) {
                 room: record._fields[0].properties.number,
             }
         }
-    });
+    }
     return {
         block: hostelData.block,
         floor: hostelData.floor,
