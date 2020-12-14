@@ -20,11 +20,19 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
 }));
+
 export default function Details() {
     const location = useLocation();
     // console.log("props",location.state.club_name);
     const classes = useStyles();
     let data = location.state;
+    let image_url;
+    if(data.image_url.length>0){
+        image_url = data.image_url;
+    }
+    else{
+        image_url = 'https://img.collegepravesh.com/2016/01/VJTI.jpg'
+    }
     let bg;
     const handleClick = (e) => {
         axios({
@@ -68,7 +76,7 @@ export default function Details() {
                 <CardMedia
                     // className={classes.im}
                     style={{ height: 0, paddingTop: '56.25%' }}
-                    image={data.image_url}
+                    image={image_url}
                 // component = 'img'
                 // title={props.bookName}
                 />

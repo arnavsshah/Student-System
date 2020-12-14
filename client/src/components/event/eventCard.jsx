@@ -68,12 +68,19 @@ export default function EventCard(props) {
     "http://www.telehouse.com/wp-content/uploads/2017/06/Telehouse-blog-6-1-17.png",
   ]
   }
+  let image_url;
+  if(data.image_url.length>0){
+    image_url = data.image_url;
+  }
+  else{
+    image_url = 'https://img.collegepravesh.com/2016/01/VJTI.jpg'
+  }
   return (
     <Card className={classes.root} onClick = {handleClick}>
       <div className={classes.details}>
       <CardMedia
         className={classes.cover}
-        image={data.image_url}
+        image={image_url}
         title="event"
       />
         <CardContent className={classes.content}>

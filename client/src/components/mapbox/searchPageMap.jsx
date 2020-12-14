@@ -44,6 +44,7 @@ export default function SearchMap(props) {
             {...viewport}
             width="100%"
             height="100%"
+            mapStyle="mapbox://styles/mapbox/streets-v11"
             onViewportChange={handleViewportChange}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             // mapStyle={MAP_STYLE}
