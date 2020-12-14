@@ -4,8 +4,8 @@ import { Grid, Button, Typography, TextField } from "@material-ui/core";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 const initialValues = {
-    floor: '',
-    room: '',
+    floor_pref: 0,
+    room_pref: 0,
 }
 const useStyles = makeStyles((theme) => ({
     listItem: {
@@ -39,8 +39,8 @@ export default function Notice(props) {
         // data.push(values);
         setValues(preValue => ({
             ...preValue,
-            floor: '',
-            room: '',
+            floor_pref: 0,
+            room_pref: 0,
         }))
     }
 
@@ -48,31 +48,30 @@ export default function Notice(props) {
         event.preventDefault();
         // console.log(event.target);
         // console.log('handle submit')
-        if (values.name !== '') {
-            data.push(values);
-        }
-        console.log(data)
-        //     axios({
-        //         method: 'post',
-        //         url: 'http://localhost:5000/profile/courses',
-        //         withCredentials: true,
-        //         data: data,
-        //     })
-        //     .then(() => {
-        //       // console.log('done');
-        //       // history.replace('/profile');
-        //       setValues(preValue => ({
-        //         ...preValue,
-        //         name: ''
-        //       }))
-        //       data = [];
-        //       props.setFlag(!props.flag);
-        //       props.handleClosePopUp();
-        //       props.setAnchorEl(null);
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //     });
+        // if (values.name !== '') {
+        //     data.push(values);
+        // }
+        // console.log(values)
+
+            axios({
+                method: 'post',
+                url: 'http://localhost:5000/hostel',
+                withCredentials: true,
+                data: values,
+            })
+            .then((res) => {
+              console.log('hostel done', res);
+              // history.replace('/profile');
+              setValues(preValue => ({
+                ...preValue,
+                floor_pref: 0,
+                room_pref: 0,
+              }))
+              props.handleClosePopUp();
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     return (
@@ -93,26 +92,26 @@ export default function Notice(props) {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="floor"
-                        name="floor"
+                        id="floor_pref"
+                        name="floor_pref"
                         label="Add your Floor preferenece"
                         type = "number"
                         InputProps={{ inputProps: { min: 0, max: 4 } }}
                         fullWidth
-                        value={values.floor}
+                        value={values.floor_pref}
                         onChange={handleFormChange}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="room"
-                        name="room"
+                        id="room_pref"
+                        name="room_pref"
                         type = "number"
                         label="Add your Room preference"
                         fullWidth
                         InputProps={{ inputProps: { min: 0, max: 10} }}
-                        value={values.room}
+                        value={values.room_pref}
                         onChange={handleFormChange}
                     />
                 </Grid>

@@ -4,7 +4,7 @@ const driver = require('../../config/db');
 
 //GET queries
 
-async function map() {
+async function map(req) {
     var query = `MATCH (s)-[stud:STUDIED_IN]->(i:Institute)-[:LOCATED_IN]->(li), (s)-[work:WORKED_IN]->(c:Company)-[:LOCATED_IN]->(lc) WHERE ID(s) = ${req.user.id} RETURN i, li, c, lc ORDER BY stud.startDate, work.startDate `
     var mapDisplay = await queryNeo4j(query);
     var res = mapDisplay.records.map(record => {

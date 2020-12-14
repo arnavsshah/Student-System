@@ -3,7 +3,7 @@ const driver = require('../../config/db');
 //for each query, end with <space> so as to add next part of query
 
 async function getRoom(req) {
-    var query = `MATCH (s:Student) WHERE ID(s) = 15673 RETURN s;`;
+    var query = `MATCH (s:Student) WHERE ID(s) = ${req.user.id} RETURN s;`;
     var student = await queryNeo4j(query);
 
     var student_properties = student.records[0]._fields[0].properties;
@@ -14,8 +14,8 @@ async function getRoom(req) {
     else if (student_properties.class.substring(0, 2) === 'TY') hostelData.block = 3;
     else hostelData.block = 4;
 
-    hostelData.floor = req.body.floor_pref;
-    hostelData.room = req.body.room_pref;
+    hostelData.floor = parseInt(req.body.floor_pref);
+    hostelData.room = parseInt(req.body.room_pref);
 
     var res = await assignRoom(hostelData);
     if (res.room !== -1) {
